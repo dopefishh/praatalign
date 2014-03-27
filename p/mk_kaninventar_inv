@@ -1,0 +1,32 @@
+#!/bin/csh
+
+# creates KANINVENTAR.inv parallel to KANINVENTAR in each of the 
+# language PARAM sets defined below. These files will be printed 
+# by maus PRINTINV=true for LANGUAGE=iso639 to help users better
+# understand which SAMPA symbols the language supports
+
+# Sources are the manually maintained lists SAMPA.inv (base symbols)
+# and SAMPA.dia (extensions).
+
+cd /homes/schiel/MAUS/TOOL
+foreach param ( PARAM.* )
+#foreach param ( PARAM.NEWZEALANDENGLISH )
+  # do not process SAMPA and MANUAL; SAMPA is created by mk_set
+  if ( $param == "PARAM.MAN" || $param == "PARAM.SAMPA" ) continue
+  set k = `ls $param/KANINVENTAR`
+  set kinv = $k.inv
+  echo -n "Working on $kinv : "
+  if ( -e $kinv ) rm -f $kinv
+  head -n 1 PARAM.SAMPA/SAMPA.inv >! $kinv
+  foreach ph ( "`cat $k`" )
+    echo -n "${ph} "
+    grep -h "^${ph}	" PARAM.SAMPA/SAMPA.inv PARAM.SAMPA/SAMPA.dia >> $kinv
+    if ( $status != 0 ) then 
+      echo "${ph}	UNKNOWN" >> $kinv
+      echo "WARNING: phoneme ${ph} in set $param is not defined"
+    endif
+  end
+  echo ""
+end
+exit 0
+

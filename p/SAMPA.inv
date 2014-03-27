@@ -1,0 +1,82 @@
+MAUS	SAMPA	IPA	PHONETICS	EXAMPLES	ISO639-3	HMM
+i	i	i	front closed unrounded vowel	English see, Spanish sí, French vite, German mi.e.ten, Italian visto	xxx
+I	I	ɪ	front closed unrounded vowel, but somewhat more centralised and relaxed, in Polish: mid closed unrounded	English city, German mit	xxx
+1	1	ɨ	close central unrounded vowel	Russian мыс	xxx
+e	e	e	front half closed unrounded vowel	US English bear, Spanish él, French année, German mehr, Italian rete, Catalan més	xxx
+E	E	ɛ	front half open unrounded vowel	English bed, French même, German Herr, Männer, Italian ferro, Catalan mes, Spanish perro	xxx
+{	{	æ	front open unrounded vowel	English cat	xxx
+y	y	y	front closed rounded vowel	French du, German Tür	xxx
+2	2	ø	front half closed rounded vowel	French deux (hence '2'), German Höhle	xxx
+9	9	œ	front half open rounded vowel	French neuf (hence '9'), German Hölle	xxx
+@	@	ə	central neutral unrounded vowel	English about, winner,German bitte	xxx
+6	6	ɐ	central neutral unrounded vowel	German besser	xxx
+3	3	ɜ	front half open unrounded vowel, but somewhat more centralised and relaxed	English bird,nurse	xxx
+a	a	a	central open vowel	Spanish da, barra, French bateau,lac, German Haar, Italian pazzo	xxx
+}	}	ʉ	central closed rounded vowel	Scottish English pool, Swedish sju	xxx
+8	8	ɵ	central neutral rounded vowel	Swedish kust	xxx
+&	&	ɶ	front open rounded vowel	American English that	xxx
+M	M	ɯ	back closed unrounded vowel	Japanese fuji, Vietnamese ư Korean 으	xxx
+7	7	ɤ	back half closed unrounded vowel	Vietnamese ơ Korean 어	xxx
+V	V	ʌ	back half open unrounded vowel	RP and US English run,enough,strut	xxx
+A	A	ɑ	back open unrounded vowel	English arm, US English law, standard French âme	xxx
+u	u	u	back closed rounded vowel	English soon, Spanish tú, French goût, German Hut, Mutter, Italian azzurro,tutto	xxx
+U	U	ʊ	back closed rounded vowel somewhat more centralised and relaxed	English put, Buddhist	xxx
+o	o	o	back half closed rounded vowel	US English sore, Scottish English boat, Spanish yo, French beau, German Sohle, Italian dove, Catalan ona	xxx
+O	O	ɔ	back half open rounded vowel	British English law, caught, Italian cosa, Catalan dona, Spanish ojo, German Wort	xxx
+Q	Q	ɒ	back open rounded vowel	British English not, cough	xxx
+Y	Y	ʏ	lax [y]	German hübsch	xxx
+p	p	p	voiceless bilabial plosive	English pen	xxx
+b	b	b	voiced bilabial plosive	English but	xxx
+t	t	t	voiceless alveolar plosive	English two, Spanish toma	xxx
+d	d	d	voiced alveolar plosive	English do, Italian cade	xxx
+ts	ts	ts	voiceless alveolar affricate	Italian calza, German zeit	xxx
+dz	dz	dz	voiced alveolar affricate	Italian zona	xxx
+ts`	ts`	tʂ	retroflex voiceless affricate	cyk	pol
+dz`	dz`	dʐ	retroflex voiced affricate	dzwon	pol
+tS	tS	tʃ	voiceless postalveolar affricate	English chair, , Spanish mucho	xxx
+dZ	dZ	dʒ	voiced postalveolar affricate	English gin, Italian giorno	xxx
+pf	pf	pf	voiceless labial affricate	German Pferd	xxx
+c	c	c	voiceless palatal plosive	Hungarian tyúk 'hen'	xxx
+J-	J\	ɟ	voiced palatal plosive	Hungarian egy 'one'	xxx
+k	k	k	voiceless velar plosive	English skill	xxx
+g	g	ɡ	voiced velar plosive	English go	xxx
+q	q	q	voiceless uvular plosive	Arabic qof	xxx
+p-	p\	ɸ	voiceless bilabial fricative	Japanese fu	xxx
+B	B	β	voiced bilabial fricative	Catalan roba 'clothes'	xxx
+f	f	f	voiceless labiodental fricative	English fool, Spanish and Italian falso	xxx
+v	v	v	voiced labiodental fricative	English voice, German Welt	xxx
+T	T	θ	voiceless dental fricative	English thing, Castilian Spanish caza	xxx
+D	D	ð	voiced dental fricative	English this	xxx
+s	s	s	voiceless alveolar fricative	English see, Spanish sí	xxx
+z	z	z	voiced alveolar fricative	English zoo, German See	xxx
+S	S	ʃ	voiceless postalveolar fricative	English she, French chemin	xxx
+s`	s`	ʂ	retroflex voiceless fricative	szyk	pol
+z`	z`	ʐ	retroflex voiced fricative	żyto	pol
+Z	Z	ʒ	voiced postalveolar fricative	French jour, English pleasure	xxx
+C	C	ç	voiceless palatal fricative	German Ich	xxx
+j-	j\	ʝ	voiced palatal fricative	Spanish ayuda	xxx
+x	x	x	voiceless velar fricative	Scots loch, Castilian Spanish ajo	xxx
+G	G	ɣ	voiced velar fricative	Greek γάλα	xxx
+M-	M\	ɰ	velar approximant	Spanish algo	xxx
+X-	X\	ħ	voiceless pharyngeal fricative	Arabic h.â	xxx
+?-	?\	ʕ	voiced pharyngeal fricative	Arabic 'ayn	xxx
+h	h	h	voiceless glottal fricative	English ham, German Hand	xxx
+h-	h\	ɦ	voiced glottal fricative	Hungarian lehet	xxx
+m	m	m	bilabial nasal	English man	xxx
+F	F	ɱ	labiodental nasal	Spanish infierno, Hungarian kámfor	xxx
+n	n	n	alveolar nasal	English, Spanish and Italian no	xxx
+J	J	ɲ	palatal nasal	Spanish año, French oignon	xxx
+N	N	ŋ	velar nasal	English ring, Italian bianco, Tagalog ngayón	xxx
+l	l	l	alveolar lateral approximant	English left, Spanish largo	xxx
+L	L	ʎ	palatal lateral approximant	Italian aglio, Catalan colla,	xxx
+5	5	ɫ	velarized dental lateral	English meal Catalan alga	xxx
+4	4	ɾ	alveolar tap	Spanish pero, Italian essere	xxx
+r	r	r	alveolar trill	Spanish perro	xxx
+r-	r\	ɹ	alveolar approximant	English run	xxx
+R	R	ʀ	uvular trill	German Reich	xxx
+P	P	ʋ	labiodental approximant	Dutch Waar	xxx
+w	w	w	labial-velar approximant	English we, French oui	xxx
+H	H	ɥ	labial-palatal approximant	French huit	xxx
+j	j	j	palatal approximant	English yes, French yeux	xxx
+?	?	ʔ	glottal stop	German Verein, Danish stød	xxx
+W	W	ʍ	voiceless labial-velar fricative		xxx

@@ -3,6 +3,7 @@
 import codecs
 import re
 import unicodedata
+import os
 
 class tdict(dict):
 	"""Dictionary with a missing value that is the normalized version
@@ -72,7 +73,6 @@ class Phonetizer:
 	def phonetizeword(self, word):
 		"""Returns a list of phones generated from the utterance"""
 		raise NotImplementedError("Not implemented")
-
 
 class PhonetizerTzeltal(Phonetizer):
 	"""Phonetizer for the tzeltal language"""
@@ -198,5 +198,4 @@ def tographviz(slf, output):
 					fr, to = line.split()[1:]
 					ff.write('\t%s -> %s\n' % (fr[2:], to[2:]))
 			ff.write('}')
-		import os
 		os.system('dot -Tpdf %s.dot -o %s.pdf' % (output, output))
