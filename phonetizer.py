@@ -200,9 +200,3 @@ def tographviz(slf, output):
 			ff.write('}')
 		import os
 		os.system('dot -Tpdf %s.dot -o %s.pdf' % (output, output))
-
-if __name__ == "__main__":
-	ph = PhonetizerTzeltal(ruleset='./ruleset.tze')
-	pron = ph.phonetize('em\'m\'a')
-	ph.tomlfslf(pron, './mlf',)
-	tographviz('mlf.slf', 'mlf')
