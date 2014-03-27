@@ -5,7 +5,9 @@ import re
 import unicodedata
 
 class tdict(dict):
+	"""Dictionary with a missing value that is the normalized version of the input"""
 	def __missing__(self, key):
+		"""If missing return the normalized input"""
 		return str(unicodedata.normalize('NFKD', unicode(key)).encode('ascii', 'ignore')).lower()
 
 class Phonetizer:
@@ -45,12 +47,11 @@ class PhonetizerTzeltal(Phonetizer):
 
 	def phonetizeword(self, word):
 		"""Phonetizes one word by optionally looking it up in the dictionary"""
-		word = word.lower()
+		word = unicode(word.lower())
 		if word in self.dictionary:
 			return dct[word]
-		#Make a list
+
 		phonemap = list()
-		#Loop through all characters
 		it = iter(enumerate(word))
 		for i, character in it:
 			if character == 'c' and i+1<len(word) and word[i+1]=='h':
@@ -90,8 +91,7 @@ class PhonetizerSpanish(Phonetizer):
 	def phonetizeword(self, word):
 		"""Spanish word to phoneme mapping the word should be in Unicode ex. u'sabes', the dictionary is optional it could be used for fast lookup"""
 		#Remove punctuation, truncate and generalize nib symbols
-		word = unicode(word)
-		word = ''.join(ch for ch in word if unicodedata.category(ch).startswith('L') or ch in '[]<>()&')
+		word = ''.join(ch for ch in unicode(word) if unicodedata.category(ch).startswith('L') or ch in '[]<>()&')
 		word = re.sub('[<>]', '&', re.sub('\(.*\)', '', word))
 	
 		uppercases = len([ch for ch in word if unicodedata.category(ch).startswith('Lu')])
