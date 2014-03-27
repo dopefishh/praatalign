@@ -16,9 +16,11 @@ class tdict(dict):
 class Phonetizer:
 	"""Skeleton class for a phonetizer for the pralign program"""
 
-	def __init__(self, filters=re.compile(''), dictpath=None):
+	def __init__(self, filters=re.compile(''), dictpath=None, ruleset=None):
 		"""Constructor with an optional dictionary"""
-		self.f = re.compile(filters) if isinstance(filters, basestring)	else filters
+		self.f = re.compile(filters) if isinstance(filters, basestring)	else\
+				 filters
+		self.parseruleset(ruleset)
 		if dictpath is not None:
 			self.dictionary = dict()
 			with codecs.open(dictpath, 'r', 'utf-8') as f:
@@ -28,12 +30,40 @@ class Phonetizer:
 						self.dictionary[l[0]] = unicode(l[1]).split(' ')
 		else:
 			self.dictionary = dict()
+	
+	def parseruleset(self, path):
+		self.r = list()
+		if path is not None:
+			reps = [(r'\v', '[aoeiu]'), (r'\c', '[^aoeui]'), ('\n', '')]
+			with open(path, 'r') as f:
+				lines = [re.compile(reduce(lambda x, (o, n): x.replace(o, n),
+					reps,	l)) for l in f if l and l[0]!='"'] 
+				self.r += lines
 
-	def tomlf(self, pron, mlf):
-		with open(mlf, 'w') as f:
+	def tomlfslf(self, pron, bn):
+		with open('%s.mlf' % bn, 'w') as f:
 			f.write('#!MLF!\n')
-			f.write('"*/%s.lab"\n' % mlf[:-4])
-			f.write('<\n%s\n#\n>\n.' % '\n#\n'.join('\n'.join(p) for p in pron))
+			f.write('"*/%s.lab"\n' % bn)
+			data = '<\n%s\n#\n>\n.' % '\n#\n'.join('\n'.join(p) for p in pron)
+			f.write(data)
+		with open('%s.slf' % bn, 'w') as f:
+			data = data.split('\n')[:-1]
+			extras = [(match.start('fr'), match.end('to')) for rule in self.r
+					for match in rule.finditer(''.join(data))]
+			f.write('N=%d L=%d\n' % (len(data), len(data)-1+len(extras)))
+			f.write('\n'.join('I=%d W=%s' % (i, d) for i,d in enumerate(data))
+					+ '\n')
+			f.write('\n'.join('J=%d S=%d E=%d' % (d, d, d+1) for d in
+				xrange(len(data)-1)))
+			if extras:
+				for i, e in enumerate(extras):
+					double = [d for d in enumerate(data) if len(d[1])>1]
+					for d in double:
+						if d[0]<e[0]:
+							e = (e[0]-(len(d[1])-1), e[1]-(len(d[1])-1))
+						else:
+							break
+					f.write('\nJ=%d S=%d E=%d' % (len(data)+i-1, e[0], e[1]-1))
 
 	def phonetize(self, utterance):
 		utterance = self.f.sub('', utterance)
@@ -155,3 +185,24 @@ class PhonetizerSpanish(Phonetizer):
 		
 		self.dictionary[word] = phonemap
 		return phonemap
+
+def tographviz(slf, output):
+	with open(slf, 'r') as f:
+		with open('%s.dot' % output, 'w') as ff:
+			ff.write('digraph g{\n')
+			for line in f:
+				if line[0]=='I':
+					nu, la = line.split()
+					ff.write('\t%s [label="%s"]\n' % (nu[2:], la[2:]))
+				if line[0]=='J':
+					fr, to = line.split()[1:]
+					ff.write('\t%s -> %s\n' % (fr[2:], to[2:]))
+			ff.write('}')
+		import os
+		os.system('dot -Tpdf %s.dot -o %s.pdf' % (output, output))
+
+if __name__ == "__main__":
+	ph = PhonetizerTzeltal(ruleset='./ruleset.tze')
+	pron = ph.phonetize('em\'m\'a')
+	ph.tomlfslf(pron, './mlf',)
+	tographviz('mlf.slf', 'mlf')

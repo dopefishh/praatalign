@@ -1,9 +1,12 @@
-version 0.00
+version 0.01
 ============
-Nothing yet, still in a non functioning state
+- phonetizer.py
+	- Phonetizer skeleton class, tzeltal and spanish phonetizer and tools to
+	  export to slf, mlf and even graphviz pdf(if dot is installed and in PATH)
 
 version history
 ===============
+* 0.01 - 2014-03-27 - phonetizer done
 * 0.00 - 2014-03-27 - initial version
 
 authors
