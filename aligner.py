@@ -5,14 +5,16 @@ import codecs
 import phonetizer
 import re
 import subprocess
+import sys
 
-def forcealignutterance(pronun, time, wav, phontiz):
+def forcealignutterance(pronun, starttime, endtime, wav, phontiz):
 	"""Force align an utterance
 
-	pronun  -- canonical pronunciation
-	time    -- (start time, end time)
-	wav     -- wave file
-	phontiz -- phonetizer to use
+	pronun    -- canonical pronunciation
+	starttime -- start time
+	endtime   -- end time
+	wav       -- wave file
+	phontiz   -- phonetizer to use
 	"""
 	param = {'PRECONFIG':'./p/PRECONFIGNIST', 'HVITECONF':'./p/HVITECONF',
 			'MMF':'./p/MMF.mmf', 'DICT':'./p/DICT', 'BN':'temp',
@@ -24,7 +26,7 @@ def forcealignutterance(pronun, time, wav, phontiz):
 
 	#Cut out the bit we need from the total wavefile
 	subprocess.call('sox -G %s %s.wav trim %f %f 2>&1 1>/dev/null' % (wav,
-		param['BN'], time[0], time[1]-time[0]), shell=True)
+		param['BN'], starttime, endtime-starttime), shell=True)
 	#Convert to nis and resample
 	subprocess.call(
 			'sox %(BN)s.wav -t sph -e signed-integer -b 16 -c 1	%(BN)s.nis' % 
@@ -46,4 +48,17 @@ def forcealignutterance(pronun, time, wav, phontiz):
 	#Parse the alignments and print them
 	data = [(int(d[0])/1e7, int(d[1])/1e7, d[2], d[3]) for d in data]
 	for ann in data:
-		print ann[0]+time[0], ann[1]+time[1], pronun
+		print ann[0]+starttime[0], ann[1]+starttime, pronun
+
+def usage():
+	print 'usage: python aligner.py pronunciation starttime endtime wav',\
+		  'lang{spa, tze}'
+	print 'example: python aligner.py "Hello World!" 0.0 5.0 hello.wav spa'
+
+if __name__ == '__main__':
+	if '--help' in sys.argv or '-h' in sys.argv:
+		usage()
+	try:
+		forcealignutterance(*sys.argv[1:])
+	except TypeError:
+		usage()
