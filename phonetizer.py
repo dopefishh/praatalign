@@ -5,10 +5,13 @@ import re
 import unicodedata
 
 class tdict(dict):
-	"""Dictionary with a missing value that is the normalized version of the input"""
+	"""Dictionary with a missing value that is the normalized version
+	of the input
+	"""
 	def __missing__(self, key):
 		"""If missing return the normalized input"""
-		return str(unicodedata.normalize('NFKD', unicode(key)).encode('ascii', 'ignore')).lower()
+		return str(unicodedata.normalize('NFKD', unicode(key)).	encode('ascii',	
+			'ignore')).lower()
 
 class Phonetizer:
 	"""Skeleton class for a phonetizer for the pralign program"""
@@ -43,7 +46,7 @@ class Phonetizer:
 
 class PhonetizerTzeltal(Phonetizer):
 	"""Phonetizer for the tzeltal language"""
-	trans = tdict({'j':'x', 'w':'b', 'x':'S', '\'':'?'})
+	trans = tdict({'j':'x', 'w':'b', 'x':'S', '\'':'?', 'y':'j'})
 
 	def phonetizeword(self, word):
 		"""Phonetizes one word by optionally looking it up in the dictionary"""
@@ -78,15 +81,18 @@ class PhonetizerTzeltal(Phonetizer):
 
 class PhonetizerSpanish(Phonetizer):
 	"""Phonetizer for the spanish language"""
-	acronymmap = tdict({
-		'B':['b', 'e'], 'C':['T', 'e'], 'D':['d', 'e'], 'F':['e', 'f', 'e'], 
-		'G':['x', 'e'], 'H':['a', 't', 'S', 'e'], 'J':['x', 'o', 't', 'a'], 'K':['k', 'a'], 
-		'L':['e', 'l', 'e'], 'M':['e', 'm', 'e'], 'N':['e', 'n', 'e'], 'O':['o'], 'P':['p'], 
-		'Q':['k', 'u'], 'R':['e', 'r', 'r', 'e'], 'S':['e', 's', 'e'], 'T':['t', 'e'],  
-		'V':['u', 'b', 'u'], 'W':['u', 'b', 'u', 'd', 'o', 'b', 'l', 'e'], 'X':['e', 'k', 'i', 's'], 
-		'Y':['i', 'g', 'r', 'i', 'e', 'g', 'a'], 'Z':['T', 'e', 't', 'a']})
-	
-	trans = tdict({'ñ'.decode('utf-8'):'J', 'ç'.decode('utf-8'):'T', 'j':'x', 'c':'k', 'v':'b', 'w':'b', 'z':'T', 'y':'j'})
+
+	acronymmap = tdict({'B':['b', 'e'], 'C':['T', 'e'], 'D':['d', 'e'],
+		'F':['e', 'f', 'e'], 'G':['x', 'e'], 'H':['a', 't', 'S', 'e'],
+		'J':['x', 'o', 't', 'a'], 'K':['k', 'a'], 'L':['e', 'l', 'e'],
+		'M':['e', 'm', 'e'], 'N':['e', 'n', 'e'], 'Q':['k', 'u'], 
+		'R':['e', 'r', 'r', 'e'], 'S':['e', 's', 'e'], 'T':['t', 'e'], 
+		'V':['u', 'b', 'u'], 'W':['u', 'b', 'u', 'd', 'o', 'b', 'l', 'e'], 
+		'X':['e', 'k', 'i', 's'], 'Y':['i', 'g', 'r', 'i', 'e', 'g', 'a'],
+		'Z':['T', 'e', 't', 'a']})
+
+	trans = tdict({'ñ'.decode('utf-8'):'J', 'ç'.decode('utf-8'):'T', 'j':'x',
+		'c':'k', 'v':'b', 'w':'b', 'z':'T', 'y':'j'})
 	
 	def phonetizeword(self, word):
 		"""Spanish word to phoneme mapping the word should be in Unicode ex. u'sabes', the dictionary is optional it could be used for fast lookup"""
@@ -113,7 +119,6 @@ class PhonetizerSpanish(Phonetizer):
 		#Allocate the map
 		phonemap = list()
 		if uppercases==len(word):
-
 			return  [a for b in [self.acronymmap[i] for i in word] for a in b]
 		else:
 			lowerword = word.lower()
@@ -150,7 +155,3 @@ class PhonetizerSpanish(Phonetizer):
 		
 		self.dictionary[word] = phonemap
 		return phonemap
-
-if __name__ == "__main__":
-	ph = PhonetizerSpanish('')
-	print ph.phonetize('HELLO world')

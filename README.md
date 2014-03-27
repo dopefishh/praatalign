@@ -5,3 +5,8 @@ Nothing yet, still in a non functioning state
 version history
 ===============
 * 0.00 - 2014-03-27 - initial version
+
+authors
+=======
+mart@martlubbers.net
+emma.valtersson@gmail.com
