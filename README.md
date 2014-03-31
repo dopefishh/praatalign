@@ -6,6 +6,8 @@ version 0.02
 - aligner.py
 	- This file will be used in the praat integration in the future, currently
 	  it can align utterances.
+- praat.praat
+	- This file is the interface to praat
 
 rules
 =====

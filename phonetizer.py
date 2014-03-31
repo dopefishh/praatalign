@@ -87,8 +87,8 @@ class Phonetizer:
                             break
                     f.write('\nJ=%d S=%d E=%d' % (len(data)+i-1, e[0], e[1]-1))
         if graphviz:
-            with open(slf, 'r') as f:
-                with open('%s.dot' % output, 'w') as ff:
+            with open('%s.slf' % bn, 'r') as f:
+                with open('%s.dot' % bn, 'w') as ff:
                     ff.write('digraph g{\n')
                     for line in f:
                         if line[0] == 'I':
@@ -98,7 +98,7 @@ class Phonetizer:
                             fr, to = line.split()[1:]
                             ff.write('\t%s -> %s\n' % (fr[2:], to[2:]))
                     ff.write('}')
-                os.system('dot -Tpdf %s.dot -o %s.pdf' % (output, output))
+                os.system('dot -Tpdf %s.dot -o %s.pdf' % (bn, bn))
 
     def phonetize(self, utterance):
         """Phonetizes one utterance
@@ -125,7 +125,6 @@ class PhonetizerTzeltal(Phonetizer):
         word = unicode(word.lower())
         if word in self.dictionary:
             return dct[word]
-
         phonemap = list()
         it = iter(enumerate(word))
         for i, character in it:
@@ -134,9 +133,9 @@ class PhonetizerTzeltal(Phonetizer):
                     next(it, None)
                 phonemap.append('ts_j')
                 next(it, None)
-            elif character == 'k' and i+1 < len(word) and word[i+1] == '\'':
-                phonemap.append('k')
-                next(it, None)
+           # elif character == 'k' and i+1 < len(word) and word[i+1] == '\'':
+           #     phonemap.append('k')
+           #     next(it, None)
             elif character == 't' and i+1 < len(word) and word[i+1] == '\'':
                 phonemap.append('t')
                 next(it, None)
@@ -173,7 +172,7 @@ class PhonetizerSpanish(Phonetizer):
         # Remove punctuation, truncate and generalize nib symbols
         word = ''.join(ch for ch in unicode(word) if
                        unicodedata.category(ch).startswith('L') or
-                       CH IN '[]<>()&')
+                       ch in '[]<>()&')
         word = re.sub('[<>]', '&', re.sub('\(.*\)', '', word))
 
         uppercases = len([ch for ch in word if
