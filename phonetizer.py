@@ -133,9 +133,6 @@ class PhonetizerTzeltal(Phonetizer):
                     next(it, None)
                 phonemap.append('ts_j')
                 next(it, None)
-           # elif character == 'k' and i+1 < len(word) and word[i+1] == '\'':
-           #     phonemap.append('k')
-           #     next(it, None)
             elif character == 't' and i+1 < len(word) and word[i+1] == '\'':
                 phonemap.append('t')
                 next(it, None)

@@ -1,4 +1,4 @@
-version 0.02
+version 0.03
 ============
 - phonetizer.py
 	- Phonetizer skeleton class, tzeltal and spanish phonetizer and tools to
@@ -7,7 +7,8 @@ version 0.02
 	- This file will be used in the praat integration in the future, currently
 	  it can align utterances.
 - praat.praat
-	- This file is the interface to praat
+	- This file is the interface to praat, note that it's not yet modular so
+	  the paths should be adapted to make it work
 
 rules
 =====
@@ -29,6 +30,7 @@ To make certain things more easy a couple of groups are predefined, namely:
 
 version history
 ===============
+* 0.03 - 2014-03-31 - aligner works, praat imlementation needs work
 * 0.02 - 2014-03-27 - started with aligner
 * 0.01 - 2014-03-27 - phonetizer done
 * 0.00 - 2014-03-27 - initial version
