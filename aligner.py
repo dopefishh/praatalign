@@ -8,7 +8,7 @@ import sys
 
 
 def forcealignutterance(pronun, starttime, endtime, wav, phontiz, ruleset,
-                        pdf=True, out="-"):
+                        pdf=True, out="-", pdir='./'):
     """Force align an utterance
 
     pronun    -- canonical pronunciation
@@ -16,19 +16,34 @@ def forcealignutterance(pronun, starttime, endtime, wav, phontiz, ruleset,
     endtime   -- end time
     wav       -- wave file
     phontiz   -- phonetizer to use
+    ruleset   -- ruleset or rulesetfile to parse
+    pdf       -- flag to make a pdf of the network
+    out       -- output file, - for stdout
+    pdir      -- prefix for the parameter files(default ./)
     """
     phonetizerdict = {
-        'spa': phonetizer.PhonetizerSpanish,
-        'tze': phonetizer.PhonetizerTzeltal,
+        'spa': (phonetizer.PhonetizerSpanish, 'p.spa/'),
+        'tze': (phonetizer.PhonetizerTzeltal, 'p.sam/')
         }
-    phontiz = phonetizerdict[phontiz](ruleset=ruleset)
+    entry = phonetizerdict[phontiz]
+    phontiz = entry[0](ruleset=ruleset)
+    p = entry[1]
     starttime, endtime = map(float, (starttime, endtime))
     starttime, endtime = float(starttime), float(endtime)
 
-    param = {'PRECONFIG': './p/PRECONFIGNIST', 'HVITECONF': './p/HVITECONF',
-             'MMF': './p/MMF.mmf', 'DICT': './p/DICT', 'BN': 'temp',
-             'HMMINVENTAR': './p/HMMINVENTAR', 'START': starttime,
-             'DUR': endtime-starttime, 'WAV': wav}
+    param = {
+        'BN': 'temp',
+        'DICT': pdir + p + 'DICT',
+        'DUR': endtime-starttime,
+        'HMM': pdir + p + 'HMMINVENTAR',
+        'HVITECONF': pdir + p + 'HVITECONF',
+        'MMF': pdir + p + 'MMF.mmf',
+        'PRECONFIG': pdir + p + 'PRECONFIGNIST',
+        'START': starttime,
+        'WAV': wav,
+        'HC': pdir + 'bin/HCopy',
+        'HV': pdir + 'bin/HVite'
+        }
     with open(param['PRECONFIG'], 'r') as f:
         rate = int([a for a in f if 'SOURCERATE' in a][0].split(' ')[-1])
         param['SOURCERATE'] = 1e7/rate
@@ -39,9 +54,9 @@ def forcealignutterance(pronun, starttime, endtime, wav, phontiz, ruleset,
     snd = (
         'sox %(WAV)s -t sph -e signed-integer -b 16 -c 1 temp.nis ' +
         'trim %(START)f %(DUR)s rate -s -a %(SOURCERATE)d && ' +
-        './HCopy -T 0 -C %(PRECONFIG)s temp.nis %(BN)s.htk && ' +
-        './HVite -C %(HVITECONF)s -w -X slf -H %(MMF)s -s 7.0 -p 0.0 ' +
-        '%(DICT)s %(HMMINVENTAR)s %(BN)s.htk | grep -v \'WARNING\''
+        '%(HC)s -T 0 -C %(PRECONFIG)s temp.nis %(BN)s.htk && ' +
+        '%(HV)s -C %(HVITECONF)s -w -X slf -H %(MMF)s -s 7.0 -p 0.0 ' +
+        '%(DICT)s %(HMM)s %(BN)s.htk | grep -v \'WARNING\''
         ) % param
 
     subprocess.call(snd, shell=True, executable='/bin/bash')
