@@ -10,6 +10,15 @@ version 0.03
 	- This file is the interface to praat, note that it's not yet modular so
 	  the paths should be adapted to make it work
 
+installation
+============
+Requirements:
+	- Python 2
+	- SoX
+	- Praat
+Run the installation script that is included
+note. the script for mac is not yet working
+
 rules
 =====
 Rules for truncation can be defined in ruleset files and specified per
@@ -24,9 +33,9 @@ Lines starting with double quotes are ignored and can serve as comments.
 To make certain things more easy a couple of groups are predefined, namely:
 - \v for vowels
 - \c for consonants
-- \# is used for word boundaries
+- # is used for word boundaries
 - < is used for the start of the chunk
-- \> is used for the end of the chunk
+- > is used for the end of the chunk
 
 version history
 ===============
