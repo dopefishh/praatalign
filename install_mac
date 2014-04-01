@@ -1,7 +1,7 @@
 #!/bin/bash
 set -x
-dir="$HOME/Library/Preferences/Praat Prefs/plugin_pralign"
+dir="$HOME/Library/Preferences/Praat Dir/plugin_pralign/"
 mkdir -pv $dir
-rm -rf $dir/*
-find . -maxdepth 1 | grep -v "git\|install\|^..\?$\|temp" |\
-   	xargs -I{} cp -vR "{}" $dir
+rm -rf $dir*
+find . -maxdepth 1 ! -name "\." ! -name "install*" ! -name ".git*" \
+				   ! -name "temp*" -print0 | xargs -0 -I{} cp -vR "{}" $dir
