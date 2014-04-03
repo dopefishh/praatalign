@@ -26,7 +26,8 @@ def forcealignutterance(pronun, starttime, endtime, wav, phontiz, ruleset,
         'tze': (phonetizer.PhonetizerTzeltal, 'p.sam/')
         }
     entry = phonetizerdict[phontiz]
-    phontiz = entry[0](dictpath=dictpath, ruleset=ruleset)
+    phontiz = entry[0](dictpath=dictpath, ruleset=None if ruleset == "None"
+                       else ruleset)
     p = entry[1]
     starttime, endtime = map(float, (starttime, endtime))
     starttime, endtime = float(starttime), float(endtime)

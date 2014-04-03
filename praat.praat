@@ -1,23 +1,31 @@
 # Clear screen, import functions and select tiername
 clearinfo
-include /home/marlub/Documents/scripts/pralign/lib.praat
+include lib.praat
 
 form Set the variables
-	comment Name for the new(or existing) tier
-	sentence newtier temp
+	comment Name for the output tier(may already exist)
+	sentence newtier align
 
 	comment Select language
 	optionmenu lang: 1
-		option spa
 		option tze
+		option spa
+
+	comment Custom dictionary path
+	boolean dictpath 0
+	
+	comment Use ruleset(name ruleset.lang)
+	boolean ruleset 0
+
+	comment Export the graph to pdf
+	boolean pdf 0
 
 	comment Temporary file directory
 	sentence tmpdir /tmp/
-	
-	comment Export the graph to pdf
-	boolean pdf: 0
 endform
-pdf$ = if pdf=1 then "True" else "False" fi
+pdf$ = if pdf then "False" else "True" fi
+dictpath$ = if dictpath then chooseReadFile$("Open the dictionary") else "" fi
+ruleset$ = if ruleset then "None" else "ruleset.'lang$'" fi
 basetmp$ = "praat_temp_out"
 tmp$ = tmpdir$ + basetmp$
 
@@ -75,8 +83,8 @@ while 1=1
 	plus LongSound 'snd$'
 		
 	# Print to infowindow
-	printline /usr/bin/python /home/marlub/Documents/scripts/pralign/aligner.py "'label$'" 'start' 'end' 'sndpath$' 'lang$' /home/marlub/Documents/scripts/pralign/ruleset.tze False > 'tmp$'
-	system  /usr/bin/python /home/marlub/Documents/scripts/pralign/aligner.py "'label$'" 'start' 'end' 'sndpath$' 'lang$' /home/marlub/Documents/scripts/pralign/ruleset.tze False > 'tmp$'
+	printline python aligner.py "'label$'" 'start' 'end' 'sndpath$' 'lang$' 'ruleset$' 'pdf$' - ./ 'dictpath$' > 'tmp$'
+	system  python aligner.py "'label$'" 'start' 'end' 'sndpath$' 'lang$' 'ruleset$' 'pdf$' - ./ 'dictpath$' > 'tmp$'
 
 	# Read the results
 	Read Table from comma-separated file... 'tmp$'

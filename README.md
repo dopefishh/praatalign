@@ -75,36 +75,3 @@ align the annotation using the specified options.
 # authors
 mart@martlubbers.net
 emma.valtersson@gmail.com
-
-rules
-=====
-Rules for truncation can be defined in ruleset files and specified per
-language. The way of specifying is through python regular expressions with two 
-named groups called 'to' and 'fr'.
-For example if you want to truncate 'ado' to 'ao' you write:
-```
-" a d o -> a o
-(?P<fr>a#?)d(?P<to>#?o)
-```
-Lines starting with double quotes are ignored and can serve as comments.
-To make certain things more easy a couple of groups are predefined, namely:
-- \v for vowels
-- \c for consonants
-- # is used for word boundaries
-- < is used for the start of the chunk
-- > is used for the end of the chunk
-
-dictionary format
-=================
-Lines separated by \n and of the following format
-word<TAB>pronounciation[<TAB>pronounciation variant]*
-
-So for example let's say the word mart is pronounced as 'm a r t' or 'm a r',
-then you will add this entry:
-```mart\tm a r t\tm a r```
-
-version history
-===============
-
-authors
-=======
