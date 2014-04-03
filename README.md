@@ -62,10 +62,33 @@ window is spawned. When you select an annotation and press continue it will
 align the annotation using the specified options.
 
 #### dictionary file
+A dictionary file consists of several non emptylines character(\\n), lines
+starting with a # will be ignored and can be used as comments. The dictionary
+delivers the pronounciation and optional variants to the phonetizer and has to
+be of the following format:
+    word-1<TAB>pronounciation-1[<TAB>variant-1a][<TAB>variant-1b]...
+    word-2<TAB>pronounciation-2[<TAB>variant-2a][<TAB>variant-2b]...
+	...
+    word-n<TAB>pronounciation-n[<TAB>variant-na][<TAB>variant-nb]...
 
 #### ruleset file
+Pronounciation rules are not implemented anymore but will be back very soon. A
+ruleset file describes certain rules that can be on inter and intraword level
+and uses python regular expressions to achive this. It will tie the group named
+*to* to *from* so you can easily describe deletion rules. A ruleset file is of
+the following format:
+	regex-1
+	regex-2
+	...
+	regex-n
+
+Every regex must contain at minimal the named groups *to* and *from*.
+For example the rule that will delete a *d* if it is between *a* and *o*
+regardless of word boundaries:
+	(?P<fr>a#?)d(?P<to>#?o)
 
 #### customize/add language
+todo
 
 ### version history
 * 0.05 - 2014-04-03 - better readme and functional program for linux
