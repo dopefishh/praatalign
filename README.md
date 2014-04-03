@@ -28,45 +28,34 @@ a TextGrid file with a LongSound. To start the script do:
 - Press the new button that says: *Start interactive force alignment...*
 
 Now there will be a form so that you can specify some parameters:
-* newtier
+* 	newtier, default: align
 
 	Name for the tier where the alignment is stored, this may be an existing
 	tier, if the tier exists the annotations within the selected interval are
 	removed upon alignment.
-
-	default: align
-* lang
+* lang, default: tze
 
 	Language to align in. Currently this is spanish and tzeltal, in the future
 	one can add custom languages.
-
-	default: tze
-* dictpath
+* dictpath, default: False
 
 	Flag for selecting a custom dictionary, if this is not set the aligner wil
 	rely completely on the phonetizer, if this is set then a prompt follows to
 	select the dictionary.
+* ruleset, default: False
 
-	default: False
-* ruleset
 	Flag for using a ruleset file, if this is not set the aligner will uss no
 	ruleset, if this is set then a prompt follows to select the ruleset file.
-
-	default: False
-* pdf
+* pdf, default: False
 
 	Flag for export to pdf, if this is not set the aligner will not create pdf
 	files for the graphs it follows, if this is set after the alignment there
 	will be a temp.pdf located in this plugin folder(on linux
 	~/.praat-dir/plugin_pralign
-
-	default: False
-* tmpdir
+* tmpdir, default: /tmp/
 
 	Temporary file directory, this is the directory where the aligner stores
 	the semi-raw results from HTK.
-
-	default: /tmp/
 
 When the form is accepted the TextGrid editor will be opened and a pause
 window is spawned. When you select an annotation and press continue it will
