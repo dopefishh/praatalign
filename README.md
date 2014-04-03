@@ -1,8 +1,8 @@
-version 0.03
+version 0.05
 ============
 - phonetizer.py
 	- Phonetizer skeleton class, tzeltal and spanish phonetizer and tools to
-	  export to slf, mlf and even graphviz pdf(if dot is installed and in PATH)
+	  export to slf and even graphviz pdf(if dot is installed and in PATH)
 - aligner.py
 	- This file will be used in the praat integration in the future, currently
 	  it can align utterances.
@@ -44,7 +44,7 @@ word<TAB>pronounciation[<TAB>pronounciation variant]*
 
 So for example let's say the word mart is pronounced as 'm a r t' or 'm a r',
 then you will add this entry:
-```mart	m a r t	m a r```
+```mart\tm a r t\tm a r```
 
 version history
 ===============
