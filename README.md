@@ -103,6 +103,7 @@ todo
 * 0.02 - 2014-03-27 - started with aligner
 * 0.01 - 2014-03-27 - phonetizer done
 * 0.00 - 2014-03-27 - initial version
+
 ### authors
 mart@martlubbers.net
 emma.valtersson@gmail.com
