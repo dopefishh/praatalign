@@ -8,7 +8,7 @@ import sys
 
 
 def forcealignutterance(pronun, starttime, endtime, wav, phontiz, ruleset,
-                        pdf=True, out="-", pdir='./'):
+                        pdf=True, out="-", pdir='./', dictpath=None):
     """Force align an utterance
 
     pronun    -- canonical pronunciation
@@ -26,7 +26,7 @@ def forcealignutterance(pronun, starttime, endtime, wav, phontiz, ruleset,
         'tze': (phonetizer.PhonetizerTzeltal, 'p.sam/')
         }
     entry = phonetizerdict[phontiz]
-    phontiz = entry[0](ruleset=ruleset)
+    phontiz = entry[0](dictpath=dictpath, ruleset=ruleset)
     p = entry[1]
     starttime, endtime = map(float, (starttime, endtime))
     starttime, endtime = float(starttime), float(endtime)
@@ -48,7 +48,7 @@ def forcealignutterance(pronun, starttime, endtime, wav, phontiz, ruleset,
         rate = int([a for a in f if 'SOURCERATE' in a][0].split(' ')[-1])
         param['SOURCERATE'] = 1e7/rate
     pron = phontiz.phonetize(pronun)
-    phontiz.tomlfslf(pron, param['BN'], pdf == "True")
+    phontiz.toslf(pron, param['BN'], pdf == "True")
 
     # Cut out the bit we need from the total wavefile
     snd = (

@@ -2,13 +2,29 @@
 clearinfo
 include /home/marlub/Documents/scripts/pralign/lib.praat
 
-form Enter new tier
+form Set the variables
+	comment Name for the new(or existing) tier
 	sentence newtier temp
+
+	comment Select language
+	optionmenu lang: 1
+		option spa
+		option tze
+
+	comment Temporary file directory
+	sentence tmpdir /tmp/
+	
+	comment Export the graph to pdf
+	boolean pdf: 0
 endform
+pdf$ = if pdf=1 then "True" else "False" fi
+basetmp$ = "praat_temp_out"
+tmp$ = tmpdir$ + basetmp$
 
 # Get selections and set variables
 tg$ = selected$("TextGrid", 1)
 snd$ = selected$("LongSound", 1)
+
 select TextGrid 'tg$'
 call getTierNumber 'newtier$' tiernumber
 
@@ -23,6 +39,10 @@ oldstart = -1
 oldend = -1
 plus LongSound 'snd$'
 Edit
+editor TextGrid 'tg$'
+	t$ = LongSound info
+	sndpath$ = extractWord$(t$, "File name: ")
+endeditor
 while 1=1
 	# If this is not the first time, reset the screen
 	if oldstart <> -1
@@ -54,12 +74,9 @@ while 1=1
 	Insert boundary... 'tiernumber' 'end'
 	plus LongSound 'snd$'
 		
-	# Do the alignment
-	basetmp$ = "praat_temp_out"
-	tmp$ = "/tmp/" + basetmp$
 	# Print to infowindow
-	printline /usr/bin/python /home/marlub/Documents/scripts/pralign/aligner.py "'label$'" 'start' 'end' /home/marlub/Documents/tzeltal/forcealign/2013March27_PaseroKunerolBartolo_L.wav tze /home/marlub/Documents/scripts/pralign/ruleset.tze False > 'tmp$'
-	system  /usr/bin/python /home/marlub/Documents/scripts/pralign/aligner.py "'label$'" 'start' 'end' /home/marlub/Documents/tzeltal/forcealign/2013March27_PaseroKunerolBartolo_L.wav tze /home/marlub/Documents/scripts/pralign/ruleset.tze False > 'tmp$'
+	printline /usr/bin/python /home/marlub/Documents/scripts/pralign/aligner.py "'label$'" 'start' 'end' 'sndpath$' 'lang$' /home/marlub/Documents/scripts/pralign/ruleset.tze False > 'tmp$'
+	system  /usr/bin/python /home/marlub/Documents/scripts/pralign/aligner.py "'label$'" 'start' 'end' 'sndpath$' 'lang$' /home/marlub/Documents/scripts/pralign/ruleset.tze False > 'tmp$'
 
 	# Read the results
 	Read Table from comma-separated file... 'tmp$'

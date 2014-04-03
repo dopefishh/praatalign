@@ -3,4 +3,4 @@ HCopy
 HVite
 \.*
 temp*
-.pyc
+*.pyc

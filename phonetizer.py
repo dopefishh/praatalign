@@ -19,7 +19,7 @@ class tdict(dict):
 class Phonetizer:
     """Skeleton class for a phonetizer for the pralign program"""
 
-    def __init__(self, filters=re.compile(''), dictpath=None, ruleset=None):
+    def __init__(self, dictpath=None, ruleset=None):
         """Constructor with an optional dictionary
 
         filters  -- A regular expression of things to filter out of the
@@ -27,10 +27,6 @@ class Phonetizer:
         dictpath -- Path to an optional dictonary
         ruleset  -- Path to an optional ruleset file
         """
-        if isinstance(filters, basestring):
-            self.f = re.compile(filters)
-        else:
-            self.f = filters
         self.parseruleset(ruleset)
         self.dictionary = dict()
         if dictpath is not None:
@@ -91,26 +87,27 @@ class Phonetizer:
                 eit += 1
         nodestr += nodebase % (nit, '>')
         edgestr += edgebase % (eit, nit-1, nit)
-        slfstring = 'N=%d L=%d\n%s%s' % (
-            len(nodestr.split('\n')), len(edgestr.split('\n')),
-            nodestr, edgestr)
-
-        with open('%s.dot' % bn, 'w') as ff:
-            ff.write('digraph g{\n')
-            for li in filter(None, [l.split() for l in slfstring.split('\n')]):
-                if li[0][0] == 'I':
-                    ff.write('\t%s [label="%s"]\n' % (li[0][2:], line[1][2:]))
-                if li[0][0] == 'J':
-                    ff.write('\t%s -> %s\n' % (li[1][2:], line[2][2:]))
-            ff.write('}')
-        os.system('dot -Tpdf %s.dot -o %s.pdf' % (bn, bn))
+        slfstr = 'N=%d L=%d\n%s%s' % (nit+1, eit+1, nodestr, edgestr)
+        with open('%s.slf' % bn, 'w') as ff:
+            ff.writelines(slfstr)
+        if graphviz:
+            with open('%s.dot' % bn, 'w') as ff:
+                ff.write('digraph g{\n')
+                for li in filter(None,
+                                 [l.split() for l in slfstr.split('\n')]):
+                    if li[0][0] == 'I':
+                        ff.write('\t%s [label="%s"]\n'
+                                 % (li[0][2:], li[1][2:]))
+                    if li[0][0] == 'J':
+                        ff.write('\t%s -> %s\n' % (li[1][2:], li[2][2:]))
+                ff.write('}')
+            os.system('dot -Tpdf %s.dot -o %s.pdf' % (bn, bn))
 
     def phonetize(self, utterance):
         """Phonetizes one utterance
 
         utterance -- The utterance to phonetize
         """
-        utterance = self.f.sub('', utterance)
         return [self.phonetizeword(word) for word in utterance.split()]
 
     def phonetizeword(self, word):
@@ -127,7 +124,7 @@ class PhonetizerTzeltal(Phonetizer):
     trans = tdict({'j': 'x', 'w': 'b', 'x': 'S', '\'': '?', 'y': 'j'})
 
     def phonetizeword(self, word):
-        word = unicode(word.lower())
+        word = re.sub('[.,\-]', '', unicode(word.lower()))
         if word in self.dictionary:
             return self.dictionary[word]
         phonemap = list()
