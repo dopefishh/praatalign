@@ -32,15 +32,14 @@ class Phonetizer:
         else:
             self.f = filters
         self.parseruleset(ruleset)
+        self.dictionary = dict()
         if dictpath is not None:
-            self.dictionary = dict()
             with codecs.open(dictpath, 'r', 'utf-8') as f:
                 for l in f:
                     if l and l[0] != '#':
                         l = [s.strip() for s in l.split('\t')]
-                        self.dictionary[l[0]] = unicode(l[1]).split(' ')
-        else:
-            self.dictionary = dict()
+                        self.dictionary[l[0]] = [var.split() for var in
+                                                 map(str, l[1:])]
 
     def parseruleset(self, path):
         """Parses the ruleset from a file
@@ -56,49 +55,55 @@ class Phonetizer:
                          reps, l)) for l in f if l and l[0] != '"']
                 self.r += lines
 
-    def tomlfslf(self, pron, bn, graphviz=False):
+    def toslf(self, pron, bn, graphviz=False):
         """Generates a mlf file and slf file regarding the ruleset
 
-        pron     -- Pronunciation of the words
+        pron     -- pronunciation in the form of [word1, word2, ..., wordn]
+                        where wordi = [var1, var2, ..., varn]
+                        where vari  = [char1, char2, ..., charn]
         bn       -- filename without extension for the output files
         graphviz -- Flag to make a pdf of the final graph
         """
-        with open('%s.mlf' % bn, 'w') as f:
-            f.write('#!MLF!\n')
-            f.write('"*/%s.lab"\n' % bn)
-            data = '<\n%s\n#\n>\n.' % '\n#\n'.join('\n'.join(p) for p in pron)
-            f.write(data)
-        with open('%s.slf' % bn, 'w') as f:
-            data = data.split('\n')[:-1]
-            extras = [(match.start('fr'), match.end('to')) for rule in self.r
-                      for match in rule.finditer(''.join(data))]
-            f.write('N=%d L=%d\n' % (len(data), len(data)-1+len(extras)))
-            f.write('\n'.join('I=%d W=%s' % (i, d) for i, d in enumerate(data))
-                    + '\n')
-            f.write('\n'.join('J=%d S=%d E=%d' % (d, d, d+1) for d in
-                    xrange(len(data)-1)))
-            if extras:
-                for i, e in enumerate(extras):
-                    double = [d for d in enumerate(data) if len(d[1]) > 1]
-                    for d in double:
-                        if d[0] < e[0]:
-                            e = (e[0]-(len(d[1])-1), e[1]-(len(d[1])-1))
-                        else:
-                            break
-                    f.write('\nJ=%d S=%d E=%d' % (len(data)+i-1, e[0], e[1]-1))
-        if graphviz:
-            with open('%s.slf' % bn, 'r') as f:
-                with open('%s.dot' % bn, 'w') as ff:
-                    ff.write('digraph g{\n')
-                    for line in f:
-                        if line[0] == 'I':
-                            nu, la = line.split()
-                            ff.write('\t%s [label="%s"]\n' % (nu[2:], la[2:]))
-                        if line[0] == 'J':
-                            fr, to = line.split()[1:]
-                            ff.write('\t%s -> %s\n' % (fr[2:], to[2:]))
-                    ff.write('}')
-                os.system('dot -Tpdf %s.dot -o %s.pdf' % (bn, bn))
+        nit, eit = 0, 0
+        nodebase = 'I=%d W=%s\n'
+        edgebase = 'J=%d S=%d E=%d\n'
+        wordb = 0
+        nodestr = nodebase % (0, '<')
+        nit += 1
+        edgestr = ''
+        for word in pron:
+            toadd = []
+            for var in word:
+                edgestr += edgebase % (eit, wordb, nit)
+                eit += 1
+                for num, char in enumerate(var):
+                    if num > 0:
+                        edgestr += edgebase % (eit, nit-1, nit)
+                        eit += 1
+                    nodestr += nodebase % (nit, char)
+                    nit += 1
+                toadd.append(nit-1)
+            nodestr += nodebase % (nit, '#')
+            wordb = nit
+            nit += 1
+            for to in toadd:
+                edgestr += edgebase % (eit, to, wordb)
+                eit += 1
+        nodestr += nodebase % (nit, '>')
+        edgestr += edgebase % (eit, nit-1, nit)
+        slfstring = 'N=%d L=%d\n%s%s' % (
+            len(nodestr.split('\n')), len(edgestr.split('\n')),
+            nodestr, edgestr)
+
+        with open('%s.dot' % bn, 'w') as ff:
+            ff.write('digraph g{\n')
+            for li in filter(None, [l.split() for l in slfstring.split('\n')]):
+                if li[0][0] == 'I':
+                    ff.write('\t%s [label="%s"]\n' % (li[0][2:], line[1][2:]))
+                if li[0][0] == 'J':
+                    ff.write('\t%s -> %s\n' % (li[1][2:], line[2][2:]))
+            ff.write('}')
+        os.system('dot -Tpdf %s.dot -o %s.pdf' % (bn, bn))
 
     def phonetize(self, utterance):
         """Phonetizes one utterance
@@ -113,7 +118,7 @@ class Phonetizer:
 
         word -- the word to phonetize
         """
-        raise NotImplementedError("Not implemented")
+        return self.dictionary[word]
 
 
 class PhonetizerTzeltal(Phonetizer):
@@ -124,7 +129,7 @@ class PhonetizerTzeltal(Phonetizer):
     def phonetizeword(self, word):
         word = unicode(word.lower())
         if word in self.dictionary:
-            return dct[word]
+            return self.dictionary[word]
         phonemap = list()
         it = iter(enumerate(word))
         for i, character in it:
@@ -143,9 +148,8 @@ class PhonetizerTzeltal(Phonetizer):
                 next(it, None)
             else:
                 phonemap.append(self.trans[character])
-
-        self.dictionary[word] = phonemap
-        return phonemap
+        self.dictionary[word] = [phonemap]
+        return [phonemap]
 
 
 class PhonetizerSpanish(Phonetizer):
@@ -171,12 +175,10 @@ class PhonetizerSpanish(Phonetizer):
                        unicodedata.category(ch).startswith('L') or
                        ch in '[]<>()&')
         word = re.sub('[<>]', '&', re.sub('\(.*\)', '', word))
-
         uppercases = len([ch for ch in word if
                          unicodedata.category(ch).startswith('Lu')])
         if word in self.dictionary:
             return self.dictionary[word]
-
         # Check sounds and foreign language.
         if '&' == word[0] or '[lang' in word:
             print 'Please add manually: '
@@ -184,11 +186,9 @@ class PhonetizerSpanish(Phonetizer):
                 mis.write(word)
                 mis.write('\n')
             return ['< n i b >']
-
         # Remove optional laughter and breathing and try again to look it up
         if '[' in word or ']' in word:
             return self.phonetizeword(re.sub('\[.*\]', '', word))
-
         # Allocate the map
         phonemap = list()
         if uppercases == len(word):
@@ -226,6 +226,5 @@ class PhonetizerSpanish(Phonetizer):
                     continue
                 else:
                     phonemap.append(self.trans[ch])
-
         self.dictionary[word] = phonemap
-        return phonemap
+        return [phonemap]

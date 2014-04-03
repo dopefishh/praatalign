@@ -37,8 +37,18 @@ To make certain things more easy a couple of groups are predefined, namely:
 - < is used for the start of the chunk
 - > is used for the end of the chunk
 
+dictionary format
+=================
+Lines separated by \n and of the following format
+word<TAB>pronounciation[<TAB>pronounciation variant]*
+
+So for example let's say the word mart is pronounced as 'm a r t' or 'm a r',
+then you will add this entry:
+```mart	m a r t	m a r```
+
 version history
 ===============
+* 0.04 - 2014-04-03 - pronounciation variants implemented
 * 0.03 - 2014-03-31 - aligner works, praat imlementation needs work
 * 0.02 - 2014-03-27 - started with aligner
 * 0.01 - 2014-03-27 - phonetizer done

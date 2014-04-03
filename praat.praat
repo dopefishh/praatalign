@@ -1,6 +1,6 @@
 # Clear screen, import functions and select tiername
 clearinfo
-include lib2.praat
+include /home/marlub/Documents/scripts/pralign/lib.praat
 
 form Enter new tier
 	sentence newtier temp
@@ -58,14 +58,8 @@ while 1=1
 	basetmp$ = "praat_temp_out"
 	tmp$ = "/tmp/" + basetmp$
 	# Print to infowindow
-	printline /usr/bin/python /home/marlub/Documents/scripts/pralign/aligner.py
-... "'label$'" 'start' 'end' /home/marlub/Documents/tzeltal/forcealign/2013Marc
-...h27_PaseroKunerolBartolo_L.wav tze /home/marlub/Documents/scripts/pralign/ru
-...leset.tze False > 'tmp$'
-	system /usr/bin/python /home/marlub/Documents/scripts/pralign/aligner.py "'
-...label$'" 'start' 'end' /home/marlub/Documents/tzeltal/forcealign/2013March27
-..._PaseroKunerolBartolo_L.wav tze
-/home/marlub/Documents/scripts/pralign/rules.et.tze False > 'tmp$'
+	printline /usr/bin/python /home/marlub/Documents/scripts/pralign/aligner.py "'label$'" 'start' 'end' /home/marlub/Documents/tzeltal/forcealign/2013March27_PaseroKunerolBartolo_L.wav tze /home/marlub/Documents/scripts/pralign/ruleset.tze False > 'tmp$'
+	system  /usr/bin/python /home/marlub/Documents/scripts/pralign/aligner.py "'label$'" 'start' 'end' /home/marlub/Documents/tzeltal/forcealign/2013March27_PaseroKunerolBartolo_L.wav tze /home/marlub/Documents/scripts/pralign/ruleset.tze False > 'tmp$'
 
 	# Read the results
 	Read Table from comma-separated file... 'tmp$'
