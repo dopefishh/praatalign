@@ -10,7 +10,7 @@
   put your own compiled binaries in the bin folder before installing).
 
 ### installation
-```./install_lin```
+run install\_lin
 
 ## mac
 Not implemented yet.
