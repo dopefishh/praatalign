@@ -23,6 +23,7 @@ form Set the variables
 	sentence tmpdir /tmp/
 endform
 
+# Parse options
 dictpath$ = if dictpath then chooseReadFile$("Open the dictionary") else "" fi
 ruleset$ = if ruleset then "None" else "ruleset.'lang$'" fi
 basetmp$ = "praat_temp_out"
@@ -32,7 +33,14 @@ tmp$ = tmpdir$ + basetmp$
 tg$ = selected$("TextGrid", 1)
 snd$ = selected$("LongSound", 1)
 
+# Remove tier if already present
 select TextGrid 'tg$'
+call getTierNumber 'newtier$' tiernumber
+if tiernumber <> -1
+	Remove tier... 'tiernumber'
+endif
+
+# Create table from the tier
 call getTierNumber 'tiername$' tiernumber
 Extract one tier... 'tiernumber'
 select TextGrid 'tiername$'
@@ -42,6 +50,7 @@ Remove
 select TextGrid 'tiername$'
 Remove
 
+# Extract filename from longsound
 select LongSound 'snd$'
 View
 editor LongSound 'snd$'
@@ -50,16 +59,20 @@ editor LongSound 'snd$'
 	Close
 endeditor
 
+# Align the tier
 printline python aligner.py tier temp.txt 'sndpath$' 'lang$' 'ruleset$' ./ 'dictpath$' > 'tmp$'
 system python aligner.py tier temp.txt 'sndpath$' 'lang$' 'ruleset$' ./ 'dictpath$' > 'tmp$'
 
+# Create the new tier
 select TextGrid 'tg$'
 Insert interval tier... 1 'newtier$'
 tiernumber = 1
 
+# Read the table
 Read Table from comma-separated file... 'tmp$'
 rows = Get number of rows
 for i to rows
+	# Insert the intervals
     select Table 'basetmp$'
     sstart$ = Get value... 'i' start
     send$ = Get value... 'i' end
@@ -78,3 +91,4 @@ select Table 'basetmp$'
 Remove
 select TextGrid 'tg$'
 plus LongSound 'snd$'
+pause Done aligning the tier

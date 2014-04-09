@@ -126,7 +126,7 @@ def usage():
 if __name__ == '__main__':
     if '--help' in sys.argv or '-h' in sys.argv:
         usage()
-    if sys.argv[1] == '-t':
+    if sys.argv[1] != 'tier':
         forcealignutterance(*sys.argv[1:])
     else:
         forcealigntier(*sys.argv[2:])

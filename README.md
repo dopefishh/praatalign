@@ -1,4 +1,4 @@
-### Interactive forced alignment in spontineous speech, version 0.05
+### Interactive forced alignment in spontineous speech, version 0.06
 
 ### installation
 #### linux
@@ -10,22 +10,36 @@
   put your own compiled binaries in the bin folder before installing).
 
 ##### installation
-run install\_lin
+Automatic installation:
+
+```$ ./install\_lin```
+Manual installation:
+
+copy all the contents of the directory to the exact folder:
+```/home/UserName/.praat-dir/plugin_pralign```
+
 
 #### mac
-Not implemented yet.
+##### requirements
+same as linux
+
+##### installation
+For mac there is currently no install script. One can install the plugin by
+copying all contents from this folder to the exact folder:
+```/Users/UserName/Library/Preferences/Praat Prefs/plugin_pralign``` 
+where you must substitute UserName by your current username.
 
 #### windows
 Not implemented yet.
 
 ### documentation
-#### plugin
+#### interactive forced alignment
 The plugin works very straight forward, say one wants to force align a tier in
 a TextGrid file with a LongSound. To start the script do:
 - Read TextGrid from file
 - Read LongSound from file
 - Select both
-- Press the new button that says: *Start interactive force alignment...*
+- Press the button that says: *Start interactive force alignment...*
 
 Now there will be a form so that you can specify some parameters:
 * **newtier**, default: align
@@ -60,6 +74,30 @@ Now there will be a form so that you can specify some parameters:
 When the form is accepted the TextGrid editor will be opened and a pause
 window is spawned. When you select an annotation and press continue it will
 align the annotation using the specified options.
+
+#### non interactive forced alignment
+This function is also very straight forword, to start the script do:
+- Read TextGrid from file
+- Read LongSound from file
+- Select both
+- Press the button that says: *Start non interactive force alignment*
+
+Now there will also be a form with some parameter specification, all the
+parameter options can be found in the interactive alignment section except the
+following changes:
+* **tiername**, 
+
+	Name for the tier to align, this must contain the annotations matching the
+	selected LongSound.
+* **newtier**, default: align
+
+	Name for the tier to put the aligned annotations in, if the tier exists it
+	gets cleared out first.
+
+When the form is accepted the praat program freezes and in the background the
+alignment has started. This takes a while depending on the amount of
+pronunciation variants and the amount of annotations. When it's finished it
+shows a prompt. Note: you still have to save the TextGrid.
 
 #### dictionary file
 A dictionary file consists of several non emptylines character(\\n), lines
