@@ -1,1 +1,2 @@
-Add action command... LongSound 0 TextGrid 0 "" 0 "Start interactive force alignment..." "" 0 praat.praat
+Add action command... LongSound 0 TextGrid 0 "" 0 "Start interactive force alignment..." "" 0 interactive.praat
+Add action command... LongSound 0 TextGrid 0 "" 0 "Start non interactive force alignment..." "" 0 aligntier.praat

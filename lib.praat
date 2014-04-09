@@ -1,21 +1,3 @@
-#String splitting
-procedure split .sep$ .str$
-	.seplen = length(.sep$) 
-	.length = 0
-	repeat
-		.strlen = length(.str$)
-		.sep = index(.str$, .sep$)
-		if .sep > 0
-			.part$ = left$(.str$, .sep-1)
-			.str$ = mid$(.str$, .sep+.seplen, .strlen)
-		else
-			.part$ = .str$
-		endif
-		.length = .length+1
-		.array$[.length] = .part$
-	until .sep = 0
-endproc
-
 #Get the tier number
 procedure getTierNumber .tiername$ .tiernumber$
 	.n = Get number of tiers
@@ -27,23 +9,6 @@ procedure getTierNumber .tiername$ .tiernumber$
 		endif
 	endfor
 endproc
-
-#Check if the tier only has silence
-procedure isSilence .tiernumber .start .end .return$
-	.i = .start
-	.ret = 1
-	while .i+0.1<.end and .ret=1
-		.num = Get interval at time... '.tiernumber' '.i'
-		if .num<>0
-			.val$ = Get label of interval... '.tiernumber' '.num'
-			if .val$="" or .val$="#" or .val$="< n i b >" or .val$=">" or .val$="<"
-				.ret = 0
-			endif
-		endif
-		.i = .i+0.1
-	endwhile
-	'.return$' = .ret
-endproc	
 
 #Remove all intervals between times
 procedure removeBetween .tiernumber .start .end
@@ -63,3 +28,38 @@ procedure removeBetween .tiernumber .start .end
 	endif
 	Set interval text... '.tiernumber' '.numint' 
 endproc
+
+##Check if the tier only has silence
+#procedure isSilence .tiernumber .start .end .return$
+#	.i = .start
+#	.ret = 1
+#	while .i+0.1<.end and .ret=1
+#		.num = Get interval at time... '.tiernumber' '.i'
+#		if .num<>0
+#			.val$ = Get label of interval... '.tiernumber' '.num'
+#			if .val$="" or .val$="#" or .val$="< n i b >" or .val$=">" or .val$="<"
+#				.ret = 0
+#			endif
+#		endif
+#		.i = .i+0.1
+#	endwhile
+#	'.return$' = .ret
+#endproc	
+
+##String splitting
+#procedure split .sep$ .str$
+#	.seplen = length(.sep$) 
+#	.length = 0
+#	repeat
+#		.strlen = length(.str$)
+#		.sep = index(.str$, .sep$)
+#		if .sep > 0
+#			.part$ = left$(.str$, .sep-1)
+#			.str$ = mid$(.str$, .sep+.seplen, .strlen)
+#		else
+#			.part$ = .str$
+#		endif
+#		.length = .length+1
+#		.array$[.length] = .part$
+#	until .sep = 0
+#endproc
