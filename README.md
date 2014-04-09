@@ -16,12 +16,13 @@ Automatic installation:
 Manual installation:
 
 copy all the contents of the directory to the exact folder:
+
 	${HOME}/.praat-dir/plugin_pralign
 
 
 #### mac
 ##### requirements
-same as linux
+same as linux, you have to put compiled htk binaries in the bin folder though.
 
 ##### installation
 For mac there is currently no install script. One can install the plugin by
