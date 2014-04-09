@@ -12,11 +12,11 @@
 ##### installation
 Automatic installation:
 
-```$ ./install\_lin```
+	$ ./install\_lin
 Manual installation:
 
 copy all the contents of the directory to the exact folder:
-```/home/UserName/.praat-dir/plugin_pralign```
+	/home/UserName/.praat-dir/plugin_pralign
 
 
 #### mac
@@ -26,7 +26,7 @@ same as linux
 ##### installation
 For mac there is currently no install script. One can install the plugin by
 copying all contents from this folder to the exact folder:
-```/Users/UserName/Library/Preferences/Praat Prefs/plugin_pralign``` 
+	/Users/UserName/Library/Preferences/Praat Prefs/plugin_pralign
 where you must substitute UserName by your current username.
 
 #### windows
