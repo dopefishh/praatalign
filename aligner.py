@@ -55,8 +55,6 @@ def force(utt, wav, phonetizer, param, out="-", header=True, pdf=False):
     pron = phonetizer.phonetize(utt)
     if not pron:
         return
-    with open('/home/marlub/prons.txt', 'a') as f:
-        f.write(str(pron) + '\n')
 
     phonetizer.toslf(pron, param['BN'], pdf)
     
