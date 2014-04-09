@@ -36,11 +36,12 @@ def forcealigntier(txtpath, wav, lang, ruleset, pdir, dictpath=None):
         'HC': pdir + 'bin/HCopy',
         'HV': pdir + 'bin/HVite'
         }
-    with open(txtpath, 'r') as f:
+    with codecs.open(txtpath, 'r', 'utf-16') as f:
         f.readline()
         sys.stdout.write('start,end,label\n')
         for line in f:
             start, utt, end = line.split('\t')
+
             param['START'] = float(start)
             param['DUR'] = float(end) - param['START']
             force(utt, wav, phontiz, param, "-", header=False)

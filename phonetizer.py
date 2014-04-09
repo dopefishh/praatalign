@@ -103,12 +103,25 @@ class Phonetizer:
                 ff.write('}')
             os.system('dot -Tpdf %s.dot -o %s.pdf' % (bn, bn))
 
+    def applyrules(self, phon):
+        if len(phon) == 1:
+            word = ''.join(phon[0])
+            for rule in self.r:
+                mo = rule.search(word)
+                if mo is not None:
+                    wordafter = word[:mo.end('fr')]+word[mo.start('to'):]
+                    phon.append(list(wordafter))
+        return phon
+
     def phonetize(self, utterance):
         """Phonetizes one utterance
 
         utterance -- The utterance to phonetize
         """
-        return [self.phonetizeword(word) for word in utterance.split()]
+        try:
+            return [self.applyrules(self.phonetizeword(unicode(word, 'utf-8'))) for word in utterance.split()]
+        except TypeError:
+            return [self.applyrules(self.phonetizeword(unicode(word))) for word in utterance.split()]
 
     def phonetizeword(self, word):
         """Returns a list of phones generated from the utterance
@@ -124,7 +137,7 @@ class PhonetizerTzeltal(Phonetizer):
     trans = tdict({'j': 'x', 'w': 'b', 'x': 'S', '\'': '?', 'y': 'j'})
 
     def phonetizeword(self, word):
-        word = re.sub('[.,\-]', '', unicode(word.lower()))
+        word = re.sub('[.,\-]', '', word.lower())
         if word in self.dictionary:
             return self.dictionary[word]
         phonemap = list()
@@ -168,7 +181,7 @@ class PhonetizerSpanish(Phonetizer):
 
     def phonetizeword(self, word):
         # Remove punctuation, truncate and generalize nib symbols
-        word = ''.join(ch for ch in unicode(word) if
+        word = ''.join(ch for ch in word if
                        unicodedata.category(ch).startswith('L') or
                        ch in '[]<>()&')
         word = re.sub('[<>]', '&', re.sub('\(.*\)', '', word))
@@ -177,7 +190,7 @@ class PhonetizerSpanish(Phonetizer):
         if word in self.dictionary:
             return self.dictionary[word]
         # Check sounds and foreign language.
-        if '&' == word[0] or '[lang' in word:
+        if word and '&' == word[0] or '[lang' in word:
             print 'Please add manually: '
             with codecs.open('mis.txt', 'a', 'utf-8') as mis:
                 mis.write(word)
@@ -223,5 +236,5 @@ class PhonetizerSpanish(Phonetizer):
                     continue
                 else:
                     phonemap.append(self.trans[ch])
-        self.dictionary[word] = phonemap
+        self.dictionary[word] = [phonemap]
         return [phonemap]

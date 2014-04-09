@@ -60,8 +60,11 @@ editor LongSound 'snd$'
 endeditor
 
 # Align the tier
+pause Starting the alignment, this can take a while...
 printline python aligner.py tier temp.txt 'sndpath$' 'lang$' 'ruleset$' ./ 'dictpath$' > 'tmp$'
 system python aligner.py tier temp.txt 'sndpath$' 'lang$' 'ruleset$' ./ 'dictpath$' > 'tmp$'
+
+
 
 # Create the new tier
 select TextGrid 'tg$'

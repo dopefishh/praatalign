@@ -114,11 +114,10 @@ word-n<TAB>pronounciation-n[<TAB>variant-na][<TAB>variant-nb]...
 ```
 
 #### ruleset file
-Pronounciation rules are not implemented anymore but will be back very soon. A
-ruleset file describes certain rules that can be on inter and intraword level
-and uses python regular expressions to achive this. It will tie the group named
-*to* to *from* so you can easily describe deletion rules. A ruleset file is of
-the following format:
+Currently only interword rules are possible...  A ruleset file describes
+certain rules that can be on inter and intraword level and uses python regular
+expressions to achive this. It will tie the group named *to* to *from* so you
+can easily describe deletion rules. A ruleset file is of the following format:
 ```
 regex-1
 regex-2
