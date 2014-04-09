@@ -118,10 +118,13 @@ class Phonetizer:
 
         utterance -- The utterance to phonetize
         """
+
         try:
-            return [self.applyrules(self.phonetizeword(unicode(word, 'utf-8'))) for word in utterance.split()]
+            pron = [self.applyrules(self.phonetizeword(unicode(word, 'utf-8'))) for word in utterance.split()]
         except TypeError:
-            return [self.applyrules(self.phonetizeword(unicode(word))) for word in utterance.split()]
+            pron = [self.applyrules(self.phonetizeword(unicode(word))) for word in utterance.split()]
+        pron = filter(None, pron)
+        return pron
 
     def phonetizeword(self, word):
         """Returns a list of phones generated from the utterance

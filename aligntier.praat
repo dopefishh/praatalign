@@ -25,7 +25,7 @@ endform
 
 # Parse options
 dictpath$ = if dictpath then chooseReadFile$("Open the dictionary") else "" fi
-ruleset$ = if ruleset then "None" else "ruleset.'lang$'" fi
+ruleset$ = if ruleset then "ruleset.'lang$'" else "None" fi
 basetmp$ = "praat_temp_out"
 tmp$ = tmpdir$ + basetmp$
 
@@ -74,6 +74,7 @@ tiernumber = 1
 # Read the table
 Read Table from comma-separated file... 'tmp$'
 rows = Get number of rows
+lastclose = -1
 for i to rows
 	# Insert the intervals
     select Table 'basetmp$'
@@ -81,12 +82,16 @@ for i to rows
     send$ = Get value... 'i' end
     svalue$ = Get value... 'i' label
     select TextGrid 'tg$'
-    if svalue$ = "<"
+    if svalue$ = "<" and 'sstart$'<>0
         Insert boundary... 'tiernumber' 'sstart$'
     endif
-    Insert boundary... 'tiernumber' 'send$'
-    intnum = Get interval at time... 'tiernumber' 'sstart$'+0.0001
-    Set interval text... 'tiernumber' 'intnum' 'svalue$'
+	#if svalue$ = ">"
+	#	lastclose = 'send$'
+	#endif
+	Insert boundary... 'tiernumber' 'send$'
+   	intnum = Get interval at time... 'tiernumber' 'sstart$'+0.0001
+   	Set interval text... 'tiernumber' 'intnum' 'svalue$'
+	endif
 endfor
 
 # Remove temp files and reselect the TextGrid and LongSound

@@ -23,9 +23,9 @@ form Set the variables
 	comment Temporary file directory
 	sentence tmpdir /tmp/
 endform
-pdf$ = if pdf then "False" else "True" fi
+pdf$ = if pdf then "True" else "False" fi
 dictpath$ = if dictpath then chooseReadFile$("Open the dictionary") else "" fi
-ruleset$ = if ruleset then "None" else "ruleset.'lang$'" fi
+ruleset$ = if ruleset then "ruleset.'lang$'" else "None" fi
 basetmp$ = "praat_temp_out"
 tmp$ = tmpdir$ + basetmp$
 
