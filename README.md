@@ -6,10 +6,11 @@
 - Python 2[7.3]
 - SoX (has to be in path)
 - Praat
-- HCopy and HVite (binaries included might not work on all systems, alternatively
-  put your own compiled binaries in the bin folder before installing).
-- Alternatively you need dot to compile pdf's from the generated dot file. Dot is
-  a binary from the GraphViz package.
+- HCopy and HVite (binaries included might not work on all systems,
+  alternatively put your own compiled binaries in the bin folder before
+  installing).
+- Alternatively you need dot to compile pdf's from the generated dot file. Dot
+  is a binary from the GraphViz package.
 
 ##### Installation
 Automatic installation:
@@ -43,8 +44,8 @@ Not implemented yet. Also not planned for the immediate future.
 
 ### Documentation
 #### General information
-When force aligning you need a model and a phonetizer/dictionary. When a word can't be 
-phonetized the script terminates prematurely.
+When force aligning you need a model and a phonetizer/dictionary. When a word
+can't be phonetized the script terminates prematurely.
 
 #### Generate dictionary
 This function can generate a dictionary of missing words from a tier within a
@@ -68,10 +69,11 @@ Now there will be a form so that you can specify some parameters:
 	Temporary file directory, this is the directory where Praat stores the
 	annotations so that the Python script can read them.
 
-When the form is accepted the script will ask for the path to which it will write the
-dictionary. Praat will then generate all the missing words and write them into the standard
-dictionary format. When you want to use the dictionary later you just need to
-fill in the phonetizations and select the dictionary file when force aligning.
+When the form is accepted the script will ask for the path to which it will
+write the dictionary. Praat will then generate all the missing words and write
+them into the standard dictionary format. When you want to use the dictionary
+later you just need to fill in the phonetizations and select the dictionary
+file when force aligning.
 
 #### Interactive forced alignment
 The plugin works very straight forward, say one wants to force align a tier in
@@ -89,8 +91,8 @@ Now there will be a form so that you can specify some parameters:
 	removed upon alignment.
 * **lang**, default: tze
 
-	Language to use for the forced alignment. Currently this is Spanish and Tzeltal, in the future
-	one can add custom languages.
+	Language to use for the forced alignment. Currently this is Spanish and
+	Tzeltal, in the future one can add custom languages.
 * **dictpath**, default: False
 
 	Flag for selecting a custom dictionary. If this is not set, the aligner will
@@ -98,13 +100,13 @@ Now there will be a form so that you can specify some parameters:
 	select the dictionary.
 * **ruleset**, default: False
 
-	Flag for using a ruleset file. If this is not set, the aligner will not use a 
-	ruleset. If this is set, then a prompt follows to select the ruleset file.
+	Flag for using a ruleset file. If this is not set, the aligner will not use
+	a ruleset. If this is set, then a prompt follows to select the ruleset file.
 * **pdf**, default: False
 
 	Flag to export to pdf. If this is not set, the aligner will not create pdf
-	files for the graphs it follows. If this is set, there will be a temp.pdf located in 
-	this plugin folder after the alignment(on linux ~/.praat-dir/plugin_pralign
+	files for the graphs it follows. If this is set, there will be a temp.pdf
+	located in this plugin folder after the alignment
 * **tmpdir**, default: /tmp/
 
 	Temporary file directory. This is the directory where the aligner stores
@@ -115,7 +117,8 @@ window is spawned. When you select an annotation and press continue it will
 align the annotation using the specified options.
 
 #### Non-interactive forced alignment
-This function is also very straight forward. Do the following to start the script:
+This function is also very straight forward. Do the following to start the
+script:
 - Read TextGrid from file
 - Read LongSound from file
 - Select both
@@ -133,16 +136,16 @@ following changes:
 	Name for the tier to put the aligned annotations in. If the tier exists, it
 	first gets cleared out.
 
-When the form is accepted the praat program freezes and the alignment has started 
-in the background. This takes a while depending on the amount of
+When the form is accepted the praat program freezes and the alignment has
+started in the background. This takes a while depending on the amount of
 pronunciation variants and the amount of annotations. When it's finished it
 shows a prompt. Note: you still have to save the TextGrid.
 
 #### Dictionary file
-A dictionary file consists of several non-empty lines separated by a newline character(\\n). 
-Lines starting with a # will be ignored and can be used as comments. The dictionary
-delivers the pronounciation and optional variants to the phonetizer and has to
-be of the following format:
+A dictionary file consists of several non-empty lines separated by a newline
+character(\\n).  Lines starting with a # will be ignored and can be used as
+comments. The dictionary delivers the pronounciation and optional variants to
+the phonetizer and has to be of the following format:
 
 	word-1<TAB>pronounciation-1[<TAB>variant-1a][<TAB>variant-1b]...
 	word-2<TAB>pronounciation-2[<TAB>variant-2a][<TAB>variant-2b]...
@@ -151,9 +154,10 @@ be of the following format:
 
 #### Ruleset file
 Currently only inter-word rules are possible...  A ruleset file describes
-certain rules that can be on inter- and intra-word level and uses Python regular
-expressions to achive this. It will tie the group named *to* to *from*, so that you
-can easily describe deletion rules. A ruleset file is of the following format:
+certain rules that can be on inter- and intra-word level and uses Python
+regular expressions to achive this. It will tie the group named *to* to *from*,
+so that you can easily describe deletion rules. A ruleset file is of the
+following format:
 
 	regex-1
 	regex-2
@@ -187,7 +191,7 @@ To add the language to the Praat scripts you can just edit the file called
 This file is included in all the menus as the language selector, so just add
 your language and note that the indentation must stay the same.
 
-### version history
+### Version history
 * 0.05 - 2014-04-03 - better readme and functional program for linux
 * 0.04 - 2014-04-03 - pronounciation variants implemented
 * 0.03 - 2014-03-31 - aligner works, praat imlementation needs work
@@ -195,6 +199,6 @@ your language and note that the indentation must stay the same.
 * 0.01 - 2014-03-27 - phonetizer done
 * 0.00 - 2014-03-27 - initial version
 
-### authors
+### Authors
 mart@martlubbers.net
 emma.valtersson@gmail.com
