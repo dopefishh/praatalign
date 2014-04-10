@@ -14,7 +14,7 @@
 ##### Installation
 Automatic installation:
 
-	$ ./install\_lin
+	$ ./install_lin
 Manual installation:
 
 Copy the binaries to the bin folder and then copy the entire content of the
@@ -30,7 +30,7 @@ Same as linux
 ##### Installation
 Automatic installation:
 	
-	$ ./install\_mac
+	$ ./install_mac
 Manual installation:
 
 Copy the binaries to the bin folder and then copy the entire content of the
