@@ -104,7 +104,7 @@ class Phonetizer:
             os.system('dot -Tpdf %s.dot -o %s.pdf' % (bn, bn))
 
     def applyrules(self, phon):
-        if len(phon) == 1:
+        if phon is not None and len(phon) == 1:
             word = ''.join(phon[0])
             for rule in self.r:
                 mo = rule.search(word)

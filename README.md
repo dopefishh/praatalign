@@ -187,10 +187,6 @@ To add the language to the Praat scripts you can just edit the file called
 This file is included in all the menus as the language selector, so just add
 your language and note that the indentation must stay the same.
 
-### To do
-Fix when the first alignment starts at time 0
-
-
 ### version history
 * 0.05 - 2014-04-03 - better readme and functional program for linux
 * 0.04 - 2014-04-03 - pronounciation variants implemented

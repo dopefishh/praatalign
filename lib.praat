@@ -17,14 +17,14 @@ procedure removeBetween .tiernumber .start .end
 		.numint = Get interval at time... '.tiernumber' '.i'
 		.startpnt = Get start point... '.tiernumber' '.numint'
 		if .startpnt >= .start
-			Remove left boundary... '.tiernumber' '.numint'
+			nocheck Remove left boundary... '.tiernumber' '.numint'
 		endif
 		.i += 0.001
 	until .i>=.end
 	.numint = Get interval at time... '.tiernumber' '.start'+0.001
 	.endpnt = Get end point... '.tiernumber' '.numint'
 	if .endpnt <= .end
-		Remove right boundary... '.tiernumber' '.numint'
+		nocheck Remove right boundary... '.tiernumber' '.numint'
 	endif
 	Set interval text... '.tiernumber' '.numint' 
 endproc
