@@ -15,24 +15,29 @@ Automatic installation:
 	$ ./install\_lin
 Manual installation:
 
-copy all the contents of the directory to the exact folder:
+copy the binaries to the bin folder and then copy all the contents of the
+directory to the exact folder:
 
 	${HOME}/.praat-dir/plugin_pralign
 
 
 #### mac
 ##### requirements
-same as linux, you have to put compiled htk binaries in the bin folder though.
+same as linux
 
 ##### installation
-For mac there is currently no install script. One can install the plugin by
-copying all contents from this folder to the exact folder:
+Automatic installation:
+	
+	$ ./install\_mac
+Manual installation:
 
-	/Users/UserName/Library/Preferences/Praat Prefs/plugin_pralign
-where you must substitute UserName by your current username.
+copy the binaries to the bin folder and then copy all the contents of the
+directy to the exact folder:
+
+	${HOME}/Library/Preferences/Praat Prefs/plugin_pralign
 
 #### windows
-Not implemented yet.
+Not implemented yet. Also not planned for the very near future
 
 ### documentation
 #### interactive forced alignment
@@ -106,34 +111,34 @@ A dictionary file consists of several non emptylines character(\\n), lines
 starting with a # will be ignored and can be used as comments. The dictionary
 delivers the pronounciation and optional variants to the phonetizer and has to
 be of the following format:
-```
-word-1<TAB>pronounciation-1[<TAB>variant-1a][<TAB>variant-1b]...
-word-2<TAB>pronounciation-2[<TAB>variant-2a][<TAB>variant-2b]...
-...
-word-n<TAB>pronounciation-n[<TAB>variant-na][<TAB>variant-nb]...
-```
+
+	word-1<TAB>pronounciation-1[<TAB>variant-1a][<TAB>variant-1b]...
+	word-2<TAB>pronounciation-2[<TAB>variant-2a][<TAB>variant-2b]...
+	...
+	word-n<TAB>pronounciation-n[<TAB>variant-na][<TAB>variant-nb]...
 
 #### ruleset file
 Currently only interword rules are possible...  A ruleset file describes
 certain rules that can be on inter and intraword level and uses python regular
 expressions to achive this. It will tie the group named *to* to *from* so you
 can easily describe deletion rules. A ruleset file is of the following format:
-```
-regex-1
-regex-2
-...
-regex-n
-```
+
+	regex-1
+	regex-2
+	...
+	regex-n
 
 Every regex must contain at minimal the named groups *to* and *from*.
 For example the rule that will delete a *d* if it is between *a* and *o*
 regardless of word boundaries:
-```
-(?P<fr>a#?)d(?P<to>#?o)
-```
+	
+	(?P<fr>a#?)d(?P<to>#?o)
 
 #### customize/add language
 todo
+
+### todo
+Fix when there is nothing to forcealign.
 
 ### version history
 * 0.05 - 2014-04-03 - better readme and functional program for linux

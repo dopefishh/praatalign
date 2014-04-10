@@ -4,5 +4,6 @@ set -x
 dir="$HOME/Library/Preferences/Praat Prefs/plugin_pralign/"
 mkdir -pv "$dir"
 rm -rvf "$dir*"
-find . -maxdepth 1 ! -name "\." ! -name "install*" ! -name ".git*" \
-				   ! -name "temp*" -print0 | xargs -P 2 -0 -I{} cp -vR "{}" "$dir"
+cp -v ./bin_mac/* ./bin/
+find . -maxdepth 1 ! -name "\." ! -name "install*" ! -name ".*" \
+				   ! -name "temp*" ! -name "bin_*"  -print0 | xargs -P 2 -0 -I{} cp -vR "{}" "$dir"
