@@ -118,20 +118,25 @@ class Phonetizer:
 
         utterance -- The utterance to phonetize
         """
-
         try:
-            pron = [self.applyrules(self.phonetizeword(unicode(word, 'utf-8'))) for word in utterance.split()]
+            pron = [self.applyrules(self.phonetizeword(
+                unicode(word, 'utf-8'))) for word in utterance.split()]
         except TypeError:
-            pron = [self.applyrules(self.phonetizeword(unicode(word))) for word in utterance.split()]
+            pron = [self.applyrules(self.phonetizeword(
+                unicode(word))) for word in utterance.split()]
         pron = filter(None, pron)
         return pron
 
     def phonetizeword(self, word):
-        """Returns a list of phones generated from the utterance
+        """Returns a list of phones generated from the utterance and should
+        return None when unable to phonetize
 
         word -- the word to phonetize
         """
-        return self.dictionary[word]
+        if word in self.dictionary:
+            return self.dictionary[word]
+        else:
+            return None
 
 
 class PhonetizerTzeltal(Phonetizer):
@@ -183,7 +188,6 @@ class PhonetizerSpanish(Phonetizer):
                    'j': 'x', 'c': 'k', 'v': 'b', 'w': 'b', 'z': 'T', 'y': 'j'})
 
     def phonetizeword(self, word):
-        # Remove punctuation, truncate and generalize nib symbols
         word = ''.join(ch for ch in word if
                        unicodedata.category(ch).startswith('L') or
                        ch in '[]<>()&')
@@ -194,11 +198,7 @@ class PhonetizerSpanish(Phonetizer):
             return self.dictionary[word]
         # Check sounds and foreign language.
         if word and '&' == word[0] or '[lang' in word:
-            print 'Please add manually: '
-            with codecs.open('mis.txt', 'a', 'utf-8') as mis:
-                mis.write(word)
-                mis.write('\n')
-            return ['< n i b >']
+            return None
         # Remove optional laughter and breathing and try again to look it up
         if '[' in word or ']' in word:
             return self.phonetizeword(re.sub('\[.*\]', '', word))
@@ -241,3 +241,38 @@ class PhonetizerSpanish(Phonetizer):
                     phonemap.append(self.trans[ch])
         self.dictionary[word] = [phonemap]
         return [phonemap]
+
+
+class PhonetizerSkeleton(Phonetizer):
+    """Skeleton to create your own phonetizer"""
+
+    def phonetizeword(self, word):
+        # Substitute all transcription specific useless markings and lowercase 
+        # word
+        word = re.sub('[.,\-]', '', word.lower())
+        # If the word already exists in the dictionary return it immediatly
+        if word in self.dictionary:
+            return self.dictionary[word]
+        # If some condition is not met and the word is unphonetizable you
+        # should return None
+        if some_condition:
+            return None
+        # De the magic phonetizing here
+
+        # Add the phontization to the dictionary
+        self.dictionary[word] = [phonemap]
+        # Return the map
+        return [phonemap]
+
+
+phonetizerdict = {
+    'spa': (PhonetizerSpanish, 'p.spa/'),
+    'tze': (PhonetizerTzeltal, 'p.sam/')
+    }
+
+
+def getphonetizer(lang, dictpath=None, ruleset=None):
+    dictpath = None if dictpath == "None" else dictpath
+    ruleset = None if ruleset == "None" else ruleset
+    phonetizer = phonetizerdict[lang]
+    return (phonetizer[0](dictpath, ruleset), phonetizer[1])

@@ -8,6 +8,8 @@
 - Praat
 - HCopy and HVite (binaries included might not work on all systems, optionally
   put your own compiled binaries in the bin folder before installing).
+- Optionally you need dot to compile pdf's from the generated dot file. Dot is
+  a binary from the GraphViz package.
 
 ##### installation
 Automatic installation:
@@ -40,6 +42,40 @@ directy to the exact folder:
 Not implemented yet. Also not planned for the very near future
 
 ### documentation
+#### general information
+When force aligning you need a model and a phonetizer/dictionary. Words that
+can't be found in the dictionary and can't be phonetized will be put in a file
+located at the plugin directory and is called 
+
+	mis.txt
+
+#### generate dictionary
+This function can generate a missing words dictionary from a tier within a
+TextGrid. To start the script do:
+- Read TextGrid from file
+- Select the TextGrid
+- Press the button that says: *Generate dictionary*
+
+Now there will be a form so that you can specify some parameters:
+* **tiername**,
+
+	Name for the tier to get the annotations from.
+* **lang**, default: tze
+	
+	Language to phonetize in.
+* **example**, default: False
+
+	Create an example entry in the output dictionary.
+* **tmp**, default: /tmp/
+
+	Temporary file directory, this is the directory where praat stores the
+	annotations so that the python script can read them.
+
+When the form is accepted the script will ask for the path to write the
+dictionary to, generate all the missing words and write them in the standard
+dictionary format. When you want to use the dictionary later you just need to
+fill in the phonetizations and select the dictionary file when force aligning.
+
 #### interactive forced alignment
 The plugin works very straight forward, say one wants to force align a tier in
 a TextGrid file with a LongSound. To start the script do:
@@ -135,10 +171,29 @@ regardless of word boundaries:
 	(?P<fr>a#?)d(?P<to>#?o)
 
 #### customize/add language
-todo
+##### Phonetizer
+There is a skeleton model available for writing a new phonetizer, this has to
+be done in python, implement the phonetizer and add your phonetizer to the
+dictionary as a tuple with as second value a parameter directory called:
+
+	./p.lan
+Where lan is a three letter language code
+
+##### Models
+You can create your own models or use the given models(for example sampa
+models). Note that in the phonetizer python file the connection between models
+and languages is defined in the phonetizer dictionary.
+
+##### Adapt the praat scripts
+To add the language to the praat scripts you can just edit the file called
+
+	languageselection.praat
+This file is included in all the menus as the language selector, so just add
+your language and note that the indentation must stay the same.
 
 ### todo
-Fix when there is nothing to forcealign.
+fix when the first alignment starts at time 0
+
 
 ### version history
 * 0.05 - 2014-04-03 - better readme and functional program for linux

@@ -7,14 +7,12 @@ form Set the variables
 	sentence newtier align
 
 	comment Select language
-	optionmenu lang: 1
-		option tze
-		option spa
+include languageselection.praat
 
 	comment Custom dictionary path
 	boolean dictpath 0
 	
-	comment Use ruleset(name ruleset.lang)
+	comment Use ruleset
 	boolean ruleset 0
 
 	comment Export the graph to pdf
@@ -25,7 +23,7 @@ form Set the variables
 endform
 pdf$ = if pdf then "True" else "False" fi
 dictpath$ = if dictpath then chooseReadFile$("Open the dictionary") else "" fi
-ruleset$ = if ruleset then "ruleset.'lang$'" else "None" fi
+ruleset$ = if ruleset then chooseReadFile$("Open the ruleset file") else "None" fi
 basetmp$ = "praat_temp_out"
 tmp$ = tmpdir$ + basetmp$
 
@@ -78,8 +76,14 @@ while 1=1
 	# Clean up old boundaries and prepare for alignment
 	minus LongSound 'snd$'
 	call removeBetween 'tiernumber' 'start' 'end'
-	Insert boundary... 'tiernumber' 'start'
-	Insert boundary... 'tiernumber' 'end'
+	starttime = Get start time...
+	if 'start' > starttime
+		Insert boundary... 'tiernumber' 'start'
+	endif
+	endtime = Get end time...
+	if 'end' < 'endtime'
+		Insert boundary... 'tiernumber' 'end'
+	endif
 	plus LongSound 'snd$'
 		
 	# Print to infowindow

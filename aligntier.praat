@@ -9,14 +9,12 @@ form Set the variables
 	sentence newtier align
 	
 	comment Select language
-	optionmenu lang: 1
-		option tze
-		option spa
-	
+include languageselection.praat
+
 	comment Custom dictionary path
 	boolean dictpath 0
 
-	comment Use ruleset(name ruleset.lang)
+	comment Use ruleset
 	boolean ruleset 0
 	
 	comment Temporary file directory
@@ -25,7 +23,7 @@ endform
 
 # Parse options
 dictpath$ = if dictpath then chooseReadFile$("Open the dictionary") else "" fi
-ruleset$ = if ruleset then "ruleset.'lang$'" else "None" fi
+ruleset$ = if ruleset then chooseReadFile$("Open the ruleset file") else "None" fi
 basetmp$ = "praat_temp_out"
 tmp$ = tmpdir$ + basetmp$
 

@@ -7,21 +7,9 @@ import re
 import subprocess
 import sys
 
-phonetizerdict = {
-    'spa': (phonetizer.PhonetizerSpanish, 'p.spa/'),
-    'tze': (phonetizer.PhonetizerTzeltal, 'p.sam/')
-    }
-
-
-def getphonetizer(lang, dictpath=None, ruleset=None):
-    dictpath = None if dictpath == "None" else dictpath
-    ruleset = None if ruleset == "None" else ruleset
-    phonetizer = phonetizerdict[lang]
-    return (phonetizer[0](dictpath, ruleset), phonetizer[1])
-
 
 def forcealigntier(txtpath, wav, lang, ruleset, pdir, dictpath=None):
-    phontiz = getphonetizer(lang, dictpath, ruleset)
+    phontiz = phonetizer.getphonetizer(lang, dictpath, ruleset)
     p = phontiz[1]
     phontiz = phontiz[0]
 
@@ -52,12 +40,10 @@ def force(utt, wav, phonetizer, param, out="-", header=True, pdf=False):
         rate = int([a for a in f if 'SOURCERATE' in a][0].split(' ')[-1])
         param['SOURCERATE'] = 1e7/rate
 
-    pron = phonetizer.phonetize(utt)
-    if not pron:
-        return
+    pron = phonetizer.phonetize(utt) or [[['<nib>']]]
 
     phonetizer.toslf(pron, param['BN'], pdf)
-    
+
     snd = (
         'sox %(WAV)s -t sph -e signed-integer -b 16 -c 1 temp.nis ' +
         'trim %(START)f %(DUR)s rate -s -a %(SOURCERATE)d && ' +
@@ -97,7 +83,7 @@ def forcealignutterance(pronun, starttime, endtime, wav, lang, ruleset=None,
     out       -- output file, - for stdout
     pdir      -- prefix for the parameter files(default ./)
     """
-    phontiz = getphonetizer(lang)
+    phontiz = phonetizer.getphonetizer(lang)
     p = phontiz[1]
     phontiz = phontiz[0]
     starttime, endtime = map(float, (starttime, endtime))
