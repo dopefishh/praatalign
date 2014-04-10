@@ -1,8 +1,8 @@
 #!/bin/bash
 set -e
 set -x
-dir="$HOME/.praat-dir/plugin_pralign/"
-mkdir -p "$dir"
+dir="$HOME/Library/Preferences/Praat Prefs/plugin_pralign/"
+mkdir -pv "$dir"
 rm -rvf "$dir*"
 find . -maxdepth 1 ! -name "\." ! -name "install*" ! -name ".git*" \
 				   ! -name "temp*" -print0 | xargs -P 2 -0 -I{} cp -vR "{}" "$dir"
