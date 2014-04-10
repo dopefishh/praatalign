@@ -4,6 +4,7 @@ set -x
 dir="$HOME/Library/Preferences/Praat Prefs/plugin_pralign/"
 mkdir -pv "$dir"
 rm -rvf "$dir*"
-cp -v ./bin_mac/* ./bin/
+cp -v ./bin_mac/HCopy ./bin/
+cp -v ./bin_mac/HVite ./bin/
 find . -maxdepth 1 ! -name "\." ! -name "install*" ! -name ".*" \
 				   ! -name "temp*" ! -name "bin_*"  -print0 | xargs -P 2 -0 -I{} cp -vR "{}" "$dir"
