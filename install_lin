@@ -2,8 +2,8 @@
 set -e
 set -x
 dir="$HOME/.praat-dir/plugin_pralign/"
+rm -rvf "$dir"
 mkdir -p "$dir" "./bin"
-rm -rvf "$dir*"
 cp -v ./bin_lin/* ./bin/
 find . -maxdepth 1 ! -name "\." ! -name "install*" ! -name ".*" \
 				   ! -name "temp*" ! -name "bin_*"  -print0 | xargs -P 2 -0 -I{} cp -vR "{}" "$dir"

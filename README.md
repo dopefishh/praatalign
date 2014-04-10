@@ -176,7 +176,7 @@ There is a skeleton model available for writing a new phonetizer, this has to
 be done in python, implement the phonetizer and add your phonetizer to the
 dictionary as a tuple with as second value a parameter directory called:
 
-	./p.lan
+	./par.lan
 Where lan is a three letter language code
 
 ##### Models

@@ -24,6 +24,6 @@ with codecs.open(sys.argv[4], 'w', 'utf-16') as o:
     if sys.argv[2] == "True":
         o.write('#THIS IS AN EXAMPLE\n')
         o.write('# So type the pronunciation after the tab\n')
-        o.write('ado    a d o   a o\n')
+        o.write('ado\ta d o\ta o\n')
     for word in mis:
         o.write('%s\t\n' % word)

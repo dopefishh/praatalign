@@ -266,8 +266,8 @@ class PhonetizerSkeleton(Phonetizer):
 
 
 phonetizerdict = {
-    'spa': (PhonetizerSpanish, 'p.spa/'),
-    'tze': (PhonetizerTzeltal, 'p.sam/')
+    'spa': (PhonetizerSpanish, 'par.spa/'),
+    'tze': (PhonetizerTzeltal, 'par.sam/')
     }
 
 
