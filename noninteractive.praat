@@ -22,7 +22,7 @@ include languageselection.praat
 endform
 
 # Parse options
-dictpath$ = if dictpath then chooseReadFile$("Open the dictionary") else "" fi
+dictpath$ = if dictpath then chooseReadFile$("Open the dictionary") else "None" fi
 ruleset$ = if ruleset then chooseReadFile$("Open the ruleset file") else "None" fi
 basetmp$ = "praat_temp_out"
 tmp$ = tmpdir$ + basetmp$
@@ -61,8 +61,6 @@ endeditor
 pause Starting the alignment, this can take a while...
 printline python aligner.py tier temp.txt 'sndpath$' 'lang$' 'ruleset$' ./ 'dictpath$' > 'tmp$'
 system python aligner.py tier temp.txt 'sndpath$' 'lang$' 'ruleset$' ./ 'dictpath$' > 'tmp$'
-
-
 
 # Create the new tier
 select TextGrid 'tg$'

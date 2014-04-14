@@ -8,7 +8,9 @@ import subprocess
 import sys
 
 
-def forcealigntier(txtpath, wav, lang, ruleset, pdir, dictpath=None):
+def forcealigntier(txtpath, wav, lang, ruleset, pdir, dictpath=None,
+                   sendpraat=None):
+    dictpath = dictpath if dictpath != "None" else None
     phontiz = phonetizer.getphonetizer(lang, dictpath, ruleset)
     p = phontiz[1]
     phontiz = phontiz[0]
@@ -24,15 +26,23 @@ def forcealigntier(txtpath, wav, lang, ruleset, pdir, dictpath=None):
         'HC': pdir + 'bin/HCopy',
         'HV': pdir + 'bin/HVite'
         }
-    with codecs.open(txtpath, 'r', 'utf-16') as f:
+    f = codecs.open(txtpath, 'r', 'utf-16')
+    try:
         f.readline()
-        sys.stdout.write('start,end,label\n')
-        for line in f:
-            start, utt, end = line.split('\t')
-
-            param['START'] = float(start)
-            param['DUR'] = float(end) - param['START']
-            force(utt, wav, phontiz, param, "-", header=False)
+    except UnicodeError:
+        f = codecs.open(txtpath, 'r')
+        f.readline()
+    sys.stdout.write('start,end,label\n')
+    for line in f:
+        start, utt, end = line.split('\t')
+        param['START'] = float(start)
+        param['DUR'] = float(end) - param['START']
+        force(utt, wav, phontiz, param, "-", header=False)
+        if sendpraat is not None:
+            subprocess.call('%s 0 praat "printline %s"' % (sendpraat,
+                            param['START']), shell=True)
+    f.close()
+    subprocess.call('%s 0 praat "printline done"', shell=True)
 
 
 def force(utt, wav, phonetizer, param, out="-", header=True, pdf=False):
