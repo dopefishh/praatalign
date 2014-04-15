@@ -45,15 +45,17 @@ def forcealigntier(txtpath, wav, lang, ruleset, pdir, dictpath=None,
     subprocess.call('%s 0 praat "printline done"', shell=True)
 
 
-def force(utt, wav, phonetizer, param, out="-", header=True, pdf=False):
+def force(utt, wav, phonetizer, param, out="-", header=True, pdf=False, log="/tmp/fa_log.txt"):
+    logfile = open(log, 'a')
+    logfile.write('started a new log\n')
     with open(param['PRECONFIG'], 'r') as f:
         rate = int([a for a in f if 'SOURCERATE' in a][0].split(' ')[-1])
         param['SOURCERATE'] = 1e7/rate
-
+    logfile.write('sourcerate parsed\n')
     pron = phonetizer.phonetize(utt) or [[['<nib>']]]
-
+    logfile.write('phonetizer initialized\n')
     phonetizer.toslf(pron, param['BN'], pdf)
-
+    logfile.write('slf created\n')
     snd = (
         'sox %(WAV)s -t sph -e signed-integer -b 16 -c 1 temp.nis ' +
         'trim %(START)f %(DUR)s rate -s -a %(SOURCERATE)d && ' +
@@ -61,8 +63,10 @@ def force(utt, wav, phonetizer, param, out="-", header=True, pdf=False):
         '%(HV)s -C %(HVITECONF)s -w -X slf -H %(MMF)s -s 7.0 -p 0.0 ' +
         '%(DICT)s %(HMM)s %(BN)s.htk | grep -v \'WARNING\''
         ) % param
+    logfile.write('command created\n%s\n' % snd)
 
     subprocess.call(snd, shell=True, executable='/bin/bash')
+    logfile.write('subprocess done\n')
 
     # Convert the rec file
     fileio = sys.stdout if out == "-" else open(out, 'w')
@@ -77,6 +81,8 @@ def force(utt, wav, phonetizer, param, out="-", header=True, pdf=False):
                 fileio.write('%f,%f,%s\n' % (start, end, d[2]))
     if out != "-":
         fileio.close()
+    logfile.write('recfile created\n')
+    logfile.close()
 
 
 def forcealignutterance(pronun, starttime, endtime, wav, lang, ruleset=None,
