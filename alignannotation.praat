@@ -1,3 +1,6 @@
+	if not fileReadable("settings")
+		exitScript("No settings file found, please run the setup first")
+	endif
 	settings$ = readFile$("settings")
 	new$ = extractLine$(settings$, "NEW: ")
 	tmp$ = extractLine$(settings$, "TMP: ")
@@ -40,9 +43,7 @@ writeFileLine("isettings",
 ..."STA: ", start, newline$,
 ..."DUR: ", dur, newline$,
 ..."UTT: ", utt$, newline$,
-..."WAV: ", wav$, newline$,
-..."OUT: ", tmp$, "praat_temp_out")
-printline python alignannotation.py
+..."WAV: ", wav$)
 system python alignannotation.py
 
 # Read the results

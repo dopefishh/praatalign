@@ -2,7 +2,6 @@ form Set the variables
 	comment Name for the output tier(may already exist)
 	sentence new align
 
-	comment Select language
 include languageselection.praat
 
 	comment Custom dictionary path

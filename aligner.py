@@ -26,12 +26,8 @@ def forcealigntier(txtpath, wav, lang, ruleset, pdir, dictpath=None,
         'HC': pdir + 'bin/HCopy',
         'HV': pdir + 'bin/HVite'
         }
-    f = codecs.open(txtpath, 'r', 'utf-16')
-    try:
-        f.readline()
-    except UnicodeError:
-        f = codecs.open(txtpath, 'r')
-        f.readline()
+    f = codecs.open(txtpath, 'r', 'utf-8')
+    f.readline()
     sys.stdout.write('start,end,label\n')
     for line in f:
         start, utt, end = line.split('\t')

@@ -9,9 +9,9 @@ with open('isettings', 'r') as f:
 with open('settings', 'r') as f:
     settings.update({k: v.strip() for k, v in map(lambda x: x.split(': '), f)})
 
-settings
-
-phontiz = phonetizer.getphonetizer(settings['LAN'])
+phontiz = phonetizer.getphonetizer(settings['LAN'],
+                                   settings['DCT'],
+                                   settings['RUL'])
 p = phontiz[1]
 phontiz = phontiz[0]
 settings.update({

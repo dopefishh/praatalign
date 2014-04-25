@@ -81,29 +81,52 @@ later you just need to fill in the phonetizations and select the dictionary
 file when force aligning.
 
 #### Interactive forced alignment
-The plugin works very straight forward, say one wants to force align a tier in
-a TextGrid file with a LongSound. Then do the following to start the script:
-- Read TextGrid from file
-- Read LongSound from file
-- Select both
-- Press the button that says: *Start interactive force alignment...*
+Interactive forced alignment is now built in in the TextGrid/LongSound editor
+as the following buttons in the *interval* menu:
 
-Now there will be a form so that you can specify some parameters:
-* **newtier**, default: align
+##### Generate dictionary from tier...
+This function will prompt for a file location to write alle the missing words
+from the selected tier to. Missing words are words that are either not in the
+dictionary or unable to be phonetized.
+Note that the *Setup forced alignment...* has to be run at least once to create
+the initial settings file. If this is not the case the program will generate an
+error and terminate.
+
+##### Clean selection...
+With clean selection all the intervals with overlap with the current selection
+of the current selected tier will be removed. This can come in handy to clean
+up a previous alignment of an interval.
+
+##### Align current interval...
+This force alignes the current selected interval against the wavefile with the
+given settings. 
+Note that the *Setup forced alignment...* has to be run at least once to create
+the initial settings file. If this is not the case the program will generate an
+error and terminate.
+
+##### Setup forced alignment...
+This button will generate the config file for the forced aligner to work with
+and must be used at least once before doing alignment for the first time. When
+the spawned form is closed a settings file will be written to disk for later
+use with the alignment. 
+
+The following options can be specified in the settings menu:
+* **new**, default: align
 
 	Name of the tier where the alignment is stored, this may be an existing
 	tier. If the tier exists, the annotations within the selected interval are
 	removed upon alignment.
-* **lang**, default: tze
+* **lan**, default: tze
 
 	Language to use for the forced alignment. Currently this is Spanish and
-	Tzeltal, in the future one can add custom languages.
-* **dictpath**, default: False
+	Tzeltal. Custom added languages will also appear in the dropdown menu when
+	properly added.
+* **dic**, default: False
 
 	Flag for selecting a custom dictionary. If this is not set, the aligner will
 	rely completely on the phonetizer. If this is set, then a prompt follows to
 	select the dictionary.
-* **ruleset**, default: False
+* **rul**, default: False
 
 	Flag for using a ruleset file. If this is not set, the aligner will not use
 	a ruleset. If this is set, then a prompt follows to select the ruleset file.
@@ -111,15 +134,12 @@ Now there will be a form so that you can specify some parameters:
 
 	Flag to export to pdf. If this is not set, the aligner will not create pdf
 	files for the graphs it follows. If this is set, there will be a temp.pdf
-	located in this plugin folder after the alignment
-* **tmpdir**, default: /tmp/
+	located in this plugin folder after the alignment.
+* **tmp**, default: /tmp/
 
 	Temporary file directory. This is the directory where the aligner stores
 	the semi-raw results from HTK.
 
-When the form is accepted the TextGrid editor will be opened and a pause
-window is spawned. When you select an annotation and press continue it will
-align the annotation using the specified options.
 
 #### Non-interactive forced alignment
 This function is also very straight forward. Do the following to start the

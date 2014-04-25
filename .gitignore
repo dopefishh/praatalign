@@ -1,3 +1,5 @@
 \.*
 temp*
 *.pyc
+settings
+isettings
