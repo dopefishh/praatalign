@@ -4,13 +4,18 @@
 #### Linux
 ##### Requirements
 - Python 2[7.3]
+  https://www.python.org/download/
 - SoX (has to be in path)
+  http://sox.sourceforge.net/
 - Praat
+  http://www.fon.hum.uva.nl/praat/
 - HCopy and HVite (binaries included might not work on all systems,
   alternatively put your own compiled binaries in the bin folder before
   installing).
+  http://htk.eng.cam.ac.uk/
 - Alternatively you need dot to compile pdf's from the generated dot file. Dot
-  is a binary from the GraphViz package.
+  is a program from the GraphViz package.
+  http://www.graphviz.org/
 
 ##### Installation
 Automatic installation:

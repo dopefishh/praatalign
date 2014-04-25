@@ -11,7 +11,6 @@ class tdict(dict):
     of the input
     """
     def __missing__(self, key):
-        """If missing return the normalized input"""
         char = unicodedata.normalize('NFKD', unicode(key))
         return str(char.encode('ascii', 'ignore')).lower()
 
@@ -247,7 +246,7 @@ class PhonetizerSkeleton(Phonetizer):
     """Skeleton to create your own phonetizer"""
 
     def phonetizeword(self, word):
-        # Substitute all transcription specific useless markings and lowercase 
+        # Substitute all transcription specific useless markings and lowercase
         # word
         word = re.sub('[.,\-]', '', word.lower())
         # If the word already exists in the dictionary return it immediatly
@@ -264,7 +263,6 @@ class PhonetizerSkeleton(Phonetizer):
         # Return the map
         return [phonemap]
 
-
 phonetizerdict = {
     'spa': (PhonetizerSpanish, 'par.spa/'),
     'tze': (PhonetizerTzeltal, 'par.sam/')
@@ -272,6 +270,13 @@ phonetizerdict = {
 
 
 def getphonetizer(lang, dictpath=None, ruleset=None):
+    """
+    Gives a phonetizer by language code
+
+    lang - language code, has to be present in phonetizerdict
+    dictpath - optional dictionary file
+    ruleset  - optional ruleset file
+    """
     dictpath = None if dictpath == "None" else dictpath
     ruleset = None if ruleset == "None" else ruleset
     phonetizer = phonetizerdict[lang]

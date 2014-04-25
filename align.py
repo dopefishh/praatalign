@@ -5,12 +5,31 @@ import phonetizer
 import subprocess
 import sys
 
+
 def force(phonetizer, **param):
+    """
+    Force aligns the given utterance, all parameters are passed by kwarg
+
+    Necessary parameters
+    BN  - basename, the name of the temp files
+    DIC - htk dict file path
+    DUR - duration in seconds
+    HC  - htk HCopy binary location
+    HV  - htk HVite binary location
+    HVI - htk hvite config
+    MMF - htk mmf file path
+    OUT - file to write the output to
+    PDF - {True, False}, the option to leave a pdf file on site with the graph
+    PRE - htk preconfig
+    STA - start time in seconds
+    UTT - utterance
+    WAV - wave file path
+    """
     with open(param['PRE'], 'r') as f:
         rate = int([a for a in f if 'SOURCERATE' in a][0].split(' ')[-1])
         param['SOU'] = 1e7/rate
     pron = phonetizer.phonetize(param['UTT']) or [[['<nib>']]]
-    phonetizer.toslf(pron, param['BN'], param['PDF']=='True')
+    phonetizer.toslf(pron, param['BN'], param['PDF'] == 'True')
     snd = (
         'sox %(WAV)s -t sph -e signed-integer -b 16 -c 1 temp.nis ' +
         'trim %(STA)s %(DUR)s rate -s -a %(SOU)d && ' +
@@ -21,7 +40,6 @@ def force(phonetizer, **param):
 
     subprocess.call(snd, shell=True, executable='/bin/bash')
 
-    # Convert the rec file
     out = param['OUT']
     fileio = sys.stdout if out == "-" else open(out, 'w')
     with open(param['BN'] + '.rec', 'r') as f:

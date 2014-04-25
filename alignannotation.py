@@ -23,10 +23,7 @@ settings.update({
     'PRE': './%sPRECONFIGNIST' % p,
     'HC': './bin/HCopy',
     'HV': './bin/HVite',
-    'OUT': '-',
     'HDR': '1'
     })
-
-print settings
 
 force(phontiz, **settings)

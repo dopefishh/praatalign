@@ -40,7 +40,8 @@ writeFileLine("isettings",
 ..."STA: ", start, newline$,
 ..."DUR: ", dur, newline$,
 ..."UTT: ", utt$, newline$,
-..."WAV: ", wav$)
+..."WAV: ", wav$, newline$,
+..."OUT: ", tmp$, "praat_temp_out")
 printline python alignannotation.py
 system python alignannotation.py
 
