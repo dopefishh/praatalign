@@ -1,3 +1,3 @@
-	optionmenu lang: 1
+	optionmenu lan: 1
 		option tze
 		option spa
