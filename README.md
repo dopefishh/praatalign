@@ -50,7 +50,9 @@ Not implemented yet. Also not planned for the immediate future.
 ### Documentation
 #### General information
 When force aligning you need a model and a phonetizer/dictionary. When a word
-can't be phonetized the script terminates prematurely.
+can't be phonetized the script terminates prematurely. Dictionary, ruleset and
+all other files are, and should be, encoded in *UTF-8*. The plugin setup also
+sets the praat reading and writing preferences to *UTF-8*.
 
 #### Generate dictionary
 This function can generate a dictionary of missing words from a tier within a
@@ -207,7 +209,8 @@ Where lan is a three letter language code
 ##### Models
 You can create your own models or use the given models(for example Sampa
 models). Note that in the Python phonetizer file, the connection between models
-and languages is defined in the phonetizer dictionary.
+and languages is defined in the phonetizer dictionary at the bottom of the
+file.
 
 ##### Adapt the Praat scripts
 To add the language to the Praat scripts you can just edit the file called
@@ -217,6 +220,8 @@ This file is included in all the menus as the language selector, so just add
 your language and note that the indentation must stay the same.
 
 ### Version history
+* 0.06 - 2014-04-25 - conversion to editor scripts. non-interactive has work to
+  do
 * 0.05 - 2014-04-03 - better readme and functional program for linux
 * 0.04 - 2014-04-03 - pronounciation variants implemented
 * 0.03 - 2014-03-31 - aligner works, praat imlementation needs work
