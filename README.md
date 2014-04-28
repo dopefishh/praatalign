@@ -3,7 +3,7 @@ Interactive forced alignment in spontaneous speech
 
 ##Table of Contents##
 - [Installation](#Installation)
-i	- [Linux](#Linux)
+	- [Linux](#Linux)
 		- [Requirements](#Requirements)
 		- [Installation](#Installation)
 	- [Mac](#Mac)
