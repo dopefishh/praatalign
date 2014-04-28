@@ -1,3 +1,5 @@
+* auto-gen TOC:
+{:toc}
 ### Interactive forced alignment in spontaneous speech, version 0.06
 
 ### Installation
