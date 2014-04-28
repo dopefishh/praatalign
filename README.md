@@ -2,13 +2,13 @@ Interactive forced alignment in spontaneous speech
 ==================================================
 
 ##Table of Contents##
-- [Installation](#Installation)
-	- [Linux](#Linux)
-		- [Requirements](#Requirements)
-		- [Installation](#Installation)
-	- [Mac](#Mac)
-		- [Requirements](#Requirements)
-		- [Installation](#Installation)
+- [Installation](#installation)
+	- [Linux](#linux)
+		- [Requirements](#requirements)
+		- [Installation](#installation)
+	- [Mac](#mac)
+		- [Requirements](#requirements)
+		- [Installation](#installation)
 
 ###Installation
 ####Linux
