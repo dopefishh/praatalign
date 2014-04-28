@@ -106,6 +106,13 @@ Note that the *Setup forced alignment...* has to be run at least once to create
 the initial settings file. If this is not the case the program will generate an
 error and terminate.
 
+##### Align current tier...
+This force alignes the entire tier against the wavefile with the given
+settings.
+Note that the *Setup forced alignment...* has to be run at least once to create
+the initial settings file. If this is not the case the program will generate an
+error and terminate.
+
 ##### Setup forced alignment...
 This button will generate the config file for the forced aligner to work with
 and must be used at least once before doing alignment for the first time. When
@@ -141,32 +148,6 @@ The following options can be specified in the settings menu:
 
 	Temporary file directory. This is the directory where the aligner stores
 	the semi-raw results from HTK.
-
-
-#### Non-interactive forced alignment
-This function is also very straight forward. Do the following to start the
-script:
-- Read TextGrid from file
-- Read LongSound from file
-- Select both
-- Press the button that says: *Start non interactive force alignment*
-
-Now there will also be a form with some parameter specification. All the
-parameter options can be found in the interactive alignment section except the
-following changes:
-* **tiername**, 
-
-	Name for the tier to align. This must contain the annotations matching the
-	selected LongSound.
-* **newtier**, default: align
-
-	Name for the tier to put the aligned annotations in. If the tier exists, it
-	first gets cleared out.
-
-When the form is accepted the praat program freezes and the alignment has
-started in the background. This takes a while depending on the amount of
-pronunciation variants and the amount of annotations. When it's finished it
-shows a prompt. Note: you still have to save the TextGrid.
 
 #### Dictionary file
 A dictionary file consists of several non-empty lines separated by a newline

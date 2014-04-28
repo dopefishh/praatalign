@@ -6,6 +6,7 @@
 	new$ = extractLine$(settings$, "NEW: ")
 	info$ = LongSound info
 	wav$ = extractLine$(info$, "File name: ")
+	snd$ = extractLine$(info$, "Object name: ")
 	info$ = Editor info
 	curtier = extractNumber(info$, "Selected tier:")
 	curtg$ = extractLine$(info$, "Data name: ")
@@ -40,7 +41,7 @@ endwhile
 Insert interval tier... 1 'new$'
 tiernumber = 1
 
-editor 'curtg$'
+editor TextGrid 'curtg$'
 	Close
 endeditor
 
@@ -50,10 +51,8 @@ for i to rows
 	sstart$ = Get value... 'i' start
 	send$ = Get value... 'i' end
 	svalue$ = Get value... 'i' label
-	if svalue$ = "<"
-		nocheck Insert boundary... 'tiernumber' 'sstart$'
-	endif
 	select TextGrid 'curtg$'
+	nocheck Insert boundary... 'tiernumber' 'sstart$'
 	Insert boundary... 'tiernumber' 'send$'
 	intnum = Get interval at time... 'tiernumber' 'sstart$'+0.0001
 	Set interval text... 'tiernumber' 'intnum' 'svalue$'
