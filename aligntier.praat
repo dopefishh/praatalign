@@ -8,7 +8,7 @@
 	wav$ = extractLine$(info$, "File name: ")
 	info$ = Editor info
 	curtier = extractNumber(info$, "Selected tier:")
-        curtg$ = extractLine$(info$, "Data name: ")
+	curtg$ = extractLine$(info$, "Data name: ")
 	Extract entire selected tier
 endeditor
 tg$ = selected$("TextGrid", 1)
@@ -30,15 +30,19 @@ select TextGrid 'curtg$'
 numtiers = Get number of tiers
 i = 1
 while i < numtiers
-    nametier$ = Get tier name... 'i'
-    if nametier$ = new$
-        Remove tier... 'i'
-    endif
-    numtiers = Get number of tiers
-    i = i + 1
+	nametier$ = Get tier name... 'i'
+	if nametier$ = new$
+		Remove tier... 'i'
+	endif
+	numtiers = Get number of tiers
+	i = i + 1
 endwhile
 Insert interval tier... 1 'new$'
 tiernumber = 1
+
+editor 'curtg$'
+	Close
+endeditor
 
 nocheck Insert boundary... 'tiernumber' 'start'
 for i to rows
@@ -46,7 +50,10 @@ for i to rows
 	sstart$ = Get value... 'i' start
 	send$ = Get value... 'i' end
 	svalue$ = Get value... 'i' label
-	select TextGrid 'tg$'
+	if svalue$ = "<"
+		nocheck Insert boundary... 'tiernumber' 'sstart$'
+	endif
+	select TextGrid 'curtg$'
 	Insert boundary... 'tiernumber' 'send$'
 	intnum = Get interval at time... 'tiernumber' 'sstart$'+0.0001
 	Set interval text... 'tiernumber' 'intnum' 'svalue$'
@@ -54,3 +61,8 @@ endfor
 
 select Table praat_temp_out
 Remove
+
+select TextGrid 'curtg$'
+plus LongSound 'snd$'
+
+Edit
