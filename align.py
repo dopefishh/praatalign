@@ -44,12 +44,12 @@ def force(phonetizer, code='w', **param):
     fileio = sys.stdout if out == "-" else open(out, code)
     with open(param['BN'] + '.rec', 'r') as f:
         if param['HDR'] != 'False':
-            fileio.write('start,end,label\n')
+            fileio.write('start,end,label,type\n')
         for line in f:
             d = line.split()
             start = float(param['STA']) + int(d[0]) / 1e7
             end = float(param['STA']) + int(d[1]) / 1e7
             if end - start > 0:
-                fileio.write('%f,%f,%s\n' % (start, end, d[2]))
+                fileio.write('%f,%f,%s,w\n' % (start, end, d[2]))
     if out != "-":
         fileio.close()

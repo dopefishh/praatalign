@@ -2,6 +2,9 @@ form Set the variables
 	comment Name for the output tier(may already exist)
 	sentence new align
 
+	comment Name for the output tier used for word level alignment
+	sentence wrd align_w
+
 include languageselection.praat
 
 	comment Custom dictionary path
@@ -28,4 +31,5 @@ writeFileLine("settings",
 ..."RUL: ", rul$, newline$,
 ..."PDF: ", pdf$, newline$,
 ..."TMP: ", tmp$, newline$,
+..."WRD: ", wrd$, newline$,
 ..."OUT: ", tmp$, "praat_temp_out")

@@ -101,7 +101,7 @@ error and terminate.
 This button will generate the config file for the forced aligner to work with
 and must be used at least once before doing alignment for the first time. When
 the spawned form is closed a settings file will be written to disk for later
-use with the alignment. 
+use with the alignment.
 
 The following options can be specified in the settings menu:
 * **new**, default: align
@@ -109,6 +109,9 @@ The following options can be specified in the settings menu:
 	Name of the tier where the alignment is stored, this may be an existing
 	tier. If the tier exists, the annotations within the selected interval are
 	removed upon alignment.
+* **wrd**, default: align_w
+
+	Name of the tier where the alignment on word level is stored.
 * **lan**, default: tze
 
 	Language to use for the forced alignment. Currently this is Spanish and
