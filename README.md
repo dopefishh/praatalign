@@ -1,7 +1,7 @@
 Interactive forced alignment in spontaneous speech
 ==================================================
 
-##Table of Contents##
+###Table of Contents
 - [Installation](#installation)
 	- [Requirements](#requirements)
 	- [Installation process](#installation-process)
