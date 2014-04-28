@@ -109,7 +109,7 @@ The following options can be specified in the settings menu:
 	Name of the tier where the alignment is stored, this may be an existing
 	tier. If the tier exists, the annotations within the selected interval are
 	removed upon alignment.
-* **wrd**, default: align_w
+* **wrd**, default: alignw
 
 	Name of the tier where the alignment on word level is stored.
 * **lan**, default: tze

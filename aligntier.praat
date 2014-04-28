@@ -1,16 +1,17 @@
-	if not fileReadable("settings")
-		exitScript("No settings file found, please run the setup first")
-	endif
-	settings$ = readFile$("settings")
-	out$ = extractLine$(settings$, "OUT: ")
-	new$ = extractLine$(settings$, "NEW: ")
-	info$ = LongSound info
-	wav$ = extractLine$(info$, "File name: ")
-	snd$ = extractLine$(info$, "Object name: ")
-	info$ = Editor info
-	curtier = extractNumber(info$, "Selected tier:")
-	curtg$ = extractLine$(info$, "Data name: ")
-	Extract entire selected tier
+    if not fileReadable("settings")
+        exitScript("No settings file found, please run the setup first")
+    endif
+    settings$ = readFile$("settings")
+    out$ = extractLine$(settings$, "OUT: ")
+    new$ = extractLine$(settings$, "NEW: ")
+    wrd$ = extractLine$(settings$, "WRD: ")
+    info$ = LongSound info
+    wav$ = extractLine$(info$, "File name: ")
+    snd$ = extractLine$(info$, "Object name: ")
+    info$ = Editor info
+    curtier = extractNumber(info$, "Selected tier:")
+    curtg$ = extractLine$(info$, "Data name: ")
+    Extract entire selected tier
 endeditor
 tg$ = selected$("TextGrid", 1)
 Down to Table... "no" 6 "yes" "no"
@@ -31,31 +32,41 @@ select TextGrid 'curtg$'
 numtiers = Get number of tiers
 i = 1
 while i < numtiers
-	nametier$ = Get tier name... 'i'
-	if nametier$ = new$
-		Remove tier... 'i'
-	endif
-	numtiers = Get number of tiers
-	i = i + 1
+    nametier$ = Get tier name... 'i'
+    if nametier$ = new$ or nametier$ = wrd$
+        Remove tier... 'i'
+    else
+        i = i + 1
+    endif
+    numtiers = Get number of tiers
 endwhile
-Insert interval tier... 1 'new$'
-tiernumber = 1
+Insert interval tier... 1 'wrd$'
+tiernum_w = 1
+Insert interval tier... 2 'new$'
+tiernum_p = 2
 
 editor TextGrid 'curtg$'
-	Close
+    Close
 endeditor
 
-nocheck Insert boundary... 'tiernumber' 'start'
 for i to rows
-	select Table praat_temp_out
-	sstart$ = Get value... 'i' start
-	send$ = Get value... 'i' end
-	svalue$ = Get value... 'i' label
-	select TextGrid 'curtg$'
-	nocheck Insert boundary... 'tiernumber' 'sstart$'
-	Insert boundary... 'tiernumber' 'send$'
-	intnum = Get interval at time... 'tiernumber' 'sstart$'+0.0001
-	Set interval text... 'tiernumber' 'intnum' 'svalue$'
+    select Table praat_temp_out
+    sstart$ = Get value... 'i' start
+    send$ = Get value... 'i' end
+    svalue$ = Get value... 'i' label
+    stype$ = Get value... 'i' type
+    select TextGrid 'curtg$'
+    if stype$ = "p"
+        nocheck Insert boundary... 'tiernum_p' 'sstart$'
+        Insert boundary... 'tiernum_p' 'send$'
+        intnum = Get interval at time... 'tiernum_p' 'sstart$'+0.0001
+        Set interval text... 'tiernum_p' 'intnum' 'svalue$'
+    elif stype$ = "w"
+        nocheck Insert boundary... 'tiernum_w' 'sstart$'
+        Insert boundary... 'tiernum_w' 'send$'
+        intnum = Get interval at time... 'tiernum_w' 'sstart$'+0.0001
+        Set interval text... 'tiernum_w' 'intnum' 'svalue$'
+    endif
 endfor
 
 select Table praat_temp_out

@@ -49,7 +49,14 @@ def force(phonetizer, code='w', **param):
             d = line.split()
             start = float(param['STA']) + int(d[0]) / 1e7
             end = float(param['STA']) + int(d[1]) / 1e7
+            if d[2] == '<':
+                word = (end, '')
+            elif d[2] == '#':
+                fileio.write('%f,%f,%s,w\n' % (word[0], start, word[1]))
+                word = (end, '')
+            else:
+                word = (word[0], word[1] + d[2])
             if end - start > 0:
-                fileio.write('%f,%f,%s,w\n' % (start, end, d[2]))
+                fileio.write('%f,%f,%s,p\n' % (start, end, d[2]))
     if out != "-":
         fileio.close()
