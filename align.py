@@ -6,7 +6,7 @@ import subprocess
 import sys
 
 
-def force(phonetizer, **param):
+def force(phonetizer, code='w', **param):
     """
     Force aligns the given utterance, all parameters are passed by kwarg
 
@@ -41,9 +41,9 @@ def force(phonetizer, **param):
     subprocess.call(snd, shell=True, executable='/bin/bash')
 
     out = param['OUT']
-    fileio = sys.stdout if out == "-" else open(out, 'w')
+    fileio = sys.stdout if out == "-" else open(out, code)
     with open(param['BN'] + '.rec', 'r') as f:
-        if param['HDR']:
+        if param['HDR'] != 'False':
             fileio.write('start,end,label\n')
         for line in f:
             d = line.split()

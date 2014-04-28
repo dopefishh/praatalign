@@ -1,11 +1,10 @@
-    info$ = Editor info
     if not fileReadable("settings")
         exitScript("No settings file found, please run the setup first")
     endif
     settings$ = readFile$("settings")
     out$ = extractLine$(settings$, "OUT: ")
+    info$ = Editor info
     curtier = extractNumber(info$, "Selected tier:")
-    info$ = TextGrid info
     Extract entire selected tier
 endeditor
 tg$ = selected$("TextGrid", 1)

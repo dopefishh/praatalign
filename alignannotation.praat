@@ -3,16 +3,15 @@
 	endif
 	settings$ = readFile$("settings")
 	new$ = extractLine$(settings$, "NEW: ")
-	tmp$ = extractLine$(settings$, "TMP: ")
+	out$ = extractLine$(settings$, "OUT: ")
 
-    start = Get starting point of interval
-    end = Get end point of interval
-    utt$ = Get label of interval
+	start = Get starting point of interval
+	end = Get end point of interval
+	utt$ = Get label of interval
 	info$ = TextGrid info
 	tg$ = extractLine$(info$, "Object name: ")
-    info$ = LongSound info
-    wav$ = extractLine$(info$, "File name: ")
-	snd$ = extractLine$(info$, "Object name: ")
+	info$ = LongSound info
+	wav$ = extractLine$(info$, "File name: ")
 endeditor
 select TextGrid 'tg$'
 tiernumber = -1
@@ -32,7 +31,7 @@ editor TextGrid 'tg$'
 	repeat
 		Select next tier
 		info$ = Editor info
-   		curtier = extractNumber(info$, "Selected tier:")
+		curtier = extractNumber(info$, "Selected tier:")
 	until tiernumber = curtier
 	Select... 'start' 'end'
 include cleaninterval.praat
@@ -47,7 +46,7 @@ writeFileLine("isettings",
 system python alignannotation.py
 
 # Read the results
-Read Table from comma-separated file... 'tmp$'praat_temp_out
+Read Table from comma-separated file... 'out$'
 
 # Put the results in the textgrid
 rows = Get number of rows
