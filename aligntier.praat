@@ -59,12 +59,12 @@ for i to rows
     if stype$ = "p"
         nocheck Insert boundary... 'tiernum_p' 'sstart$'
         Insert boundary... 'tiernum_p' 'send$'
-        intnum = Get interval at time... 'tiernum_p' 'sstart$'+0.0001
+        intnum = Get interval at time... 'tiernum_p' 'sstart$' + 0.0001
         Set interval text... 'tiernum_p' 'intnum' 'svalue$'
     elif stype$ = "w"
         nocheck Insert boundary... 'tiernum_w' 'sstart$'
         Insert boundary... 'tiernum_w' 'send$'
-        intnum = Get interval at time... 'tiernum_w' 'sstart$'+0.0001
+        intnum = Get interval at time... 'tiernum_w' 'sstart$' + 0.0001
         Set interval text... 'tiernum_w' 'intnum' 'svalue$'
     endif
 endfor
