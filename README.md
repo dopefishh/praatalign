@@ -3,10 +3,16 @@ Interactive forced alignment in spontaneous speech
 
 ##Table of Contents##
 - [Installation](#Installation)
+i	- [Linux](#Linux)
+		- [Requirements](#Requirements)
+		- [Installation](#Installation)
+	- [Mac](#Mac)
+		- [Requirements](#Requirements)
+		- [Installation](#Installation)
 
-### Installation
-#### Linux
-##### Requirements
+###Installation
+####Linux
+#####Requirements
 - Python 2[7.3]
   https://www.python.org/download/
 - SoX (has to be in path)
@@ -21,7 +27,7 @@ Interactive forced alignment in spontaneous speech
   is a program from the GraphViz package.
   http://www.graphviz.org/
 
-##### Installation
+#####Installation
 Automatic installation:
 
 	$ ./install_lin
@@ -33,11 +39,11 @@ directory to the following folder:
 	${HOME}/.praat-dir/plugin_pralign
 
 
-#### Mac
-##### Requirements
+####Mac
+#####Requirements
 Same as linux
 
-##### Installation
+#####Installation
 Automatic installation:
 	
 	$ ./install_mac
@@ -48,7 +54,7 @@ directory to the following folder:
 
 	${HOME}/Library/Preferences/Praat Prefs/plugin_pralign
 
-#### Windows
+####Windows
 Not implemented yet. Also not planned for the immediate future.
 
 ### Documentation
