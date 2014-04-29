@@ -1,37 +1,38 @@
 Symbol   Word    Transcription
-*plosives*
+--Consonants:
+ -plosives
 p        padre   "paDre
 b        vino    "bino
 t        tomo    "tomo
 d        donde   "donde
 k        casa    "kasa
 g        gata     "gata
-*affricates*
+ -affricates
 tS        mucho  "mutSo
 jj        hielo  "jjelo
-*fricatives*
+ -fricatives
 f        fácil   "faTil
-B        cabra   "kaBra        (= /b/)
+B        cabra   "kaBra   (= /b/)
 T        cinco   "Tinko
-D        nada    "naDa        (= /d/)
+D        nada    "naDa    (= /d/)
 s        sala    "sala
 x        mujer   mu"xer
-G        luego   "lweGo    (= /g/)
-*nasals*
+G        luego   "lweGo   (= /g/)
+ -nasals
 m        mismo   "mismo
 n        nunca   "nunka
 J        año     "aJo
-*liquids*
+ -liquids
 l        lejos   "lexos
-L        caballo  ka"baLo    (or as jj)
+L        caballo  ka"baLo (or as jj)
 r        puro    "puro
 rr        torre  "torre
-*semivowels*
+ -semivowels
 j        rei      rrej
          pie      pje
 w        deuda    "dewDa
         muy       mwi
-####Vowels:
+--Vowels:
 i        pico    "piko
 e        pero    "pero
 a        valle   "baLe
