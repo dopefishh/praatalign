@@ -1,16 +1,16 @@
 ####Consonants
-#####plosives
-	Symbol		Word		Transcription
+	Symbol	Word	Transcription
+	*plosives*
 	p		padre		"paDre
 	b		vino		"bino
 	t		tomo		"tomo
 	d		donde		"donde
 	k		casa		"kasa
 	g		gata		"gata
-#####affricates
+	*affricates*
 	tS		mucho		"mutSo
 	jj		hielo		"jjelo
-#####fricatives
+	*fricatives*
 	f		fácil		"faTil
 	B		cabra		"kaBra		(= /b/)
 	T		cinco		"Tinko
@@ -18,16 +18,16 @@
 	s		sala		"sala
 	x		mujer		mu"xer
 	G		luego		"lweGo	(= /g/)
-#####nasals
+	*nasals*
 	m		mismo		"mismo
 	n		nunca		"nunka
 	J		año		"aJo
-#####liquids
+	*liquids*
 	l		lejos		"lexos
 	L		caballo		ka"baLo	(or as jj)
 	r		puro		"puro
 	rr		torre		"torre
-#####semivowels
+	*semivowels*
 	j		rei		rrej
 			pie		pje
 	w		deuda		"dewDa
