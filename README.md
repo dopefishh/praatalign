@@ -85,7 +85,7 @@ up a previous alignment of an interval.
 
 #####Align current interval...
 This force alignes the current selected interval against the wavefile with the
-given settings. 
+given settings.
 Note that the *Setup forced alignment...* has to be run at least once to create
 the initial settings file. If this is not the case the program will generate an
 error and terminate.
@@ -162,7 +162,7 @@ following format:
 Every regex must contain at minimum the named groups *to* and *from*.
 For example the rule that will delete a *d* if it is between *a* and *o*
 regardless of word boundaries:
-	
+
 	(?P<fr>a#?)d(?P<to>#?o)
 
 ####Add language

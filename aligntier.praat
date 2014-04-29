@@ -5,12 +5,16 @@
     out$ = extractLine$(settings$, "OUT: ")
     new$ = extractLine$(settings$, "NEW: ")
     wrd$ = extractLine$(settings$, "WRD: ")
+
+    info$ = Editor info
+    curtier = extractNumber(info$, "Selected tier:")
+
     info$ = LongSound info
     wav$ = extractLine$(info$, "File name: ")
     snd$ = extractLine$(info$, "Object name: ")
-    info$ = Editor info
-    curtier = extractNumber(info$, "Selected tier:")
-    curtg$ = extractLine$(info$, "Data name: ")
+
+    info$ = TextGrid info
+    curtg$ = extractLine$(info$, "Object name: ")
     Extract entire selected tier
 endeditor
 tg$ = selected$("TextGrid", 1)
@@ -71,8 +75,6 @@ endfor
 
 select Table praat_temp_out
 Remove
-
 select TextGrid 'curtg$'
 plus LongSound 'snd$'
-
 Edit

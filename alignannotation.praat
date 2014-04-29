@@ -8,11 +8,13 @@
 
     start = Get starting point of interval
     end = Get end point of interval
-    utt$ = Get label of interval
-    info$ = TextGrid info
-    tg$ = extractLine$(info$, "Object name: ")
+
     info$ = LongSound info
     wav$ = extractLine$(info$, "File name: ")
+    utt$ = Get label of interval
+
+    info$ = TextGrid info
+    tg$ = extractLine$(info$, "Object name: ")
 endeditor
 select TextGrid 'tg$'
 # get phonetier number
