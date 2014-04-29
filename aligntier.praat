@@ -1,3 +1,4 @@
+	pause Are you sure, this takes a long time...
     if not fileReadable("settings")
         exitScript("No settings file found, please run the setup first")
     endif

@@ -24,6 +24,9 @@ def force(phonetizer, code='w', **param):
     STA - start time in seconds
     UTT - utterance
     WAV - wave file path
+
+    Optional parameters
+    HDR - also write the header to file
     """
     with open(param['PRE'], 'r') as f:
         rate = int([a for a in f if 'SOURCERATE' in a][0].split(' ')[-1])

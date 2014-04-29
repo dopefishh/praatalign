@@ -8,11 +8,10 @@ import sys
 with open('settings', 'r') as f:
     settings = {k: v.strip() for k, v in map(lambda x: x.split(': '), f)}
 
-phontiz = phonetizer.getphonetizer(settings['LAN'],
-                                   settings['DCT'],
+phontiz = phonetizer.getphonetizer(settings['LAN'], settings['DCT'],
                                    settings['RUL'])[0]
-mis = set()
 
+mis = set()
 with codecs.open(settings['OUT'], 'r', 'utf-8') as i:
     for line in i:
         words = line.split('\t')[2]

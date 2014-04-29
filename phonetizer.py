@@ -241,6 +241,7 @@ class PhonetizerSpanish(Phonetizer):
         self.dictionary[word] = [phonemap]
         return [phonemap]
 
+
 class PhonetizerDictionary(Phonetizer):
     """Dummy phonetizer for dictionary only phonetizers"""
 
@@ -249,6 +250,7 @@ class PhonetizerDictionary(Phonetizer):
             return self.dictionary[word]
         else:
             return None
+
 
 class PhonetizerSkeleton(Phonetizer):
     """Skeleton to create your own phonetizer"""
