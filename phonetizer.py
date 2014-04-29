@@ -16,7 +16,7 @@ class tdict(dict):
 
 
 class Phonetizer:
-    """Skeleton class for a phonetizer for the pralign program"""
+    """Skeleton class for a phonetizer for the praat align program"""
 
     def __init__(self, dictpath=None, ruleset=None):
         """Constructor with an optional dictionary

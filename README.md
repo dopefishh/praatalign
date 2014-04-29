@@ -78,19 +78,19 @@ Note that the *Setup forced alignment...* has to be run at least once to create
 the initial settings file. If this is not the case the program will generate an
 error and terminate.
 
-#####Clean selection...
+#####Clean selection
 With clean selection all the intervals with overlap with the current selection
 of the current selected tier will be removed. This can come in handy to clean
 up a previous alignment of an interval.
 
-#####Align current interval...
+#####Align current interval
 This force alignes the current selected interval against the wavefile with the
 given settings.
 Note that the *Setup forced alignment...* has to be run at least once to create
 the initial settings file. If this is not the case the program will generate an
 error and terminate.
 
-#####Align current tier...
+#####Align current tier
 This force alignes the entire tier against the wavefile with the given
 settings.
 Note that the *Setup forced alignment...* has to be run at least once to create
