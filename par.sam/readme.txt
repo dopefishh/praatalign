@@ -1,4 +1,4 @@
-MAUS   SAMPA IPA    PHONETICS                                            EXAMP    ISO639-3    HMM
+MAUS   SAMPA IPA    PHONETICS                                            EXAMP    ISO639-3
 i:     i:    iː     lengthened front closed unrounded vowel              mieten   deu
 ii     ii    iː     lengthened front closed unrounded vowel              riisu    ekk
 e:     e:    eː     lengthened front half closed unrounded vowel         mehr     deu
