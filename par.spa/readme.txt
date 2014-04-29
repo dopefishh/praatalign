@@ -1,3 +1,6 @@
+Found at:
+http://www.phon.ucl.ac.uk/home/sampa/spanish.htm
+
 Symbol   Word    Transcription
 --Consonants:
  -plosives
