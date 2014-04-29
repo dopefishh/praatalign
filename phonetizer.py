@@ -241,6 +241,14 @@ class PhonetizerSpanish(Phonetizer):
         self.dictionary[word] = [phonemap]
         return [phonemap]
 
+class PhonetizerDictionary(Phonetizer):
+    """Dummy phonetizer for dictionary only phonetizers"""
+
+    def phonetizeword(self, word):
+        if word in self.dictionary:
+            return self.dictionary[word]
+        else:
+            return None
 
 class PhonetizerSkeleton(Phonetizer):
     """Skeleton to create your own phonetizer"""
@@ -265,7 +273,8 @@ class PhonetizerSkeleton(Phonetizer):
 
 phonetizerdict = {
     'spa': (PhonetizerSpanish, 'par.spa/'),
-    'tze': (PhonetizerTzeltal, 'par.sam/')
+    'tze': (PhonetizerTzeltal, 'par.sam/'),
+    'dut': (PhonetizerDictionary, 'par.dut/')
     }
 
 

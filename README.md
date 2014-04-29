@@ -188,6 +188,8 @@ This file is included in all the menus as the language selector, so just add
 your language and note that the indentation must stay the same.
 
 ###Version history
+* 0.08 - 2014-04-29 - Cleaned up some stuff, added dutch and readmes to spanish
+  and sampa
 * 0.07 - 2014-04-28 - non interactive done and toc in readme
 * 0.06 - 2014-04-25 - conversion to editor scripts. non-interactive has work to
   do
