@@ -250,6 +250,7 @@ class PhonetizerDictionary(Phonetizer):
     """Dummy phonetizer for dictionary only phonetizers"""
 
     def phonetizeword(self, word):
+        word = word.lower()
         if word in self.dictionary:
             return self.dictionary[word]
         else:
