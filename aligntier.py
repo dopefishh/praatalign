@@ -31,7 +31,7 @@ settings.update({
 with codecs.open(settings['OUT'], 'r', 'utf-8') as f:
     data = f.readlines()
 
-os.remove(settings['OUT'])
+#os.remove(settings['OUT'])
 first = 0
 
 for line in data[1:]:
