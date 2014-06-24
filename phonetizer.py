@@ -261,22 +261,22 @@ class PhonetizerSkeleton(Phonetizer):
     """Skeleton to create your own phonetizer"""
 
     def phonetizeword(self, word):
-        # Substitute all transcription specific useless markings and lowercase
+        #  Substitute all transcription specific useless markings and lowercase
         # word
-        word = re.sub('[.,\-]', '', word.lower())
+        # word = re.sub('[.,\-]', '', word.lower())
         # If the word already exists in the dictionary return it immediatly
-        if word in self.dictionary:
-            return self.dictionary[word]
+        # if word in self.dictionary:
+        #     return self.dictionary[word]
         # If some condition is not met and the word is unphonetizable you
         # should return None
-        if some_condition:
-            return None
-        # De the magic phonetizing here
-
+        # if some_condition:
+        #     return None
+        # Do the magic phonetizing here
         # Add the phontization to the dictionary
-        self.dictionary[word] = [phonemap]
+        # self.dictionary[word] = [phonemap]
         # Return the map
-        return [phonemap]
+        # return [phonemap]
+        pass
 
 phonetizerdict = {
     'spa': (PhonetizerSpanish, 'par.spa/'),

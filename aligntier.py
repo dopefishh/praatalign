@@ -4,8 +4,6 @@
 from align import force
 import codecs
 import phonetizer
-import sys
-import os
 
 with open('isettings', 'r') as f:
     settings = {k: v.strip() for k, v in map(lambda x: x.split(': '), f)}
@@ -31,7 +29,6 @@ settings.update({
 with codecs.open(settings['OUT'], 'r', 'utf-8') as f:
     data = f.readlines()
 
-#os.remove(settings['OUT'])
 first = 0
 
 for line in data[1:]:
