@@ -1,4 +1,4 @@
-Interactive forced alignment in spontaneous speech version 0.1
+Interactive forced alignment in spontaneous speech version 0.2
 ==============================================================
 
 ###Table of Contents
@@ -188,6 +188,7 @@ This file is included in all the menus as the language selector, so just add
 your language and note that the indentation must stay the same.
 
 ###Version history
+* 0.1a - 2014-06-30 - Tier alignment fixed, dutch added
 * 0.08 - 2014-04-29 - Cleaned up some stuff, added dutch and readmes to spanish
   and sampa
 * 0.07 - 2014-04-28 - non interactive done and toc in readme
