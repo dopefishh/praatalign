@@ -29,16 +29,20 @@ settings.update({
 with codecs.open(settings['OUT'], 'r', 'utf-8') as f:
     data = f.readlines()
 
+print settings
+
 first = 0
 
+code = 'w'
+settings['HDR'] = 'True'
 for line in data[1:]:
     if first == 0:
-        settings['HDR'] = 'True'
         first += 1
     elif first == 1:
         settings['HDR'] = 'False'
+        code = 'a'
     start, _, utt, end = line.strip().split('\t')
     settings['STA'] = start
     settings['DUR'] = str(float(end)-float(start))
     settings['UTT'] = utt
-    force(phontiz, code='a', **settings)
+    force(phontiz, code=code, **settings)

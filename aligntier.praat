@@ -1,4 +1,3 @@
-	pause Are you sure, this takes a long time...
     if not fileReadable("settings")
         exitScript("No settings file found, please run the setup first")
     endif
@@ -28,6 +27,7 @@ Remove
 writeFileLine("isettings",
 ..."WAV: ", wav$)
 
+pause Are you sure, this takes a long time...
 system python aligntier.py
 
 Read Table from comma-separated file... 'out$'
