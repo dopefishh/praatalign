@@ -131,6 +131,10 @@ The following options can be specified in the settings menu:
 	Flag to export to pdf. If this is not set, the aligner will not create pdf
 	files for the graphs it follows. If this is set, there will be a temp.pdf
 	located in this plugin folder after the alignment.
+* **pau**, default: False
+
+	Flag for removing the prompt before aligning the entire tier, this can be
+	usefull if you want to use the aligner in batch.
 * **tmp**, default: /tmp/
 
 	Temporary file directory. This is the directory where the aligner stores

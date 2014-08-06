@@ -5,6 +5,7 @@
     out$ = extractLine$(settings$, "OUT: ")
     new$ = extractLine$(settings$, "NEW: ")
     wrd$ = extractLine$(settings$, "WRD: ")
+    pau$ = extractLine$(settings$, "PAU: ")
 
     info$ = Editor info
     curtier = extractNumber(info$, "Selected tier:")
@@ -27,7 +28,9 @@ Remove
 writeFileLine("isettings",
 ..."WAV: ", wav$)
 
-pause Are you sure, this takes a long time...
+if pau$ = "True"
+    pause Are you sure, this takes a long time...
+endif
 system python aligntier.py
 
 Read Table from comma-separated file... 'out$'
