@@ -158,17 +158,17 @@ character(\\n).  Lines starting with a # will be ignored and can be used as
 comments. The dictionary delivers the pronounciation and optional variants to
 the phonetizer and has to be of the following format:
 
-	word-1\\tpronounciation-1[\\tvariant-1a][\\tvariant-1b]...
-	word-2\\tpronounciation-2[\\tvariant-2a][\\tvariant-2b]...
+	word-1\tpronounciation-1[\tvariant-1a][\tvariant-1b]...
+	word-2\tpronounciation-2[\tvariant-2a][\tvariant-2b]...
 	...
-	word-n\\tpronounciation-n[\\tvariant-na][\\tvariant-nb]...
+	word-n\tpronounciation-n[\tvariant-na][\tvariant-nb]...
 
 ####Ruleset file
-Currently only inter-word rules are possible...  A ruleset file describes
-certain rules that can be on inter- and intra-word level and uses Python
-regular expressions to achive this. It will tie the group named *to* to *from*,
-so that you can easily describe deletion rules. A ruleset file is of the
-following format:
+**Note: Currently only inter-word rules are possible...**
+A ruleset file describes certain rules that can be on inter- and intra-word
+level and uses Python regular expressions to achive this. It will tie the group
+named *to* to *from*, so that you can easily describe deletion rules. A ruleset
+file is of the following format:
 
 	regex-1
 	regex-2
