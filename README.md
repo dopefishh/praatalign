@@ -98,6 +98,10 @@ the initial settings file. If this is not the case the program will generate an
 error and terminate.
 
 #####Setup forced alignment...
+**Note: The setup dialog does NOT show the current settings, this is impossible
+with praat's form. If I had used pauseforms(then you can show the current
+settings) the plugin would not be scriptable**
+
 This button will generate the config file for the forced aligner to work with
 and must be used at least once before doing alignment for the first time. When
 the spawned form is closed a settings file will be written to disk for later
@@ -114,27 +118,35 @@ The following options can be specified in the settings menu:
 	Name of the tier where the alignment on word level is stored.
 * **lan**, default: tze
 
-	Language to use for the forced alignment. Currently this is Spanish and
-	Tzeltal. Custom added languages will also appear in the dropdown menu when
+	Language to use for the forced alignment. Currently this is Spanish, Tzeltal
+  and Dutch. Custom added languages will also appear in the dropdown menu when
 	properly added.
 * **dic**, default: False
 
 	Flag for selecting a custom dictionary. If this is not set, the aligner will
 	rely completely on the phonetizer. If this is set, then a prompt follows to
 	select the dictionary.
+* **dictionary**, default: 
+
+	Option to set the dictionary by path, this is usefull when scripting the
+  aligner because then you skip the dialog.
 * **rul**, default: False
 
 	Flag for using a ruleset file. If this is not set, the aligner will not use
 	a ruleset. If this is set, then a prompt follows to select the ruleset file.
+* **ruleset**, default:
+
+	Option to set the ruleset file by path, this is usefull when scripting the
+  aligner because then you skip the dialog.
+* **pau**, default: False
+
+	Flag for removing the prompt before aligning the entire tier, this is usefull
+  when scripting the aligner because then you skip the dialog.
 * **pdf**, default: False
 
 	Flag to export to pdf. If this is not set, the aligner will not create pdf
 	files for the graphs it follows. If this is set, there will be a temp.pdf
 	located in this plugin folder after the alignment.
-* **pau**, default: False
-
-	Flag for removing the prompt before aligning the entire tier, this can be
-	usefull if you want to use the aligner in batch.
 * **tmp**, default: /tmp/
 
 	Temporary file directory. This is the directory where the aligner stores
@@ -146,10 +158,10 @@ character(\\n).  Lines starting with a # will be ignored and can be used as
 comments. The dictionary delivers the pronounciation and optional variants to
 the phonetizer and has to be of the following format:
 
-	word-1<TAB>pronounciation-1[<TAB>variant-1a][<TAB>variant-1b]...
-	word-2<TAB>pronounciation-2[<TAB>variant-2a][<TAB>variant-2b]...
+	word-1\\tpronounciation-1[\\tvariant-1a][\\tvariant-1b]...
+	word-2\\tpronounciation-2[\\tvariant-2a][\\tvariant-2b]...
 	...
-	word-n<TAB>pronounciation-n[<TAB>variant-na][<TAB>variant-nb]...
+	word-n\\tpronounciation-n[\\tvariant-na][\\tvariant-nb]...
 
 ####Ruleset file
 Currently only inter-word rules are possible...  A ruleset file describes
@@ -192,6 +204,7 @@ This file is included in all the menus as the language selector, so just add
 your language and note that the indentation must stay the same.
 
 ###Version history
+* 0.2  - 2014-08-11 - Better mac compatibility
 * 0.1a - 2014-06-30 - Tier alignment fixed, dutch added
 * 0.08 - 2014-04-29 - Cleaned up some stuff, added dutch and readmes to spanish
   and sampa

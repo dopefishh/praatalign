@@ -3,6 +3,8 @@
 
 import subprocess
 import sys
+import os
+import itertools
 
 
 def force(phonetizer, code='w', **param):
@@ -32,23 +34,21 @@ def force(phonetizer, code='w', **param):
         param['SOU'] = 1e7/rate
     pron = phonetizer.phonetize(param['UTT']) or [[['<nib>']]]
     phonetizer.toslf(pron, param['BN'], param['PDF'] == 'True')
-    snd = (
-        'sox %(WAV)s -t sph -e signed-integer -b 16 -c 1 temp.nis ' +
-        'trim %(STA)s %(DUR)s rate -s -a %(SOU)d && ' +
-        '%(HC)s -T 0 -C %(PRE)s temp.nis %(BN)s.htk && ' +
-        '%(HV)s -C %(HVI)s -w -X slf -H %(MMF)s -s 7.0 -p 0.0 ' +
-        '%(DIC)s %(HMM)s %(BN)s.htk | grep -v \'WARNING\''
-        ) % param
-
-    subprocess.call(snd, shell=True, executable='/bin/bash')
-
+    param['CWD'] = os.getcwd()
+    subprocess.call(('sox {WAV} -t sph -e signed-integer -b 16 -c 1 {CWD}/temp'
+                     '.nis trim {STA} {DUR} rate -s -a {SOU}').format(**param),
+                    shell=True)
+    subprocess.call('{CWD}/{HC} -T 0 -C {CWD}/{PRE} temp.nis {CWD}/{BN}.htk'.
+                    format(**param), shell=True)
+    subprocess.call(('{CWD}/{HV} -C {CWD}/{HVI} -w -X slf -H {CWD}/{MMF} -s 7.'
+                     '0 -p 0.0 {CWD}/{DIC} {CWD}/{HMM} {CWD}/{BN}.htk').
+                    format(**param), shell=True)
     out = param['OUT']
     fileio = sys.stdout if out == "-" else open(out, code)
     with open(param['BN'] + '.rec', 'r') as f:
         if param['HDR'] != 'False':
             fileio.write('start,end,label,type\n')
-        for line in f:
-            d = line.split()
+        for d in itertools.imap(lambda x: x.split(), f):
             start = float(param['STA']) + int(d[0]) / 1e7
             end = float(param['STA']) + int(d[1]) / 1e7
             if d[2] == '<':
