@@ -3,6 +3,7 @@
 
 import itertools
 import os
+import shlex
 import subprocess
 import sys
 import time
@@ -44,20 +45,29 @@ def force(phonetizer, code='w', **param):
         phonetizer.toslf(pron, param['BN'])
         lg.write('Graph created\n')
         param['CWD'] = os.getcwd()
-        ret = subprocess.check_output(
-            ('sox {WAV} -t sph -e signed-integer -b 16 -c 1 {CWD}/temp.nis tri'
-             'm {STA} {DUR} rate -s -a {SOU}').format(**param), shell=True,
-            stderr=subprocess.STDOUT)
-        lg.write('Sox ran: {}\n'.format(ret))
-        ret = subprocess.check_output(
-            '{CWD}/{HC} -T 0 -C {CWD}/{PRE} temp.nis {CWD}/{BN}.htk'.
-            format(**param), shell=True, stderr=subprocess.STDOUT)
-        lg.write('HCopy ran: {}\n'.format(ret))
-        ret = subprocess.call(
-            ('{CWD}/{HV} -C {CWD}/{HVI} -w -X slf -H {CWD}/{MMF} -s 7.0 -p 0.0'
-             ' {CWD}/{DIC} {CWD}/{HMM} {CWD}/{BN}.htk').format(**param),
-            shell=True, stderr=subprocess.STDOUT)
-        lg.write('HVite ran: {}\n'.format(ret))
+        cmd = ('sox "{WAV}" -t sph -e signed-integer -b 16 -c 1 "{CWD}/temp.ni'
+               's" trim {STA} {DUR} rate -s -a {SOU} || true').format(**param)
+        proc = subprocess.Popen(
+            cmd, env={'PATH': os.environ['PATH']},
+            stderr=subprocess.PIPE, stdout=subprocess.PIPE, shell=True)
+        out, err = proc.communicate()
+        lg.write('Sox ran:\n\tout: {}\n\terr: {}\n'.format(out, err))
+
+        proc = subprocess.Popen(
+            '"{CWD}/{HC}" -T 0 -C "{CWD}/{PRE}" temp.nis "{CWD}/{BN}.htk"'.
+            format(**param), env={'PATH': os.environ['PATH']},
+            stderr=subprocess.PIPE, stdout=subprocess.PIPE, shell=True)
+        out, err = proc.communicate()
+        lg.write('HCopy ran:\n\tout: {}\n\terr: {}\n'.format(out, err))
+
+        proc = subprocess.Popen(
+            ('"{CWD}/{HV}" -C "{CWD}/{HVI}" -w -X slf -H "{CWD}/{MMF}" -s 7.0 '
+             '-p 0.0 "{CWD}/{DIC}" "{CWD}/{HMM}" "{CWD}/{BN}.htk"').
+            format(**param), env={'PATH': os.environ['PATH']},
+            stderr=subprocess.PIPE, stdout=subprocess.PIPE, shell=True)
+        out, err = proc.communicate()
+        lg.write('HVite ran:\n\tout: {}\n\terr: {}\n'.format(out, err))
+
         out = param['OUT']
         fileio = sys.stdout if out == '-' else open(out, code)
         lg.write('Output file selected\n')
