@@ -1,5 +1,5 @@
-Interactive forced alignment in spontaneous speech version 0.2
-==============================================================
+Interactive forced alignment in spontaneous speech version 0.21
+===============================================================
 
 ###Table of Contents
 - [Installation](#installation)
@@ -14,7 +14,7 @@ Interactive forced alignment in spontaneous speech version 0.2
 		- [Align current tier](#align-current-tier)
 		- [Setup forced alignment](#setup-forced-alignment)
 	- [Dictionary file](#dictionary-file)
-	- [Ruleset file](#ruleset-file)
+	- [Scriptability](#scriptability)
 	- [Add language](#add-language)
 		- [Phonetizer](#phonetizer)
 		- [Models](#models)
@@ -34,9 +34,6 @@ Interactive forced alignment in spontaneous speech version 0.2
   alternatively put your own compiled binaries in the bin folder before
   installing).
   http://htk.eng.cam.ac.uk/
-- Alternatively you need dot to compile pdf's from the generated dot file. Dot
-  is a program from the GraphViz package.
-  http://www.graphviz.org/
 
 #####Installation process
 Automatic installation:
@@ -70,6 +67,11 @@ all other files are, and should be, encoded in *UTF-8*. The plugin setup also
 sets the praat reading and writing preferences to *UTF-8*.
 
 ####Menu Items
+**NOTE: the aligning options will only work if the selection consists of a
+TextGrid and a LongSound, if you have selected a Sound instead of a LongSound
+the script will NOT work. This is because the location on disk is needed and a
+Sound is not located on the disk but in the memory**
+
 #####Generate dictionary from tier...
 This function will prompt for a file location to write alle the missing words
 from the selected tier to. Missing words are words that are either not in the
@@ -98,10 +100,6 @@ the initial settings file. If this is not the case the program will generate an
 error and terminate.
 
 #####Setup forced alignment...
-**Note: The setup dialog does NOT show the current settings, this is impossible
-with praat's form. If I had used pauseforms(then you can show the current
-settings) the plugin would not be scriptable**
-
 This button will generate the config file for the forced aligner to work with
 and must be used at least once before doing alignment for the first time. When
 the spawned form is closed a settings file will be written to disk for later
@@ -128,21 +126,10 @@ The following options can be specified in the settings menu:
 	select the dictionary.
 * **dictionary**, default: 
 
-	Option to set the dictionary by path, this is usefull when scripting the
-  aligner because then you skip the dialog.
-* **rul**, default: False
-
-	Flag for using a ruleset file. If this is not set, the aligner will not use
-	a ruleset. If this is set, then a prompt follows to select the ruleset file.
-* **ruleset**, default:
-
-	Option to set the ruleset file by path, this is usefull when scripting the
-  aligner because then you skip the dialog.
+	This option only appears when a dictionary is already set and shows the
+	current dictionary, when you want to select a new one just tick the ``dic``
+	box again or change the path in this textfield.
 * **pau**, default: False
-
-	Flag for removing the prompt before aligning the entire tier, this is usefull
-  when scripting the aligner because then you skip the dialog.
-* **pdf**, default: False
 
 	Flag to export to pdf. If this is not set, the aligner will not create pdf
 	files for the graphs it follows. If this is set, there will be a temp.pdf
@@ -151,6 +138,14 @@ The following options can be specified in the settings menu:
 
 	Temporary file directory. This is the directory where the aligner stores
 	the semi-raw results from HTK.
+* **log**, default: /dev/null
+
+	Path for the logfile, if /dev/null there will be no log. The main python core
+	script will log some usefull things in here, especially when the praat script
+	crashes on executing the system commands.
+* **lgc**, default: True
+	
+	Append the logfile instead of rewriting it.
 
 ####Dictionary file
 A dictionary file consists of several non-empty lines separated by a newline
@@ -163,23 +158,14 @@ the phonetizer and has to be of the following format:
 	...
 	word-n\tpronounciation-n[\tvariant-na][\tvariant-nb]...
 
-####Ruleset file
-**Note: Currently only inter-word rules are possible...**
-A ruleset file describes certain rules that can be on inter- and intra-word
-level and uses Python regular expressions to achive this. It will tie the group
-named *to* to *from*, so that you can easily describe deletion rules. A ruleset
-file is of the following format:
-
-	regex-1
-	regex-2
-	...
-	regex-n
-
-Every regex must contain at minimum the named groups *to* and *from*.
-For example the rule that will delete a *d* if it is between *a* and *o*
-regardless of word boundaries:
-
-	(?P<fr>a#?)d(?P<to>#?o)
+####Scriptability
+The settings menu is not scriptable because it uses pause dialogs instead of
+forms, because of this there is a settings script available that is scriptable.
+For example if you want to setup a non interactive environment you can run this:
+ 
+	runScript: "/home/frobnicator/.praat-dir/plugin_pralign/settings_ni.praat",
+	..."custom_phone_tier", "custom_word_tier", "/some/path/to/dict", "tze",
+	... "no", "/tmp/", "/some/path/to/logfile", "a"
 
 ####Add language
 #####Phonetizer
@@ -197,13 +183,13 @@ and languages is defined in the phonetizer dictionary at the bottom of the
 file.
 
 #####Adapt the Praat scripts
-To add the language to the Praat scripts you can just edit the file called
-
-	languageselection.praat
-This file is included in all the menus as the language selector, so just add
-your language and note that the indentation must stay the same.
+To add the language to the Praat scripts you have to edit ``settings.praat``
+and add your language in the option menu on line ``53`` and in the big
+selection statement on line ``18``
 
 ###Version history
+* 0.21 - 2014-08-13 - Settings split in non interactive and interactive so that
+  the interactive one reflects the current settings
 * 0.2  - 2014-08-11 - Better mac compatibility
 * 0.1a - 2014-06-30 - Tier alignment fixed, dutch added
 * 0.08 - 2014-04-29 - Cleaned up some stuff, added dutch and readmes to spanish

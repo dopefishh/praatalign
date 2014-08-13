@@ -213,7 +213,8 @@ class PhonetizerSpanish(Phonetizer):
             lw = word.lower()
             it = iter(enumerate(lw))
             for i, ch in it:
-                if ch == 'c' and i+1 < len(lw) and lw[i+1] in 'ei':
+                if ch == 'c' and i+1 < len(lw) and\
+                        lw[i+1] in 'eií'.decode('utf-8'):
                     phonemap.append('T')
                 elif ch == 'c' and i+1 < len(lw) and lw[i+1] == 'h':
                     phonemap += ['t', 'S']
@@ -222,7 +223,8 @@ class PhonetizerSpanish(Phonetizer):
                         lw[i+1] == 'ü'.decode('utf-8'):
                     phonemap += ['g', 'u']
                     next(it, None)
-                elif ch == 'g' and i+1 < len(lw) and lw[i+1] == 'u':
+                elif ch == 'g' and i+2 < len(lw) and lw[i+1] == 'u' and\
+                        lw[i+2] in 'ei':
                     phonemap.append('g')
                     next(it, None)
                 elif ch == 'g' and i+1 < len(lw) and lw[i+1] in 'ei':
@@ -235,7 +237,7 @@ class PhonetizerSpanish(Phonetizer):
                     if i+1 < len(lw) and lw[i+1] == 'u':
                         next(it, None)
                 elif ch == 'r' and (i is 0 or lw[i-1] in 'nlsm'):
-                    phonemap += ['r', 'r']
+                    phonemap += 'r'
                 elif ch == 'y' and i+1 >= len(lw):
                     phonemap.append('i')
                 elif ch == 'h':
