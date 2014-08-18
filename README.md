@@ -172,7 +172,7 @@ For example if you want to setup a non interactive environment you can run this:
  
 	runScript: "/home/frobnicator/.praat-dir/plugin_pralign/settings_ni.praat",
 	..."custom_phone_tier", "custom_word_tier", "/some/path/to/dict", "tze",
-	..."no", "/tmp/", "/some/path/to/logfile", "a"
+	..."no", "/tmp/", "/some/path/to/logfile", "a", "/usr/bin/sox"
 
 ####Add language
 #####Phonetizer
