@@ -45,20 +45,28 @@ def force(phonetizer, code='w', **param):
         phonetizer.toslf(pron, param['BN'])
         lg.write('Graph created\n')
         param['CWD'] = os.getcwd()
-        ret = subprocess.check_output(
-            ('{SOX} {WAV} -t sph -e signed-integer -b 16 -c 1 {CWD}/temp.nis t'
-             'rim {STA} {DUR} rate -s -a {SOU}').format(**param), shell=True,
-            stderr=subprocess.STDOUT)
-        lg.write('Sox ran: {}\n'.format(ret))
-        ret = subprocess.check_output(
-            '{CWD}/{HC} -T 0 -C {CWD}/{PRE} temp.nis {CWD}/{BN}.htk'.
-            format(**param), shell=True, stderr=subprocess.STDOUT)
-        lg.write('HCopy ran: {}\n'.format(ret))
-        ret = subprocess.call(
-            ('{CWD}/{HV} -C {CWD}/{HVI} -w -X slf -H {CWD}/{MMF} -s 7.0 -p 0.0'
-             ' {CWD}/{DIC} {CWD}/{HMM} {CWD}/{BN}.htk').format(**param),
-            shell=True, stderr=subprocess.STDOUT)
-        lg.write('HVite ran: {}\n'.format(ret))
+        proc = subprocess.Popen(
+            ('"{SOX}" "{WAV}" -t sph -e signed-integer -b 16 -c 1 "{CWD}/temp.'
+             'nis" trim {STA} {DUR} rate -s -a {SOU} || true').format(**param),
+            env={'PATH': os.environ['PATH']},
+            stderr=subprocess.PIPE, stdout=subprocess.PIPE, shell=True)
+        out, err = proc.communicate()
+        lg.write('Sox ran:\n\tout: {}\n\terr: {}\n'.format(out, err))
+
+        proc = subprocess.Popen(
+            ('"{CWD}/{HC}" -T 0 -C "{CWD}/{PRE}" temp.nis "{CWD}/{BN}.htk" || '
+             'true').format(**param), env={'PATH': os.environ['PATH']},
+            stderr=subprocess.PIPE, stdout=subprocess.PIPE, shell=True)
+        out, err = proc.communicate()
+        lg.write('HCopy ran:\n\tout: {}\n\terr: {}\n'.format(out, err))
+
+        proc = subprocess.Popen(
+            ('"{CWD}/{HV}" -C "{CWD}/{HVI}" -w -X slf -H "{CWD}/{MMF}" -s 7.0 '
+             '-p 0.0 "{CWD}/{DIC}" "{CWD}/{HMM}" "{CWD}/{BN}.htk" || true').
+            format(**param), env={'PATH': os.environ['PATH']},
+            stderr=subprocess.PIPE, stdout=subprocess.PIPE, shell=True)
+        out, err = proc.communicate()
+        lg.write('HVite ran:\n\tout: {}\n\terr: {}\n'.format(out, err))
         out = param['OUT']
         fileio = sys.stdout if out == '-' else open(out, code)
         lg.write('Output file selected\n')
@@ -72,12 +80,14 @@ def force(phonetizer, code='w', **param):
                 if d[2] == '<':
                     word = (end, '')
                 elif d[2] == '#':
-                    fileio.write('%f,%f,%s,w\n' % (word[0], start, word[1]))
+                    fileio.write('{:f},{:f},{},w\n'.format(
+                        word[0], start, word[1]))
                     word = (end, '')
                 else:
                     word = (word[0], word[1] + d[2])
                 if end - start > 0:
-                    fileio.write('%f,%f,%s,p\n' % (start, end, d[2]))
+                    fileio.write('{:f},{:f},{},p\n'.format(
+                        start, end, d[2]))
             lg.write('Datafile written\n')
         if out != '-':
             fileio.close()

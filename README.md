@@ -1,4 +1,4 @@
-Interactive forced alignment in spontaneous speech version 0.22
+Interactive forced alignment in spontaneous speech version 0.30
 ===============================================================
 
 ###Table of Contents

@@ -15,11 +15,11 @@ p = phontiz[1]
 phontiz = phontiz[0]
 settings.update({
     'BN': 'temp',
-    'DIC': './%s/DICT' % p,
-    'HMM': './%sHMMINVENTAR' % p,
-    'HVI': './%sHVITECONF' % p,
-    'MMF': './%s/MMF.mmf' % p,
-    'PRE': './%sPRECONFIGNIST' % p,
+    'DIC': './{}DICT'.format(p),
+    'HMM': './{}HMMINVENTAR'.format(p),
+    'HVI': './{}HVITECONF'.format(p),
+    'MMF': './{}MMF.mmf'.format(p),
+    'PRE': './{}PRECONFIGNIST'.format(p),
     'HC': './bin/HCopy',
     'HV': './bin/HVite',
     'HDR': 'False'

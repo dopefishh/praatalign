@@ -21,4 +21,4 @@ with codecs.open(settings['OUT'], 'r', 'utf-8') as i:
 
 with codecs.open(' '.join(sys.argv[1:]), 'w', 'utf-8') as o:
     for word in mis:
-        o.write('%s\t\n' % word)
+        o.write('{}\t\n'.format(word))

@@ -60,47 +60,47 @@ class Phonetizer:
         graphviz -- Flag to make a pdf of the final graph
         """
         nit, eit = 0, 0
-        nodebase = 'I=%d W=%s\n'
-        edgebase = 'J=%d S=%d E=%d\n'
+        nodebase = 'I={:d} W={}\n'
+        edgebase = 'J={:d} S={:d} E={:d}\n'
         wordb = 0
-        nodestr = nodebase % (0, '<')
+        nodestr = nodebase.format(0, '<')
         nit += 1
         edgestr = ''
         for word in pron:
             toadd = []
             for var in word:
-                edgestr += edgebase % (eit, wordb, nit)
+                edgestr += edgebase.format(eit, wordb, nit)
                 eit += 1
                 for num, char in enumerate(var):
                     if num > 0:
-                        edgestr += edgebase % (eit, nit-1, nit)
+                        edgestr += edgebase.format(eit, nit-1, nit)
                         eit += 1
-                    nodestr += nodebase % (nit, char)
+                    nodestr += nodebase.format(nit, char)
                     nit += 1
                 toadd.append(nit-1)
-            nodestr += nodebase % (nit, '#')
+            nodestr += nodebase.format(nit, '#')
             wordb = nit
             nit += 1
             for to in toadd:
-                edgestr += edgebase % (eit, to, wordb)
+                edgestr += edgebase.format(eit, to, wordb)
                 eit += 1
-        nodestr += nodebase % (nit, '>')
-        edgestr += edgebase % (eit, nit-1, nit)
-        slfstr = 'N=%d L=%d\n%s%s' % (nit+1, eit+1, nodestr, edgestr)
-        with open('%s.slf' % bn, 'w') as ff:
+        nodestr += nodebase.format(nit, '>')
+        edgestr += edgebase.format(eit, nit-1, nit)
+        slfstr = 'N={:d} L={:d}\n{}{}'.format(nit+1, eit+1, nodestr, edgestr)
+        with open('{}.slf'.format(bn), 'w') as ff:
             ff.writelines(slfstr)
         if graphviz:
-            with open('%s.dot' % bn, 'w') as ff:
+            with open('{}.dot'.format(bn), 'w') as ff:
                 ff.write('digraph g{\n')
                 for li in filter(None,
                                  [l.split() for l in slfstr.split('\n')]):
                     if li[0][0] == 'I':
-                        ff.write('\t%s [label="%s"]\n'
-                                 % (li[0][2:], li[1][2:]))
+                        ff.write('\t{} [label="{}"]\n'.format(
+                            li[0][2:], li[1][2:]))
                     if li[0][0] == 'J':
-                        ff.write('\t%s -> %s\n' % (li[1][2:], li[2][2:]))
+                        ff.write('\t{} -> {}\n'.format(li[1][2:], li[2][2:]))
                 ff.write('}')
-            os.system('dot -Tpdf %s.dot -o %s.pdf' % (bn, bn))
+            os.system('dot -Tpdf {}.dot -o {}.pdf'.format(bn, bn))
 
     def applyrules(self, phon):
         """Apply the rules specified in the ruleset
