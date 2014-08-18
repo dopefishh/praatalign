@@ -22,7 +22,7 @@ tiernum_p = -1
 numtier = Get number of tiers
 for i to numtier
     name$ = Get tier name... i
-    if name$ == new$
+    if name$ = new$
         tiernum_p = i
     endif
 endfor

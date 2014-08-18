@@ -28,6 +28,7 @@ def force(phonetizer, code='w', **param):
     WAV - wave file path.
     LOG - log the detailed output to a file.
     LGC - log code, a for append, w for write.
+    SOX - sox executable path.
 
     Optional parameters
     HDR - also write the header to file.
@@ -45,8 +46,8 @@ def force(phonetizer, code='w', **param):
         lg.write('Graph created\n')
         param['CWD'] = os.getcwd()
         ret = subprocess.check_output(
-            ('sox {WAV} -t sph -e signed-integer -b 16 -c 1 {CWD}/temp.nis tri'
-             'm {STA} {DUR} rate -s -a {SOU}').format(**param), shell=True,
+            ('{SOX} {WAV} -t sph -e signed-integer -b 16 -c 1 {CWD}/temp.nis t'
+             'rim {STA} {DUR} rate -s -a {SOU}').format(**param), shell=True,
             stderr=subprocess.STDOUT)
         lg.write('Sox ran: {}\n'.format(ret))
         ret = subprocess.check_output(

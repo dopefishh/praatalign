@@ -28,6 +28,7 @@ if fileReadable("settings")
 	else
 		lgc = 0
 	endif
+	sox$ = extractLine$(settingsData$, "SOX: ")
 else
 	dictionary$ = ""
 	new$ = "align_phon"
@@ -37,6 +38,7 @@ else
 	tmp$ = "/tmp/"
 	log$ = "/dev/null"
 	lgc = 1
+	sox$ = "sox"
 endif
 
 beginPause: "Set the variables"
@@ -69,6 +71,8 @@ beginPause: "Set the variables"
 	sentence: "log", log$
 	comment: "Append to log"
 	boolean: "lgc", lgc
+	comment: "Sox path"
+	sentence: "sox", sox$
 endPause: "Apply", 1
 pau$ = if pau then "True" else "False" fi
 lgc$ = if lgc then "a" else "w" fi
@@ -89,5 +93,6 @@ writeFileLine("settings",
 ..."NEW: ", new$, newline$,
 ..."OUT: ", tmp$, "praat_temp_out", newline$,
 ..."PAU: ", pau$, newline$,
+..."SOX: ", sox$, newline$,
 ..."TMP: ", tmp$, newline$,
 ..."WRD: ", wrd$)

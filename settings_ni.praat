@@ -7,6 +7,7 @@ form Set the variables
 	sentence tmp /tmp/
 	sentence log /dev/null
 	sentence lgc a
+	sentence sox sox
 endform
 pau$ = if pau then "True" else "False" fi
 
@@ -19,5 +20,6 @@ writeFileLine("settings",
 ..."NEW: ", new$, newline$,
 ..."OUT: ", tmp$, "praat_temp_out", newline$,
 ..."PAU: ", pau$, newline$,
+..."SOX: ", sox$, newline$,
 ..."TMP: ", tmp$, newline$,
 ..."WRD: ", wrd$)

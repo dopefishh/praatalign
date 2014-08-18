@@ -1,4 +1,4 @@
-Interactive forced alignment in spontaneous speech version 0.21
+Interactive forced alignment in spontaneous speech version 0.22
 ===============================================================
 
 ###Table of Contents
@@ -146,6 +146,13 @@ The following options can be specified in the settings menu:
 * **lgc**, default: True
 	
 	Append the logfile instead of rewriting it.
+* **sox**, default: sox
+
+	Specify the path of sox, usually only the executable name is enough but on
+	mac I have seen cases where the path when invoking the aligner is different
+	from the path in the shell, in such cases you should specify the entire path
+	of the sox executable, this can be found by running ``which sox`` in the 
+	terminal.
 
 ####Dictionary file
 A dictionary file consists of several non-empty lines separated by a newline
@@ -165,7 +172,7 @@ For example if you want to setup a non interactive environment you can run this:
  
 	runScript: "/home/frobnicator/.praat-dir/plugin_pralign/settings_ni.praat",
 	..."custom_phone_tier", "custom_word_tier", "/some/path/to/dict", "tze",
-	... "no", "/tmp/", "/some/path/to/logfile", "a"
+	..."no", "/tmp/", "/some/path/to/logfile", "a"
 
 ####Add language
 #####Phonetizer
