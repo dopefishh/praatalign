@@ -29,6 +29,7 @@ if fileReadable("settings")
 		lgc = 0
 	endif
 	sox$ = extractLine$(settingsData$, "SOX: ")
+	thr = extractNumber(settingsData$, "THR: ")
 else
 	dictionary$ = ""
 	new$ = "align_phon"
@@ -39,6 +40,7 @@ else
 	log$ = "/dev/null"
 	lgc = 1
 	sox$ = "sox"
+	thr = 0
 endif
 
 beginPause: "Set the variables"
@@ -60,6 +62,9 @@ beginPause: "Set the variables"
 		comment: "Current dictionary"
 		sentence: "dictionary", dictionary$
 	endif
+
+	comment: "Set the length of the added length to the annotations"
+	real: "thr", thr
 
 	comment: "Pause first when aligning tier"
 	boolean: "pau", pau
@@ -94,5 +99,6 @@ writeFileLine("settings",
 ..."OUT: ", tmp$, "praat_temp_out", newline$,
 ..."PAU: ", pau$, newline$,
 ..."SOX: ", sox$, newline$,
+..."THR: ", thr, newline$,
 ..."TMP: ", tmp$, newline$,
 ..."WRD: ", wrd$)

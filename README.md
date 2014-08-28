@@ -1,5 +1,5 @@
-Interactive forced alignment in spontaneous speech version 0.30
-===============================================================
+Interactive forced alignment in spontaneous speech version 0.4
+==============================================================
 
 ###Table of Contents
 - [Installation](#installation)
@@ -26,13 +26,13 @@ Interactive forced alignment in spontaneous speech version 0.30
 ####Requirements
 - Python 2[7.3]
   https://www.python.org/download/
-- SoX (has to be in path)
+- SoX
   http://sox.sourceforge.net/
 - Praat
   http://www.fon.hum.uva.nl/praat/
 - HCopy and HVite (binaries included might not work on all systems,
-  alternatively put your own compiled binaries in the bin folder before
-  installing).
+	alternatively change the binaries in the bin folder matching your operating
+	system before installing).
   http://htk.eng.cam.ac.uk/
 
 #####Installation process
@@ -129,6 +129,13 @@ The following options can be specified in the settings menu:
 	This option only appears when a dictionary is already set and shows the
 	current dictionary, when you want to select a new one just tick the ``dic``
 	box again or change the path in this textfield.
+* **thr**, default: 0
+	
+	When the sources are aligned with to short annotations you can append a
+  number of seconds to the beginning and the end of every annotation you align
+  with this value. When there is an empty annotation next to the annotation to
+	align, this number of seconds is added to the annotation length. It does not
+	change the original annotations.
 * **pau**, default: False
 
 	Flag to export to pdf. If this is not set, the aligner will not create pdf
@@ -171,7 +178,7 @@ forms, because of this there is a settings script available that is scriptable.
 For example if you want to setup a non interactive environment you can run this:
  
 	runScript: "/home/frobnicator/.praat-dir/plugin_pralign/settings_ni.praat",
-	..."custom_phone_tier", "custom_word_tier", "/some/path/to/dict", "tze",
+	..."custom_phone_tier", "custom_word_tier", "/some/path/to/dict", 0, "tze",
 	..."no", "/tmp/", "/some/path/to/logfile", "a", "/usr/bin/sox"
 
 ####Add language
@@ -195,6 +202,7 @@ and add your language in the option menu on line ``53`` and in the big
 selection statement on line ``18``
 
 ###Version history
+* 0.4  - 2014-08-29 - Added option for enlargening the boundaries automatically
 * 0.21 - 2014-08-13 - Settings split in non interactive and interactive so that
   the interactive one reflects the current settings
 * 0.2  - 2014-08-11 - Better mac compatibility

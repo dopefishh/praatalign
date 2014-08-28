@@ -3,6 +3,7 @@ form Set the variables
 	sentence wrd align_w
 	sentence dictionary
 	sentence lan
+	real thr
 	boolean pau 1
 	sentence tmp /tmp/
 	sentence log /dev/null
@@ -21,5 +22,6 @@ writeFileLine("settings",
 ..."OUT: ", tmp$, "praat_temp_out", newline$,
 ..."PAU: ", pau$, newline$,
 ..."SOX: ", sox$, newline$,
+..."THR: ", thr, newline$,
 ..."TMP: ", tmp$, newline$,
 ..."WRD: ", wrd$)

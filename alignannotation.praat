@@ -5,6 +5,7 @@
     new$ = extractLine$(settings$, "NEW: ")
     wrd$ = extractLine$(settings$, "WRD: ")
     out$ = extractLine$(settings$, "OUT: ")
+		thr = extractNumber(settings$, "THR: ")
 
     start = Get starting point of interval
     end = Get end point of interval
@@ -12,12 +13,30 @@
     info$ = LongSound info
     wav$ = extractLine$(info$, "File name: ")
     utt$ = Get label of interval
+		fullduration = extractNumber(info$, "Duration: ")
 
     info$ = TextGrid info
     tg$ = extractLine$(info$, "Object name: ")
+
+		Select previous interval
+		int$ = Get label of interval
+		if int$ = ""
+			before = thr
+		else
+			before = 0
+		endif
+		Select next interval
+		Select next interval
+		int$ = Get label of interval
+		if int$ = ""
+			after = thr
+		else
+			after = 0
+		endif
 endeditor
-select TextGrid 'tg$'
+
 # get phonetier number
+select TextGrid 'tg$'
 tiernum_p = -1
 numtier = Get number of tiers
 for i to numtier
@@ -45,8 +64,8 @@ if tiernum_w = -1
     tiernum_w = 1
 endif
 
-editor TextGrid 'tg$'
 # clean the phone tier
+editor TextGrid 'tg$'
     curtier = -1
     repeat
         Select next tier
@@ -56,8 +75,8 @@ editor TextGrid 'tg$'
     Select... 'start' 'end'
 include cleaninterval.praat
 
-editor TextGrid 'tg$'
 # clean the word tier
+editor TextGrid 'tg$'
     curtier = -1
     repeat
         Select next tier
@@ -68,6 +87,8 @@ editor TextGrid 'tg$'
 include cleaninterval.praat
 select TextGrid 'tg$'
 
+start = max(start - before, 0)
+end = min(end + after, fullduration)
 dur = end - start
 writeFileLine("isettings",
 ..."STA: ", start, newline$,
