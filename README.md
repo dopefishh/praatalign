@@ -220,6 +220,6 @@ selection statement on line ``18``
 * 0.00 - 2014-03-27 - initial version
 
 ###Authors
-mart@martlubbers.net
-
-emma.valtersson@gmail.com
+Programming: Mart Lubbers (mart@martlubbers.net)
+Testing: Emma Waltersson (emma.valtersson@gmail.com)
+Supervision and idea: Francisco Torreira (francisco.torreira@mpi.nl)
