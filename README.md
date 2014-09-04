@@ -202,6 +202,9 @@ and add your language in the option menu on line ``53`` and in the big
 selection statement on line ``18``
 
 ###Version history
+* 0.5  - 2014-09-04 - Fixed acronyms in spanish and cleaning didn't work
+  correctly with extended boundaries for Align current interval, that's fixed
+	too.
 * 0.4  - 2014-08-29 - Added option for enlargening the boundaries automatically
 * 0.21 - 2014-08-13 - Settings split in non interactive and interactive so that
   the interactive one reflects the current settings
