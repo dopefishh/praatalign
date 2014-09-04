@@ -224,5 +224,7 @@ selection statement on line ``18``
 
 ###Authors
 Programming: Mart Lubbers (mart@martlubbers.net)
-Testing: Emma Waltersson (emma.valtersson@gmail.com)
+
+Testing: Emma Valtersson (emma.valtersson@gmail.com)
+
 Supervision and idea: Francisco Torreira (francisco.torreira@mpi.nl)

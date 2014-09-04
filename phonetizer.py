@@ -3,7 +3,6 @@
 import codecs
 import re
 import unicodedata
-import os
 
 
 class tdict(dict):
@@ -57,7 +56,7 @@ class Phonetizer:
                         where wordi = [var1, var2, ..., varn]
                         where vari  = [char1, char2, ..., charn]
         bn       -- filename without extension for the output files
-        graphviz -- Flag to make a pdf of the final graph
+        graphviz -- Flag to make a dotfile
         """
         nit, eit = 0, 0
         nodebase = 'I={:d} W={}\n'
@@ -100,7 +99,6 @@ class Phonetizer:
                     if li[0][0] == 'J':
                         ff.write('\t{} -> {}\n'.format(li[1][2:], li[2][2:]))
                 ff.write('}')
-            os.system('dot -Tpdf {}.dot -o {}.pdf'.format(bn, bn))
 
     def applyrules(self, phon):
         """Apply the rules specified in the ruleset
