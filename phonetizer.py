@@ -208,7 +208,7 @@ class PhonetizerSpanish(Phonetizer):
         # Allocate the map
         phonemap = list()
         if uppercases == len(word):
-            return [a for b in [self.acronymmap[i] for i in word] for a in b]
+            return [[a for b in [self.acronymmap[i] for i in word] for a in b]]
         else:
             lw = word.lower()
             it = iter(enumerate(lw))

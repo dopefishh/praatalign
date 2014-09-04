@@ -64,6 +64,10 @@ if tiernum_w = -1
     tiernum_w = 1
 endif
 
+start = max(start - before, 0)
+end = min(end + after, fullduration)
+dur = end - start
+
 # clean the phone tier
 editor TextGrid 'tg$'
     curtier = -1
@@ -87,9 +91,6 @@ editor TextGrid 'tg$'
 include cleaninterval.praat
 select TextGrid 'tg$'
 
-start = max(start - before, 0)
-end = min(end + after, fullduration)
-dur = end - start
 writeFileLine("isettings",
 ..."STA: ", start, newline$,
 ..."DUR: ", dur, newline$,
