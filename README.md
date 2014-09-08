@@ -1,5 +1,5 @@
-Interactive forced alignment in spontaneous speech version 0.4
-==============================================================
+Interactive forced alignment in spontaneous speech version 0.5a
+===============================================================
 
 ###Table of Contents
 - [Installation](#installation)
@@ -178,8 +178,9 @@ forms, because of this there is a settings script available that is scriptable.
 For example if you want to setup a non interactive environment you can run this:
  
 	runScript: "/home/frobnicator/.praat-dir/plugin_pralign/settings_ni.praat",
-	..."custom_phone_tier", "custom_word_tier", "/some/path/to/dict", 0, "tze",
-	..."no", "/tmp/", "/some/path/to/logfile", "a", "/usr/bin/sox"
+	..."custom_phone_tier", "custom_word_tier", "/some/path/to/dict",
+	..."/some/path/to/ruleset", 0, "tze", "no", "/tmp/", "/some/path/to/logfile",
+	..."a", "/usr/bin/sox"
 
 ####Add language
 #####Phonetizer
@@ -202,9 +203,11 @@ and add your language in the option menu on line ``53`` and in the big
 selection statement on line ``18``
 
 ###Version history
+* 0.5a - 2014-09-08 - Added comments to source code(praat) and cleaned up
 * 0.5  - 2014-09-04 - Fixed acronyms in spanish and cleaning didn't work
   correctly with extended boundaries for Align current interval, that's fixed
-	too.
+	too. Added rudimentary ruleset implemetation, still have to write a readme
+	for this
 * 0.4  - 2014-08-29 - Added option for enlargening the boundaries automatically
 * 0.21 - 2014-08-13 - Settings split in non interactive and interactive so that
   the interactive one reflects the current settings

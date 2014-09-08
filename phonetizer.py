@@ -49,56 +49,228 @@ class Phonetizer:
                          reps, l)) for l in f if l and l[0] != '"']
                 self.r += lines
 
-    def toslf(self, pron, bn, graphviz=False):
-        """Generates a mlf file and slf file regarding the ruleset
+    def toslf(self, pron, bn='temp', graphviz=True):
+        """Converts the pronunciation variants and rules to a graph
+        representation
 
-        pron     -- pronunciation in the form of [word1, word2, ..., wordn]
-                        where wordi = [var1, var2, ..., varn]
-                        where vari  = [char1, char2, ..., charn]
-        bn       -- filename without extension for the output files
-        graphviz -- Flag to make a dotfile
+        pron     -- Pronunciation
+        bn       -- Basename for the output
+        graphviz -- If set, this function also produces a .dot file
         """
-        nit, eit = 0, 0
-        nodebase = 'I={:d} W={}\n'
-        edgebase = 'J={:d} S={:d} E={:d}\n'
-        wordb = 0
-        nodestr = nodebase.format(0, '<')
-        nit += 1
-        edgestr = ''
-        for word in pron:
-            toadd = []
-            for var in word:
-                edgestr += edgebase.format(eit, wordb, nit)
-                eit += 1
-                for num, char in enumerate(var):
-                    if num > 0:
-                        edgestr += edgebase.format(eit, nit-1, nit)
-                        eit += 1
-                    nodestr += nodebase.format(nit, char)
-                    nit += 1
-                toadd.append(nit-1)
-            nodestr += nodebase.format(nit, '#')
-            wordb = nit
-            nit += 1
-            for to in toadd:
-                edgestr += edgebase.format(eit, to, wordb)
-                eit += 1
-        nodestr += nodebase.format(nit, '>')
-        edgestr += edgebase.format(eit, nit-1, nit)
-        slfstr = 'N={:d} L={:d}\n{}{}'.format(nit+1, eit+1, nodestr, edgestr)
-        with open('{}.slf'.format(bn), 'w') as ff:
-            ff.writelines(slfstr)
+        # Make a translation for all multi character phones
+        c2 = [ch for wd in pron for var in wd for ch in var if len(ch) > 1]
+        c2 = dict(zip(c2, map(chr, range(1, c2))))
+
+        # Create all possible combinations of pronunciation variants
+        possibles = []
+        var_is = [0]*len(pron)
+        stop = False
+        while not stop:
+            # Add the current word
+            current = [word[var_is[i]]+['#'] for i, word in enumerate(pron)]
+            possibles.append(current)
+            # Increment the indices
+            for i in xrange(0, len(pron)):
+                # If the index can be incremented, do so and break
+                if var_is[i] < len(pron[i])-1:
+                    var_is[i] += 1
+                    break
+                # else make it zero and go to the next one
+                else:
+                    # If this is the last one, stop...
+                    if i == len(var_is)-1:
+                        stop = True
+                    var_is[i] = 0
+
+        # Create all the possible combinations of ruleset combos and applied
+        # rules. Duplicates will occur so a set is used
+        all_pos = set()
+        # Loop over all the words, but now in plain strings
+        for word in [''.join(a for p in pp for a in p) for pp in possibles]:
+            # Get all the combinations of rules present in the ruleset
+            ruleset_combos = []
+            self.permute(self.r, ruleset_combos)
+            # Loop over all possible combinations
+            for ruleset_combo in ruleset_combos:
+                # When the combination is empty we can just add the word
+                if not ruleset_combo:
+                    all_pos.add(word)
+                    break
+                # Otherwise we have to add for every combination of rules
+                for rule in ruleset_combo:
+                    # Find all rule matches and find all combinations of these
+                    mo = list(rule.finditer(word))
+                    possible_replace_combos = []
+                    self.permute(mo, possible_replace_combos)
+                    # For every combinations, apply them and add it to the set
+                    for combi in possible_replace_combos:
+                        nword = word
+                        for r in reversed(combi):
+                            nword = nword[:r.end('fr')]+nword[r.start('to'):]
+                        all_pos.add(nword)
+        # Replace all the multichar phones with their appropriate byte
+        chain_rep = lambda x, (f, t): x.replace(f, t)
+        all_pos = {k: reduce(chain_rep, c2, v) for k, v in all_pos.iteritems()}
+        # Reverse the dictionary so that we later can change it back
+        c2 = {v: k for k, v in c2.iteritems()}
+
+        # Add all the words to the DAWG
+        import pyDAWG
+        pyd = pyDAWG.DAWG()
+        for word in sorted(all_pos):
+            pyd.add_word(word)
+
+        # Create a slf with breath first search and use a translation list to
+        # map the unnumbered nodes to their numbered variants
+        nodenum = 0
+        final_nodes, nodes, edges, translation = [], [], [], []
+        queue = [(0, pyd.q0)]
+        visited = set()
+        if pyd.q0.final:
+            final_nodes.append(nodenum)
+        else:
+            nodes.append(nodenum)
+        nodenum += 1
+        # While we still have nodes to visit
+        while queue:
+            # If we have not visited the newest node
+            current = queue.pop()
+            if not current[0] in visited:
+                # Visit the node
+                visited.add(current[0])
+                # Go throught all the children
+                for char, child in current[1].children.iteritems():
+                    # Find translation for the child
+                    matches = [c for c in translation if c[0] == child]
+                    curnum = -1
+                    # Translate if there is a translation
+                    if matches:
+                        curnum = matches[-1][1]
+                    # Otherwise create a translation
+                    else:
+                        translation.append((child, nodenum))
+                        curnum = nodenum
+                        nodenum += 1
+                    # If the node is final, mark is as such
+                    if child.final:
+                        final_nodes.append(curnum)
+                    else:
+                        nodes.append(curnum)
+                    # Append the edge to the list and append the child to the
+                    # queue
+                    edges.append((current[0], char, curnum))
+                    queue.append((curnum, child))
+        # Convert the edges to a dictionary with for every number a set of
+        # connections and convert the nodes to a dictionary with for every
+        # number the appropriate character. Also convert the multichar phones
+        # back to their original form.
+        nodes += final_nodes
+        nnodes = {0: '<'}
+        nedges = {}
+        for fr, ch, to in edges:
+            nnodes[to] = c2[ch] if ch in c2 else ch
+            if fr not in nedges:
+                nedges[fr] = set()
+            nedges[fr].add(to)
+        # Find the last node and remember the position to connect the end of
+        # the words to it
+        finalnode = len(nnodes)
+        nnodes[finalnode] = '>'
+        for final in final_nodes:
+            if final not in nedges:
+                nedges[final] = set()
+            nedges[final].add(finalnode)
+
+        # Open the slf for writing
+        with open('{}.slf'.format(bn), 'w') as out:
+            # Write statistics about the number of nodes and edges
+            out.write('N={} L={}\n'.format(
+                len(nnodes), sum(len(to) for _, to in nedges.iteritems())))
+            # Write all the nodes
+            out.write(''.join(
+                'I={} W={}\n'.format(k, v) for k, v in nnodes.iteritems()))
+            # Write all the edges
+            i = 0
+            for fr, to in nedges.iteritems():
+                for c in to:
+                    out.write('J={} S={} E={}\n'.format(i, fr, c))
+                    i += 1
+        # If specified create graphviz file
         if graphviz:
-            with open('{}.dot'.format(bn), 'w') as ff:
-                ff.write('digraph g{\n')
-                for li in filter(None,
-                                 [l.split() for l in slfstr.split('\n')]):
-                    if li[0][0] == 'I':
-                        ff.write('\t{} [label="{}"]\n'.format(
-                            li[0][2:], li[1][2:]))
-                    if li[0][0] == 'J':
-                        ff.write('\t{} -> {}\n'.format(li[1][2:], li[2][2:]))
-                ff.write('}')
+            with open('{}.dot'.format(bn), 'w') as out:
+                out.write('digraph dawg {\n')
+                for number, label in nnodes.iteritems():
+                    out.write('\t{} [shape = circle, label = "{}"];\n'.format(
+                        number, label))
+                for fr, to in nedges.iteritems():
+                    for c in to:
+                        out.write('\t{} -> {};\n'.format(fr, c))
+                out.write('}\n')
+
+    def permute(self, items, output):
+        """Helper function that creates all possible combinations of a list
+
+        items  -- Possible items
+        output -- Results list
+        """
+        # Append the current combination
+        output.append(items)
+        # For all nodes left remove 1 and put the resulting list back in
+        for i, item in enumerate(items):
+            items2 = items[:]
+            items2.remove(item)
+            self.permute(items2, output)
+
+#    def toslf(self, pron, bn, graphviz=False):
+#        """Generates a mlf file and slf file regarding the ruleset
+#
+#        pron     -- pronunciation in the form of [word1, word2, ..., wordn]
+#                        where wordi = [var1, var2, ..., varn]
+#                        where vari  = [char1, char2, ..., charn]
+#        bn       -- filename without extension for the output files
+#        graphviz -- Flag to make a dotfile
+#        """
+#        nit, eit = 0, 0
+#        nodebase = 'I={:d} W={}\n'
+#        edgebase = 'J={:d} S={:d} E={:d}\n'
+#        wordb = 0
+#        nodestr = nodebase.format(0, '<')
+#        nit += 1
+#        edgestr = ''
+#        for word in pron:
+#            toadd = []
+#            for var in word:
+#                edgestr += edgebase.format(eit, wordb, nit)
+#                eit += 1
+#                for num, char in enumerate(var):
+#                    if num > 0:
+#                        edgestr += edgebase.format(eit, nit-1, nit)
+#                        eit += 1
+#                    nodestr += nodebase.format(nit, char)
+#                    nit += 1
+#                toadd.append(nit-1)
+#            nodestr += nodebase.format(nit, '#')
+#            wordb = nit
+#            nit += 1
+#            for to in toadd:
+#                edgestr += edgebase.format(eit, to, wordb)
+#                eit += 1
+#        nodestr += nodebase.format(nit, '>')
+#        edgestr += edgebase.format(eit, nit-1, nit)
+#        slfstr = 'N={:d} L={:d}\n{}{}'.format(nit+1, eit+1, nodestr, edgestr)
+#        with open('{}.slf'.format(bn), 'w') as ff:
+#            ff.writelines(slfstr)
+#        if graphviz:
+#            with open('{}.dot'.format(bn), 'w') as ff:
+#                ff.write('digraph g{\n')
+#                for li in filter(None,
+#                                 [l.split() for l in slfstr.split('\n')]):
+#                    if li[0][0] == 'I':
+#                        ff.write('\t{} [label="{}"]\n'.format(
+#                            li[0][2:], li[1][2:]))
+#                    if li[0][0] == 'J':
+#                        ff.write('\t{} -> {}\n'.format(li[1][2:], li[2][2:]))
+#                ff.write('}')
 
     def applyrules(self, phon):
         """Apply the rules specified in the ruleset
@@ -120,11 +292,11 @@ class Phonetizer:
         utterance -- The utterance to phonetize
         """
         try:
-            pron = [self.applyrules(self.phonetizeword(
-                unicode(word, 'utf-8'))) for word in utterance.split()]
+            pron = [self.phonetizeword(unicode(word, 'utf-8')) for
+                    word in utterance.split()]
         except TypeError:
-            pron = [self.applyrules(self.phonetizeword(
-                unicode(word))) for word in utterance.split()]
+            pron = [self.phonetizeword(unicode(word)) for
+                    word in utterance.split()]
         pron = filter(None, pron)
         return pron
 

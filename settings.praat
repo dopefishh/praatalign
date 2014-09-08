@@ -4,6 +4,10 @@ if fileReadable("settings")
 	if dictionary$ = "None"
 		dictionary$ = ""
 	endif
+	ruleset$ = extractLine$(settingsData$, "RUL: ")
+	if ruleset$ = "None"
+		ruleset$ = ""
+	endif
 	new$ = extractLine$(settingsData$, "NEW: ")
 	wrd$ = extractLine$(settingsData$, "WRD: ")
 	lan$ = extractLine$(settingsData$, "LAN: ")
@@ -32,6 +36,7 @@ if fileReadable("settings")
 	thr = extractNumber(settingsData$, "THR: ")
 else
 	dictionary$ = ""
+	ruleset$ = ""
 	new$ = "align_phon"
 	wrd$ = "align_word"
 	lan = 1
@@ -63,6 +68,13 @@ beginPause: "Set the variables"
 		sentence: "dictionary", dictionary$
 	endif
 
+	comment: "Select a ruleset file when pressing apply"
+	boolean: "rul", 0
+	if ruleset$ <> ""
+		comment: "Current ruleset"
+		sentence: "ruleset", ruleset$
+	endif
+
 	comment: "Set the length of the added length to the annotations"
 	real: "thr", thr
 
@@ -88,6 +100,13 @@ else
 		dictionary$ = "None"
 	endif
 endif
+if rul
+	ruleset$ = chooseReadFile$("Open the ruleset")
+else
+	if ruleset$ = ""
+		ruleset$ = "None"
+	endif
+endif
 
 deleteFile("settings")
 writeFileLine("settings",
@@ -98,6 +117,7 @@ writeFileLine("settings",
 ..."NEW: ", new$, newline$,
 ..."OUT: ", tmp$, "praat_temp_out", newline$,
 ..."PAU: ", pau$, newline$,
+..."RUL: ", ruleset$, newline$,
 ..."SOX: ", sox$, newline$,
 ..."THR: ", thr, newline$,
 ..."TMP: ", tmp$, newline$,

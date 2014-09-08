@@ -1,3 +1,4 @@
+# Read all the settings
     if not fileReadable("settings")
         exitScript("No settings file found, please run the setup first")
     endif
@@ -7,34 +8,47 @@
     wrd$ = extractLine$(settings$, "WRD: ")
     pau$ = extractLine$(settings$, "PAU: ")
 
+# Get the current selected tier
     info$ = Editor info
     curtier = extractNumber(info$, "Selected tier:")
 
+# Extract the file name of the wave file
     info$ = LongSound info
     wav$ = extractLine$(info$, "File name: ")
     snd$ = extractLine$(info$, "Object name: ")
 
+# Extract the object name
     info$ = TextGrid info
     curtg$ = extractLine$(info$, "Object name: ")
+
+# Extract the tier
     Extract entire selected tier
 endeditor
+
+# Select the tier and convert it to a table and write it to a file
 tg$ = selected$("TextGrid", 1)
 Down to Table... "no" 6 "yes" "no"
 Save as tab-separated file... 'out$'
+
+# Remove all the created temporary objects
 Remove
 select TextGrid 'tg$'
 Remove
 
+# Write the tier specific settings
 writeFileLine("isettings",
 ..."WAV: ", wav$)
 
+# Do the actual alignment but pause if necessary to ask for confirmation
 if pau$ = "True"
     pause Are you sure, this takes a long time...
 endif
 system python aligntier.py
 
+# Read the results
 Read Table from comma-separated file... 'out$'
 
+# Remove the tiers if they already exist
 rows = Get number of rows
 select TextGrid 'curtg$'
 numtiers = Get number of tiers
@@ -48,22 +62,28 @@ while i < numtiers
     endif
     numtiers = Get number of tiers
 endwhile
+
+# Create the tiers again(easier cleaning)
 Insert interval tier... 1 'wrd$'
 tiernum_w = 1
 Insert interval tier... 2 'new$'
 tiernum_p = 2
 
+# Close the editor for more speed
 editor TextGrid 'curtg$'
     Close
 endeditor
 
+# Put the results in the textgrid
 for i to rows
+# Extract the values
     select Table praat_temp_out
     sstart$ = Get value... 'i' start
     send$ = Get value... 'i' end
     svalue$ = Get value... 'i' label
     stype$ = Get value... 'i' type
     select TextGrid 'curtg$'
+# Create either a phone or a word interval
     if stype$ = "p"
         nocheck Insert boundary... 'tiernum_p' 'sstart$'
         nocheck Insert boundary... 'tiernum_p' 'send$'
@@ -77,8 +97,11 @@ for i to rows
     endif
 endfor
 
+# Remove temporary table file
 select Table praat_temp_out
 Remove
+
+# Reselect the TextGrid and re-open editor
 select TextGrid 'curtg$'
 plus LongSound 'snd$'
 Edit

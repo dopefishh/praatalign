@@ -2,16 +2,20 @@
 # -*- coding: utf-8 -*-
 
 from align import force
-import phonetizer
+import phonetizer as ph
 
+# Load the settings
 with open('isettings', 'r') as f:
     settings = {k: v.strip() for k, v in map(lambda x: x.split(': '), f)}
 with open('settings', 'r') as f:
     settings.update({k: v.strip() for k, v in map(lambda x: x.split(': '), f)})
 
-phontiz = phonetizer.getphonetizer(settings['LAN'], settings['DCT'])
-p = phontiz[1]
-phontiz = phontiz[0]
+# Load the phonetizer
+phone = ph.getphonetizer(settings['LAN'], settings['DCT'], settings['RUL'])
+p = phone[1]
+phone = phone[0]
+
+# Update the settings
 settings.update({
     'BN': 'temp',
     'DIC': './{}/DICT'.format(p),
@@ -24,4 +28,5 @@ settings.update({
     'HDR': '1'
     })
 
-force(phontiz, **settings)
+# Do the actual alignment
+force(phone, **settings)
