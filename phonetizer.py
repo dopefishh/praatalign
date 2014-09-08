@@ -59,7 +59,7 @@ class Phonetizer:
         """
         # Make a translation for all multi character phones
         c2 = [ch for wd in pron for var in wd for ch in var if len(ch) > 1]
-        c2 = dict(zip(c2, map(chr, range(1, c2))))
+        c2 = dict(zip(c2, map(chr, range(1, len(c2)+1))))
 
         # Create all possible combinations of pronunciation variants
         possibles = []
@@ -110,7 +110,8 @@ class Phonetizer:
                         all_pos.add(nword)
         # Replace all the multichar phones with their appropriate byte
         chain_rep = lambda x, (f, t): x.replace(f, t)
-        all_pos = {k: reduce(chain_rep, c2, v) for k, v in all_pos.iteritems()}
+        all_pos = {reduce(chain_rep, c2.iteritems(), v) for v in all_pos}
+
         # Reverse the dictionary so that we later can change it back
         c2 = {v: k for k, v in c2.iteritems()}
 
@@ -167,11 +168,13 @@ class Phonetizer:
         nodes += final_nodes
         nnodes = {0: '<'}
         nedges = {}
+        print nnodes
         for fr, ch, to in edges:
             nnodes[to] = c2[ch] if ch in c2 else ch
             if fr not in nedges:
                 nedges[fr] = set()
             nedges[fr].add(to)
+        print nnodes
         # Find the last node and remember the position to connect the end of
         # the words to it
         finalnode = len(nnodes)

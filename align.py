@@ -76,7 +76,7 @@ def force(phonetizer, code='w', **param):
         lg.write('HCopy ran:\n\tout: {}\n\terr: {}\n'.format(out, err))
 
         # Run the HVite actual alignment
-        proc = subprocess.Popen(HCOPY.format(**param), shell=True,
+        proc = subprocess.Popen(HVITE.format(**param), shell=True,
                                 env={'PATH': os.environ['PATH']},
                                 stderr=subprocess.PIPE, stdout=subprocess.PIPE)
         out, err = proc.communicate()
