@@ -6,12 +6,18 @@ import os
 import subprocess
 import sys
 import time
+import datetime
 
 HCOPY = '"{CWD}/{HC}" -T 0 -C "{CWD}/{PRE}" temp.nis "{CWD}/{BN}.htk" || true'
 HVITE = ('"{CWD}/{HV}" -C "{CWD}/{HVI}" -w -X slf -H "{CWD}/{MMF}" -s 7.0 '
          '-p 0.0 "{CWD}/{DIC}" "{CWD}/{HMM}" "{CWD}/{BN}.htk" || true')
 SOUND = ('"{SOX}" "{WAV}" -t sph -e signed-integer -b 16 -c 1 "{CWD}/temp.nis"'
          ' trim {STA} {DUR} rate -s -a {SOU} || true')
+
+
+def current_millis():
+    c = datetime.datetime.now()
+    return (c.hour*3600 + c.minute*60 + c.second) * 1000 + c.microsecond/1000
 
 
 def force(phonetizer, code='w', **param):
@@ -41,6 +47,7 @@ def force(phonetizer, code='w', **param):
     """
     # Open the log file
     with open(param['LOG'], param['LGC']) as lg:
+        ltime = current_millis()
         lg.write('Starting to align: {}\n'.format(
             time.strftime("%a, %d %b %Y %H:%M:%S +0000", time.gmtime())))
 
@@ -48,15 +55,21 @@ def force(phonetizer, code='w', **param):
         with open(param['PRE'], 'r') as f:
             rate = int([a for a in f if 'SOURCERATE' in a][0].split(' ')[-1])
             param['SOU'] = 1e7/rate
-        lg.write('Parameters parsed: {}\n'.format(param))
+        ctime = current_millis()
+        lg.write('({})Parameters parsed: {}\n'.format(ctime-ltime, param))
+        ltime = ctime
 
         # Load the phonetizer
         pron = phonetizer.phonetize(param['UTT']) or [[['<nib>']]]
-        lg.write('Utterance phonetized spawned\n')
+        ctime = current_millis()
+        lg.write('({})Utterance phonetized spawned\n'.format(ctime-ltime))
+        ltime = ctime
 
         # Create the graph file
         phonetizer.toslf(pron, param['BN'])
-        lg.write('Graph created\n')
+        ctime = current_millis()
+        lg.write('({})Graph created\n'.format(ctime-ltime))
+        ltime = ctime
 
         # Extract the current directory to eliminate some PATH problems
         param['CWD'] = os.getcwd()
@@ -66,21 +79,30 @@ def force(phonetizer, code='w', **param):
                                 env={'PATH': os.environ['PATH']},
                                 stderr=subprocess.PIPE, stdout=subprocess.PIPE)
         out, err = proc.communicate()
-        lg.write('Sox ran:\n\tout: {}\n\terr: {}\n'.format(out, err))
+        ctime = current_millis()
+        lg.write('({})Sox ran:\n\tout: {}\n\terr: {}\n'.format(
+            ctime-ltime, out, err))
+        ltime = ctime
 
         # Run the HCopy process
         proc = subprocess.Popen(HCOPY.format(**param), shell=True,
                                 env={'PATH': os.environ['PATH']},
                                 stderr=subprocess.PIPE, stdout=subprocess.PIPE)
         out, err = proc.communicate()
-        lg.write('HCopy ran:\n\tout: {}\n\terr: {}\n'.format(out, err))
+        ctime = current_millis()
+        lg.write('({})HCopy ran:\n\tout: {}\n\terr: {}\n'.format(
+            ctime-ltime, out, err))
+        ltime = ctime
 
         # Run the HVite actual alignment
         proc = subprocess.Popen(HVITE.format(**param), shell=True,
                                 env={'PATH': os.environ['PATH']},
                                 stderr=subprocess.PIPE, stdout=subprocess.PIPE)
         out, err = proc.communicate()
-        lg.write('HVite ran:\n\tout: {}\n\terr: {}\n'.format(out, err))
+        ctime = current_millis()
+        lg.write('({})HVite ran:\n\tout: {}\n\terr: {}\n'.format(
+            ctime-ltime, out, err))
+        ltime = ctime
 
         # Open the output file
         out = param['OUT']
@@ -115,4 +137,5 @@ def force(phonetizer, code='w', **param):
         # Close the file again
         if out != '-':
             fileio.close()
-        lg.write('Finished')
+        ctime = current_millis()
+        lg.write('({})Finished'.format(ctime-ltime))

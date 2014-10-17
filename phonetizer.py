@@ -168,13 +168,11 @@ class Phonetizer:
         nodes += final_nodes
         nnodes = {0: '<'}
         nedges = {}
-        print nnodes
         for fr, ch, to in edges:
             nnodes[to] = c2[ch] if ch in c2 else ch
             if fr not in nedges:
                 nedges[fr] = set()
             nedges[fr].add(to)
-        print nnodes
         # Find the last node and remember the position to connect the end of
         # the words to it
         finalnode = len(nnodes)
