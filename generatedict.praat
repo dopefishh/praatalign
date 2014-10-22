@@ -1,18 +1,27 @@
+# Extract settings
     if not fileReadable("settings")
         exitScript("No settings file found, please run the setup first")
     endif
     settings$ = readFile$("settings")
-    out$ = extractLine$(settings$, "OUT: ")
-    info$ = Editor info
-    curtier = extractNumber(info$, "Selected tier:")
+    tmpfile$ = extractLine$(settings$, "OUT: ")
+    editor_info$ = Editor info
+    curtier = extractNumber(editor_info$, "Selected tier:")
+
+# Extract tier
     Extract entire selected tier
 endeditor
-tg$ = selected$("TextGrid", 1)
+textgrid_object = selected$("TextGrid", 1)
+
+# Create table and save
 Down to Table... "no" 6 "yes" "no"
-Save as tab-separated file... 'out$'
+Save as tab-separated file... 'tmpfile$'
+
+# Clean up
 Remove
-select TextGrid 'tg$'
+select TextGrid 'textgrid_object'
 Remove
-tofile$ = chooseWriteFile$("Pick the location to write the dictionary to",
+
+# Ask for location and write the dictionary
+dict_filepath$ = chooseWriteFile$("Pick the location for the dictionary",
 ..."missing.txt")
-system python generatedict.py 'tofile$'
+system python generatedict.py 'dict_filepath$'

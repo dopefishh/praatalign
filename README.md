@@ -19,6 +19,8 @@ Interactive forced alignment in spontaneous speech version 0.5a
 		- [Phonetizer](#phonetizer)
 		- [Models](#models)
 		- [Adapt the Praat scripts](#adapt-the-praat-scripts)
+- [TODO](#todo)
+- [How to cite](#how-to-cite)
 - [Version history](#version-history)
 - [Authors](#authors)
 
@@ -225,9 +227,23 @@ selection statement on line ``18``
 * 0.01 - 2014-03-27 - phonetizer done
 * 0.00 - 2014-03-27 - initial version
 
+###TODO
+* Make slf creating faster.
+* Tidy up ``aligntier.praat``.
+* Tidy up ``generatedict.praat``.
+* Tidy up ``cleaninterval.praat``.
+* Tidy up ``settings.praat``.
+* Tidy up ``settings_ni.praat``.
+* Make safety nets for user errors like not selecting anything, selecting
+  longsound instead of sound etc.
+
+###How to cite
+	Lubbers, M. (2014) Praatalign (Version 0.5a) [Computer program].
+	Available at https://github.com/dopefishh/praatalign (Accessed 2014-10-15)
+
 ###Authors
 Programming: Mart Lubbers (mart@martlubbers.net)
 
 Testing: Emma Valtersson (emma.valtersson@gmail.com)
 
-Supervision and idea: Francisco Torreira (francisco.torreira@mpi.nl)
+Supervision: Francisco Torreira (francisco.torreira@mpi.nl)

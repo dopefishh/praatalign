@@ -3,139 +3,142 @@
         exitScript("No settings file found, please run the setup first")
     endif
     settings$ = readFile$("settings")
-    new$ = extractLine$(settings$, "NEW: ")
-    wrd$ = extractLine$(settings$, "WRD: ")
-    out$ = extractLine$(settings$, "OUT: ")
-		thr = extractNumber(settings$, "THR: ")
+    phonetier_name$ = extractLine$(settings$, "NEW: ")
+    wordtier_name$ = extractLine$(settings$, "WRD: ")
+    tmpfile$ = extractLine$(settings$, "OUT: ")
+		boundary_margin = extractNumber(settings$, "THR: ")
 
 # Get current selection
-    start = Get starting point of interval
-    end = Get end point of interval
+    selection_start = Get starting point of interval
+    selection_end = Get end point of interval
 
 # Extract file name and duration of the entire wave file
-    info$ = LongSound info
-    wav$ = extractLine$(info$, "File name: ")
-    utt$ = Get label of interval
-		fullduration = extractNumber(info$, "Duration: ")
+    longsound_info$ = LongSound info
+    wav_filepath$ = extractLine$(longsound_info$, "File name: ")
+    wav_object$ = extractLine$(longsound_info$, "Object name: ")
+    utterance$ = Get label of interval
+		fullduration = extractNumber(longsound_info$, "Duration: ")
 
 # Extract the object name
-    info$ = TextGrid info
-    tg$ = extractLine$(info$, "Object name: ")
+    textgrid_info$ = TextGrid info
+    textgrid_object$ = extractLine$(textgrid_info$, "Object name: ")
 
 # Check if the previous or next interval are empty
 		Select previous interval
-		int$ = Get label of interval
-		if int$ = ""
-			before = thr
+		interval_label$ = Get label of interval
+		if interval_label$ = ""
+			margin_before = boundary_margin
 		else
-			before = 0
+			margin_before = 0
 		endif
 		Select next interval
 		Select next interval
-		int$ = Get label of interval
-		if int$ = ""
-			after = thr
+		interval_label$ = Get label of interval
+		if interval_label$ = ""
+			margin_after = boundary_margin
 		else
-			after = 0
+			margin_after = 0
 		endif
 endeditor
 
+# Calculate the true start and end times with respect to the extended bounds
+selection_start = max(selection_start - margin_before, 0)
+selection_end = min(selection_end + margin_after, fullduration)
+selection_duration = selection_end - selection_start
+
 # Get the index of the phone tier
-select TextGrid 'tg$'
-tiernum_p = -1
-numtier = Get number of tiers
-for i to numtier
-    name$ = Get tier name... i
-    if name$ = new$
-        tiernum_p = i
+select TextGrid 'textgrid_object$'
+phonetier_number = -1
+number_tiers = Get number of tiers
+for i to number_tiers
+    tiername$ = Get tier name... i
+    if tiername$ = phonetier_name$
+        phonetier_number = i
     endif
 endfor
 # If it doesn't exist, create it
-if tiernum_p = -1
-    Insert interval tier... 1 'new$'
-    tiernum_p = 1
+if phonetier_number = -1
+    Insert interval tier... 1 'phonetier_name$'
+    phonetier_number = 1
 endif
 
 # Get the index of the word tier
-tiernum_w = -1
-numtier = Get number of tiers
-for i to numtier
-    name$ = Get tier name... i
-    if name$ == wrd$
-        tiernum_w = i
+wordtier_number = -1
+number_tiers = Get number of tiers
+for i to number_tiers
+    tiername$ = Get tier name... i
+    if tiername$ == wordtier_name$
+        wordtier_number = i
     endif
 endfor
 # If it doesn't exist, create it
-if tiernum_w = -1
-    Insert interval tier... 1 'wrd$'
-    tiernum_w = 1
+if wordtier_number = -1
+    Insert interval tier... 1 'wordtier_name$'
+    wordtier_number = 1
 endif
 
-# Calculate the true start and end times with respect to the extended bounds
-start = max(start - before, 0)
-end = min(end + after, fullduration)
-dur = end - start
-
 # Clean up the phone tier
-editor TextGrid 'tg$'
+editor TextGrid 'textgrid_object$'
 # Select the interval
-    curtier = -1
+    current_tier_num = -1
     repeat
         Select next tier
-        info$ = Editor info
-        curtier = extractNumber(info$, "Selected tier:")
-    until tiernum_p = curtier
-    Select... 'start' 'end'
+        editor_info$ = Editor info
+        current_tier_num = extractNumber(editor_info$, "Selected tier:")
+    until phonetier_number = current_tier_num
+    Select... 'selection_start' 'selection_end'
 # Clean up
 include cleaninterval.praat
 
 # Clean up the word tier
-editor TextGrid 'tg$'
+editor TextGrid 'textgrid_object$'
 # Select the tier
-    curtier = -1
+    current_tier_num = -1
     repeat
         Select next tier
-        info$ = Editor info
-        curtier = extractNumber(info$, "Selected tier:")
-    until tiernum_w = curtier
-    Select... 'start' 'end'
+        editor_info$ = Editor info
+        current_tier_num = extractNumber(editor_info$, "Selected tier:")
+    until wordtier_number = current_tier_num
+    Select... 'selection_start' 'selection_end'
 # Clean up
 include cleaninterval.praat
 
 # Write the interval specific settings to the settings file
 writeFileLine("isettings",
-..."STA: ", start, newline$,
-..."DUR: ", dur, newline$,
-..."UTT: ", utt$, newline$,
-..."WAV: ", wav$)
+..."STA: ", selection_start, newline$,
+..."DUR: ", selection_duration, newline$,
+..."UTT: ", utterance$, newline$,
+..."WAV: ", wav_filepath$)
 
 # Do the actual alignment
 system python alignannotation.py
 
 # Read the results
-Read Table from comma-separated file... 'out$'
+Read Table from comma-separated file... 'tmpfile$'
 
 # Put the results in the textgrid
-rows = Get number of rows
-for i to rows
+number_rows = Get number of rows
+for i to number_rows
 #Extract the values
     select Table praat_temp_out
-    sstart$ = Get value... 'i' start
-    send$ = Get value... 'i' end
-    svalue$ = Get value... 'i' label
-    stype$ = Get value... 'i' type
-    select TextGrid 'tg$'
+    current_start$ = Get value... 'i' start
+    current_end$ = Get value... 'i' end
+    current_value$ = Get value... 'i' label
+    current_type$ = Get value... 'i' type
+    select TextGrid 'textgrid_object$'
 # Create either a phone or a word interval
-    if stype$ = "p"
-        nocheck Insert boundary... 'tiernum_p' 'sstart$'
-        nocheck Insert boundary... 'tiernum_p' 'send$'
-        intnum = Get interval at time... 'tiernum_p' 'sstart$'+0.0001
-        Set interval text... 'tiernum_p' 'intnum' 'svalue$'
-    elif stype$ = "w"
-        nocheck Insert boundary... 'tiernum_w' 'sstart$'
-        nocheck Insert boundary... 'tiernum_w' 'send$'
-        intnum = Get interval at time... 'tiernum_w' 'sstart$'+0.0001
-        Set interval text... 'tiernum_w' 'intnum' 'svalue$'
+    if current_type$ = "p"
+        nocheck Insert boundary... 'phonetier_number' 'current_start$'
+        nocheck Insert boundary... 'phonetier_number' 'current_end$'
+        intnum = Get interval at time... 'phonetier_number'
+... 'current_start$'+0.0001
+        Set interval text... 'phonetier_number' 'intnum' 'current_value$'
+    elif current_type$ = "w"
+        nocheck Insert boundary... 'wordtier_number' 'current_start$'
+        nocheck Insert boundary... 'wordtier_number' 'current_end$'
+        intnum = Get interval at time... 'wordtier_number'
+... 'current_start$'+0.0001
+        Set interval text... 'wordtier_number' 'intnum' 'current_value$'
     endif
 endfor
 

@@ -1,3 +1,4 @@
+# If the settings is already present extract all the entries
 if fileReadable("settings")
 	settingsData$ = readFile$("settings")
 	dictionary$ = extractLine$(settingsData$, "DCT: ")
@@ -34,6 +35,7 @@ if fileReadable("settings")
 	endif
 	sox$ = extractLine$(settingsData$, "SOX: ")
 	thr = extractNumber(settingsData$, "THR: ")
+# If the settings isn't present initialize everything
 else
 	dictionary$ = ""
 	ruleset$ = ""
@@ -48,6 +50,7 @@ else
 	thr = 0
 endif
 
+# Spawn the option window for the user
 beginPause: "Set the variables"
 	comment: "Name for the output tier(may already exist)"
 	sentence: "new", new$
@@ -91,6 +94,8 @@ beginPause: "Set the variables"
 	comment: "Sox path"
 	sentence: "sox", sox$
 endPause: "Apply", 1
+
+# Process the special options and optionally ask for filepaths
 pau$ = if pau then "True" else "False" fi
 lgc$ = if lgc then "a" else "w" fi
 if dic
@@ -108,6 +113,7 @@ else
 	endif
 endif
 
+# Delete the original settings file and write the new one
 deleteFile("settings")
 writeFileLine("settings",
 ..."DCT: ", dictionary$, newline$,

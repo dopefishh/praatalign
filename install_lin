@@ -6,5 +6,4 @@ rm -rvf "$dir"
 mkdir -p "$dir" "./bin"
 cp -v ./bin_lin/* ./bin/
 find . -maxdepth 1 ! -name "\." ! -name "install*" ! -name ".*" \
-				   ! -name "temp*" ! -name "bin_*"  -print0 | xargs -P 2 -0 -I{} cp -vR "{}" "$dir"
-
+! -name "temp*" ! -name "bin_*" -print0 | xargs -P 2 -0 -I{} cp -vR "{}" "$dir"
