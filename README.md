@@ -1,7 +1,7 @@
 Interactive forced alignment in spontaneous speech version 0.7
 ==============================================================
 
-##Table of Contents
+## <a name="table-of-contents"></a>Table of Contents
 - [Table of contents](#table-of-contents)
 - [Installation](#installation)
 	- [Requirements](#requirements)
@@ -26,11 +26,11 @@ Interactive forced alignment in spontaneous speech version 0.7
 		- [Adapt the Praat scripts](#adapt-the-praat-scripts)
 - [TODO](#todo)
 - [How to cite](#how-to-cite)
-- [Version history](#version-history)
 - [Authors](#authors)
+- [Version history](#version-history)
 
-##Installation
-###Requirements
+## <a name="installation"></a>Installation
+### <a name="requirements"></a>Requirements
 - [Python 2.7.3](https://www.python.org/download/)
 - [SoX](http://sox.sourceforge.net/)
 - [Praat 5.4](http://www.fon.hum.uva.nl/praat)
@@ -41,18 +41,18 @@ Interactive forced alignment in spontaneous speech version 0.7
 	- [Windows binaries](http://htk.eng.cam.ac.uk/ftp/software/htk-3.3-windows-binary.zip)
 	- [Sources](http://htk.eng.cam.ac.uk/ftp/software/HTK-samples-3.4.tar.gz)
 
-###Installation process
-####Preparation
+### <a name="installation-process"></a>Installation process
+#### <a name="preparation"></a>Preparation
 - Linux: Put ``HVite`` and ``HCopy`` in the ``bin_lin`` folder.
 - Mac: Put ``HVite`` and ``HCopy`` in the ``bin_mac`` folder.
 - Windows: Put ``HVite.exe`` and ``HCopy.exe`` in the ``bin_win`` folder.
 
-####Automatic installation
+#### <a name="automatic-installation"></a>Automatic installation
 - Linux: Run ``install_lin.bat``
 - Mac: Run ``install_mac.bat``
 - Windows: Run ``install_win.bat``
 
-####Manual installation
+#### <a name="manual-installation"></a>Manual installation
 Put the HVite and HCopy binaries in the bin folder and copy all the contents of
 the root folder to:
 
@@ -60,8 +60,8 @@ the root folder to:
 - Linux: ``${HOME}/.praat-dir/plugin_pralign``
 - Mac: ``${HOME}/Praat Prefs/plugin_pralign``
 
-##Documentation
-###General information
+## <a name="documentation"></a>Documentation
+### <a name="general-information"></a>General information
 Presets for Spanish, Tzeltal and Dutch are included. Presets for Australian
 English, English, Estonian, German, Hungarian, Italian, Newzealang English
 Polish and Portuguese will be added in the future. When you want a language
@@ -71,11 +71,11 @@ Dictionary, ruleset and all other files are, and should be, encoded in *UTF-8*.
 That's why the plugin setup also sets the praat reading and writing preferences
 to *UTF-8*.
 
-###Menu Items
+### <a name="menu-items"></a>Menu Items
 **NOTE: To align you need to select a LongSound and a TextGrid. Selecting a
 Sound and a TextGrid will cause the program to fail.**
 
-####Generate dictionary from tier...
+#### <a name="generate-dictionary-from-tier"></a>Generate dictionary from tier...
 This function will prompt for a file location to write alle the missing words
 from the selected tier to. Missing words are words that are either not in the
 dictionary or unable to be phonetized.
@@ -83,12 +83,12 @@ Note that the *Setup forced alignment...* has to be run at least once to create
 the initial settings file. If this is not the case the program will generate an
 error and terminate.
 
-####Clean selection
+#### <a name="clean-selection"></a>Clean selection
 With clean selection all the intervals that have overlap with the current
 selection of the current selected tier will be removed. This can come in handy
 to clean up a previous alignment of an interval.
 
-####Align current interval
+#### <a name="align-current-interval"></a>Align current interval
 This force alignes the current selected interval against the wavefile with the
 given settings. This will clear all the annotation data in the target tiers
 before aligning.
@@ -97,7 +97,7 @@ Note that the *Setup forced alignment...* has to be run at least once to create
 the initial settings file. If this is not the case the program will generate an
 error and terminate.
 
-####Align current tier
+#### <a name="align-current-tier"></a>Align current tier
 This force alignes the entire tier against the wavefile with the given
 settings. This will clear the target tiers before aligning.
 
@@ -105,7 +105,7 @@ Note that the *Setup forced alignment...* has to be run at least once to create
 the initial settings file. If this is not the case the program will generate an
 error and terminate.
 
-####Setup forced alignment...
+#### <a name="setup-forced-alignment"></a>Setup forced alignment...
 This button will generate the config file for the forced aligner to work with
 and must be used at least once before doing alignment for the first time. When
 the spawned form is closed a settings file will be written to disk for later
@@ -166,7 +166,7 @@ The following options can be specified in the settings menu:
 	script so the ``$PATH`` variable is not always the same as in an interactive
 	shell.
 
-###Dictionary file
+### <a name="dictionary-file"></a>Dictionary file
 A dictionary file consists of several non-empty lines separated by a newline
 character(``\n``).  Lines starting with a ``#`` will be ignored and can be used
 as comments. The dictionary delivers the pronounciation and optional variants
@@ -177,7 +177,7 @@ to the phonetizer and has to be of the following format:
 	...
 	word-n\tpronounciation-n[\tvariant-na][\tvariant-nb]...
 
-###Ruleset file
+### <a name="ruleset-file"></a>Ruleset file
 A ruleset file consists of several non-empty lines separated by a newline
 character(``\n``). Lines starting with a ``#`` will be ignored and can be used
 as comments. A ruleset file can provide pronunciation variants in a rule based
@@ -195,7 +195,7 @@ Possible escapes are:
 - ``\c`` for consonants(``[^aoeui]``)
 
 
-###Scriptability
+### <a name="scriptability"></a>Scriptability
 The settings menu is not scriptable because it uses pause dialogs instead of
 forms, because of this there is a settings script available that is scriptable.
 For example if you want to setup a non interactive environment you can run this:
@@ -205,8 +205,8 @@ For example if you want to setup a non interactive environment you can run this:
 	..."/some/path/to/ruleset", 0, "tze", "no", "/some/path/to/logfile", "a",
 	..."/usr/bin/sox"
 
-###Add language
-####Phonetizer
+### <a name="add-language"></a>Add language
+#### <a name="phonetizer"></a>Phonetizer
 There is a skeleton model available for writing a new phonetizer. This has to
 be done in Python. Implement the phonetizer and add your phonetizer to the
 dictionary as a tuple with as second value a parameter directory called:
@@ -214,33 +214,33 @@ dictionary as a tuple with as second value a parameter directory called:
 	./par.lan
 Where lan is a three letter language code
 
-####Models
+#### <a name="models"></a>Models
 You can create your own models or use the given models(for example Sampa
 models). Note that in the Python phonetizer file, the connection between models
 and languages is defined in the phonetizer dictionary at the bottom of the
 file.
 
-####Adapt the Praat scripts
+#### <a name="adapt-the-praat-scripts"></a>Adapt the Praat scripts
 To add the language to the Praat scripts you have to edit ``settings.praat``
 and add your language in the option menu on line ``53`` and in the big
 selection statement on line ``18``
 
-##TODO
+## <a name="todo"></a>TODO
 - Make slf creating faster. Or at least make the advanced slf generation
   optional.
 - Test more thoroughly on windows.
 
-##How to cite
+## <a name="how-to-cite"></a>How to cite
 	
 	Lubbers, M. (2014) Praatalign (Version 0.6) [Computer program].
 	Available at https://github.com/dopefishh/praatalign (Accessed 2014-10-29)
 
-##Authors
+## <a name="authors"></a>Authors
 - Programming: Mart Lubbers (mart@martlubbers.net)
 - Supervision: Francisco Torreira (francisco.torreira@mpi.nl)
 - Testing: Emma Valtersson (emma.valtersson@gmail.com)
 
-##Version history
+## <a name="version-history"></a>Version history
 - 0.7 (2014-10-29)
 	- Added windows support.
 	- Cleaned up documentation.
