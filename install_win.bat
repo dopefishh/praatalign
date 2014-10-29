@@ -4,7 +4,7 @@ SET _plugindir=%USERPROFILE%\Praat\plugin_pralign
 ECHO Clearing out directory
 RD /Q /S "%_plugindir%"
 echo Creating directory
-MD "%_plugindir%" "bin"
+MD "%_plugindir%"
 echo Copy binaries
 ROBOCOPY /PURGE bin_win bin /Z
 echo Copy plugin files
