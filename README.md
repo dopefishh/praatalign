@@ -229,9 +229,9 @@ selection statement on line ``18``
 
 | Version | Date | Version notes |
 |--|--|--|
-| 0.7| 2014-10-29 | - Added windows support. |
-| - Cleaned up documentation. |
-| - Removed binaries due htk licence. |
+| | 0.7| 2014-10-29 | - Added windows support. |
+| | | - Cleaned up documentation. |
+| | | - Removed binaries due htk licence. |
 
 - 0.6  - 2014-10-22 - Refactored and cleaned up the source, much more readable
   now
