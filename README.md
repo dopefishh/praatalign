@@ -233,7 +233,7 @@ selection statement on line ``18``
 ##How to cite
 	
 	Lubbers, M. (2014) Praatalign (Version 0.6) [Computer program].
-	Available at https://github.com/dopefishh/praatalign (Accessed 2014-10-29)``
+	Available at https://github.com/dopefishh/praatalign (Accessed 2014-10-29)
 
 ##Authors
 - Programming: Mart Lubbers (mart@martlubbers.net)
