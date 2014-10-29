@@ -452,9 +452,9 @@ class PhonetizerSkeleton(Phonetizer):
         pass
 
 phonetizerdict = {
-    'spa': (PhonetizerSpanish, 'par.spa/'),
-    'tze': (PhonetizerTzeltal, 'par.sam/'),
-    'dut': (PhonetizerDictionary, 'par.dut/')
+    'spa': (PhonetizerSpanish, 'par.spa'),
+    'tze': (PhonetizerTzeltal, 'par.sam'),
+    'dut': (PhonetizerDictionary, 'par.dut')
     }
 
 

@@ -19,6 +19,10 @@
     utterance$ = Get label of interval
 		fullduration = extractNumber(longsound_info$, "Duration: ")
 
+# Extract current tier to later match with word and phon tier
+    editor_info$ = Editor info
+    current_tier = extractNumber(editor_info$, "Selected tier: ")
+
 # Extract the object name
     textgrid_info$ = TextGrid info
     textgrid_object$ = extractLine$(textgrid_info$, "Object name: ")
@@ -58,6 +62,7 @@ for i to number_tiers
 endfor
 # If it doesn't exist, create it
 if phonetier_number = -1
+    current_tier = current_tier + 1
     Insert interval tier... 1 'phonetier_name$'
     phonetier_number = 1
 endif
@@ -73,8 +78,19 @@ for i to number_tiers
 endfor
 # If it doesn't exist, create it
 if wordtier_number = -1
+    current_tier = current_tier + 1
     Insert interval tier... 1 'wordtier_name$'
     wordtier_number = 1
+		phonetier_number = phonetier_number + 1
+endif
+
+# If the phone tier is the same as the word tier, let know
+if current_tier == phonetier_number or current_tier == wordtier_number
+	pause You have selected your word or phonetier as source tier... Are you sure
+... you want to continue
+elif phonetier_number == wordtier_number
+pause The phone tier is the same as the word tier... Are you sure you want 
+...to continue?
 endif
 
 # Clean up the phone tier

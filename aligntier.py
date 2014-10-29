@@ -3,6 +3,7 @@
 
 from align import force
 import codecs
+import os
 import phonetizer as ph
 
 # Load the settings
@@ -19,13 +20,13 @@ phone = phone[0]
 # Update the settings
 settings.update({
     'BN': 'temp',
-    'DIC': './{}DICT'.format(p),
-    'HMM': './{}HMMINVENTAR'.format(p),
-    'HVI': './{}HVITECONF'.format(p),
-    'MMF': './{}MMF.mmf'.format(p),
-    'PRE': './{}PRECONFIGNIST'.format(p),
-    'HC': './bin/HCopy',
-    'HV': './bin/HVite',
+    'DIC': os.path.join(p, 'DICT'),
+    'HMM': os.path.join(p, 'HMMINVENTAR'),
+    'HVI': os.path.join(p, 'HVITECONF'),
+    'MMF': os.path.join(p, 'MMF.mmf'),
+    'PRE': os.path.join(p, 'PRECONFIGNIST'),
+    'HC': os.path.join('bin', 'HCopy'),
+    'HV': os.path.join('bin', 'HVite'),
     'HDR': 'False'
     })
 

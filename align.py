@@ -8,11 +8,16 @@ import sys
 import time
 import datetime
 
-HCOPY = '"{CWD}/{HC}" -T 0 -C "{CWD}/{PRE}" temp.nis "{CWD}/{BN}.htk" || true'
-HVITE = ('"{CWD}/{HV}" -C "{CWD}/{HVI}" -w -X slf -H "{CWD}/{MMF}" -s 7.0 '
-         '-p 0.0 "{CWD}/{DIC}" "{CWD}/{HMM}" "{CWD}/{BN}.htk" || true')
-SOUND = ('"{SOX}" "{WAV}" -t sph -e signed-integer -b 16 -c 1 "{CWD}/temp.nis"'
-         ' trim {STA} {DUR} rate -s -a {SOU} || true')
+HCOPY = ('"{CWD}{SEP}{HC}" -T 0 '
+         '-C "{CWD}{SEP}{PRE}" temp.nis "{CWD}{SEP}{BN}.htk" || true')
+HVITE = ('"{CWD}{SEP}{HV}" '
+         '-C "{CWD}{SEP}{HVI}" -w -X slf '
+         '-H "{CWD}{SEP}{MMF}" '
+         '-s 7.0 -p 0.0 '
+         '"{CWD}{SEP}{DIC}" "{CWD}{SEP}{HMM}" "{CWD}{SEP}{BN}.htk" || true')
+SOUND = ('"{SOX}" "{WAV}" '
+         '-t sph -e signed-integer -b 16 -c 1 '
+         '"{CWD}{SEP}temp.nis" trim {STA} {DUR} rate -s -a {SOU} || true')
 
 
 def current_millis():
@@ -73,6 +78,7 @@ def force(phonetizer, code='w', **param):
 
         # Extract the current directory to eliminate some PATH problems
         param['CWD'] = os.getcwd()
+        param['SEP'] = os.sep
 
         # Run the sound processing
         proc = subprocess.Popen(SOUND.format(**param), shell=True,

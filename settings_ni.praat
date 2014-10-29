@@ -7,7 +7,6 @@ form Set the variables
 	sentence lan
 	real thr
 	boolean pau 1
-	sentence tmp /tmp/
 	sentence log /dev/null
 	sentence lgc a
 	sentence sox sox
@@ -23,7 +22,7 @@ writeFileLine("settings",
 ..."LGC: ", lgc$, newline$,
 ..."LOG: ", log$, newline$,
 ..."NEW: ", new$, newline$,
-..."OUT: ", tmp$, "praat_temp_out", newline$,
+..."OUT: ", "praat_temp_out", newline$,
 ..."PAU: ", pau$, newline$,
 ..."RUL: ", rul$, newline$,
 ..."SOX: ", sox$, newline$,

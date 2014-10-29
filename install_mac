@@ -1,10 +1,14 @@
 #!/bin/bash
-set -e
-set -x
+set -ex
+echo Setting directory
 dir="$HOME/Library/Preferences/Praat Prefs/plugin_pralign/"
+echo Clearing out directory
 rm -rvf "$dir"
+echo Creating directory
 mkdir -p "$dir" "./bin"
+echo Copy binaries
 cp -v ./bin_mac/* ./bin/
+echo Copy plugin files
 find . -maxdepth 1 ! -name "\." ! -name "install*" ! -name ".*" \
-				   ! -name "temp*" ! -name "bin_*"  -print0 | xargs -P 2 -0 -I{} cp -vR "{}" "$dir"
-
+! -name "temp*" ! -name "bin_*" -print0 | xargs -P 2 -0 -I{} cp -vR "{}" "$dir"
+echo Installing complete

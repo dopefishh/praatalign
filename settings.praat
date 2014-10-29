@@ -26,7 +26,7 @@ if fileReadable("settings")
 	else
 		pau = 0
 	endif
-	tmp$ = extractLine$(settingsData$, "TMP: ")
+#	tmp$ = extractLine$(settingsData$, "TMP: ")
 	log$ = extractLine$(settingsData$, "LOG: ")
 	if extractLine$(settingsData$, "LGC: ") = "a"
 		lgc = 1
@@ -43,8 +43,12 @@ else
 	wrd$ = "align_word"
 	lan = 1
 	pau = 1
-	tmp$ = "/tmp/"
-	log$ = "/dev/null"
+#	tmp$ = ""
+	if windows
+		log$ = "nul"
+	else
+		log$ = "/dev/null"
+	endif
 	lgc = 1
 	sox$ = "sox"
 	thr = 0
@@ -84,8 +88,8 @@ beginPause: "Set the variables"
 	comment: "Pause first when aligning tier"
 	boolean: "pau", pau
 
-	comment: "Temporary directory"
-	sentence: "tmp", tmp$
+#	comment: "Temporary directory"
+#	sentence: "tmp", tmp$
 
 	comment: "Developer/debug options"
 	sentence: "log", log$
@@ -121,10 +125,10 @@ writeFileLine("settings",
 ..."LGC: ", lgc$, newline$,
 ..."LOG: ", log$, newline$,
 ..."NEW: ", new$, newline$,
-..."OUT: ", tmp$, "praat_temp_out", newline$,
+..."OUT: ", "praat_temp_out", newline$,
 ..."PAU: ", pau$, newline$,
 ..."RUL: ", ruleset$, newline$,
 ..."SOX: ", sox$, newline$,
 ..."THR: ", thr, newline$,
-..."TMP: ", tmp$, newline$,
+..."TMP: ", "", newline$,
 ..."WRD: ", wrd$)
