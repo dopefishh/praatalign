@@ -225,6 +225,21 @@ To add the language to the Praat scripts you have to edit ``settings.praat``
 and add your language in the option menu on line ``53`` and in the big
 selection statement on line ``18``
 
+##TODO
+- Make slf creating faster. Or at least make the advanced slf generation
+  optional.
+- Test more thoroughly on windows.
+
+##How to cite
+	
+	Lubbers, M. (2014) Praatalign (Version 0.6) [Computer program].
+	Available at https://github.com/dopefishh/praatalign (Accessed 2014-10-29)``
+
+##Authors
+- Programming: Mart Lubbers (mart@martlubbers.net)
+- Supervision: Francisco Torreira (francisco.torreira@mpi.nl)
+- Testing: Emma Valtersson (emma.valtersson@gmail.com)
+
 ##Version history
 - 0.7 (2014-10-29)
 	- Added windows support.
@@ -267,18 +282,3 @@ selection statement on line ``18``
 - 0.02 (2014-03-27)
 	- Python script around aligner started.
 	- Phonetizer skeleton done
-
-##TODO
-- Make slf creating faster. Or at least make the advanced slf generation
-  optional.
-- Test more thoroughly on windows.
-
-##How to cite
-	
-	Lubbers, M. (2014) Praatalign (Version 0.6) [Computer program].
-	Available at https://github.com/dopefishh/praatalign (Accessed 2014-10-29)``
-
-##Authors
-- Programming: Mart Lubbers (mart@martlubbers.net)
-- Supervision: Francisco Torreira (francisco.torreira@mpi.nl)
-- Testing: Emma Valtersson (emma.valtersson@gmail.com)
