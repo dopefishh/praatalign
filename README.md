@@ -226,36 +226,47 @@ and add your language in the option menu on line ``53`` and in the big
 selection statement on line ``18``
 
 ##Version history
-
-| Version | Date | Version notes |
-|--|--|--|
-| | 0.7| 2014-10-29 | - Added windows support. |
-| | | - Cleaned up documentation. |
-| | | - Removed binaries due htk licence. |
-
-- 0.6  - 2014-10-22 - Refactored and cleaned up the source, much more readable
-  now
-- 0.5a - 2014-09-08 - Added comments to source code(praat) and cleaned up
-- 0.5  - 2014-09-04 - Fixed acronyms in spanish and cleaning didn't work
-  correctly with extended boundaries for Align current interval, that's fixed
-	too. Added rudimentary ruleset implemetation, still have to write a readme
-	for this
-- 0.4  - 2014-08-29 - Added option for enlargening the boundaries automatically
-- 0.21 - 2014-08-13 - Settings split in non interactive and interactive so that
-  the interactive one reflects the current settings
-- 0.2  - 2014-08-11 - Better mac compatibility
-- 0.1a - 2014-06-30 - Tier alignment fixed, dutch added
-- 0.08 - 2014-04-29 - Cleaned up some stuff, added dutch and readmes to spanish
-  and sampa
-- 0.07 - 2014-04-28 - non interactive done and toc in readme
-- 0.06 - 2014-04-25 - conversion to editor scripts. non-interactive has work to
-  do
-- 0.05 - 2014-04-03 - better readme and functional program for linux
-- 0.04 - 2014-04-03 - pronounciation variants implemented
-- 0.03 - 2014-03-31 - aligner works, praat imlementation needs work
-- 0.02 - 2014-03-27 - started with aligner
-- 0.01 - 2014-03-27 - phonetizer done
-- 0.00 - 2014-03-27 - initial version
+- 0.7 (2014-10-29)
+	- Added windows support.
+	- Cleaned up documentation.
+	- Removed binaries due htk licence.
+- 0.6 (2014-10-22)
+	- Refactored and cleaned up the source.
+- 0.5a (2014-09-08)
+	- Added comments to source code(praat).
+	- Cleaned up source.
+- 0.5 (2014-09-04)
+	- Fixed acronyms in spanish.
+	- Fixed cleaning with extended boundaries.
+	- Added rudimentary ruleset implementatien.
+- 0.4 (2014-08-29)
+	- Added option for enlargening the boundaries automatically.
+- 0.21 (2014-08-13)
+	- Settings split in non interactive and interactive so that the interactive one reflects the current settings.
+- 0.2 (2014-08-11)
+	- Better mac compatibility.
+- 0.1a (2014-06-30)
+	- Tier alignment fixed.
+	- Readme for dutch.
+- 0.08 (2014-04-29)
+	- Cleaned up some stuff.
+	- Added dutch.
+	- Readme for spanish and sampa.
+- 0.07 (2014-04-28)
+	- Non interactive alignment implemented.
+	- Table of contents in readme.
+- 0.06 (2014-04-25)
+	- Conversion to editor scripts.
+- 0.05 (2014-04-03)
+	- Better readme.
+	- Functional program for linux.
+- 0.04 (2014-04-03)
+	- Pronounciation variants implemented.
+- 0.03 (2014-03-31)
+	- Aligner works in python.
+- 0.02 (2014-03-27)
+	- Python script around aligner started.
+	- Phonetizer skeleton done
 
 ##TODO
 - Make slf creating faster. Or at least make the advanced slf generation
