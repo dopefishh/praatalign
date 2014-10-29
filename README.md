@@ -229,6 +229,7 @@ selection statement on line ``18``
 - Make slf creating faster. Or at least make the advanced slf generation
   optional.
 - Test more thoroughly on windows.
+- Make tutorials for non cs people.
 
 ## <a name="how-to-cite"></a>How to cite
 	
