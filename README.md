@@ -27,8 +27,8 @@ Interactive forced alignment in spontaneous speech version 0.7
 - [Authors](#authors)
 - [Version history](#version-history)
 
-## <a name="installation"></a>Installation
-### <a name="requirements"></a>Requirements
+## <a name="installation"></a>Installation<a href="#table-of-contents">↑</a>
+### <a name="requirements"></a>Requirements<a href="#table-of-contents">↑</a>
 - [Python 2.7.3](https://www.python.org/download/)
 - [SoX](http://sox.sourceforge.net/)
 - [Praat 5.4](http://www.fon.hum.uva.nl/praat)
@@ -39,12 +39,12 @@ Interactive forced alignment in spontaneous speech version 0.7
 	- [Windows binaries](http://htk.eng.cam.ac.uk/ftp/software/htk-3.3-windows-binary.zip)
 	- [Sources](http://htk.eng.cam.ac.uk/ftp/software/HTK-samples-3.4.tar.gz)
 
-### <a name="automatic-installation"></a>Automatic installation
+### <a name="automatic-installation"></a>Automatic installation<a href="#table-of-contents">↑</a>
 - Linux: Run ``install_lin.bat``
 - Mac: Run ``install_mac.bat``
 - Windows: Run ``install_win.bat``
 
-### <a name="manual-installation"></a>Manual installation
+### <a name="manual-installation"></a>Manual installation<a href="#table-of-contents">↑</a>
 Put the HVite and HCopy binaries in the bin folder and copy all the contents of
 the root folder to:
 
@@ -52,8 +52,8 @@ the root folder to:
 - Linux: ``${HOME}/.praat-dir/plugin_pralign``
 - Mac: ``${HOME}/Praat Prefs/plugin_pralign``
 
-## <a name="documentation"></a>Documentation
-### <a name="general-information"></a>General information
+## <a name="documentation"></a>Documentation<a href="#table-of-contents">↑</a>
+### <a name="general-information"></a>General information<a href="#table-of-contents">↑</a>
 Presets for Spanish, Tzeltal and Dutch are included. Presets for Australian
 English, English, Estonian, German, Hungarian, Italian, Newzealang English
 Polish and Portuguese will be added in the future. When you want a language
@@ -63,11 +63,11 @@ Dictionary, ruleset and all other files are, and should be, encoded in *UTF-8*.
 That's why the plugin setup also sets the praat reading and writing preferences
 to *UTF-8*.
 
-### <a name="menu-items"></a>Menu Items
+### <a name="menu-items"></a>Menu Items<a href="#table-of-contents">↑</a>
 **NOTE: To align you need to select a LongSound and a TextGrid. Selecting a
 Sound and a TextGrid will cause the program to fail.**
 
-#### <a name="generate-dictionary-from-tier"></a>Generate dictionary from tier...
+#### <a name="generate-dictionary-from-tier"></a>Generate dictionary from tier...<a href="#table-of-contents">↑</a>
 This function will prompt for a file location to write alle the missing words
 from the selected tier to. Missing words are words that are either not in the
 dictionary or unable to be phonetized.
@@ -75,12 +75,12 @@ Note that the *Setup forced alignment...* has to be run at least once to create
 the initial settings file. If this is not the case the program will generate an
 error and terminate.
 
-#### <a name="clean-selection"></a>Clean selection
+#### <a name="clean-selection"></a>Clean selection<a href="#table-of-contents">↑</a>
 With clean selection all the intervals that have overlap with the current
 selection of the current selected tier will be removed. This can come in handy
 to clean up a previous alignment of an interval.
 
-#### <a name="align-current-interval"></a>Align current interval
+#### <a name="align-current-interval"></a>Align current interval<a href="#table-of-contents">↑</a>
 This force alignes the current selected interval against the wavefile with the
 given settings. This will clear all the annotation data in the target tiers
 before aligning.
@@ -89,7 +89,7 @@ Note that the *Setup forced alignment...* has to be run at least once to create
 the initial settings file. If this is not the case the program will generate an
 error and terminate.
 
-#### <a name="align-current-tier"></a>Align current tier
+#### <a name="align-current-tier"></a>Align current tier<a href="#table-of-contents">↑</a>
 This force alignes the entire tier against the wavefile with the given
 settings. This will clear the target tiers before aligning.
 
@@ -97,7 +97,7 @@ Note that the *Setup forced alignment...* has to be run at least once to create
 the initial settings file. If this is not the case the program will generate an
 error and terminate.
 
-#### <a name="setup-forced-alignment"></a>Setup forced alignment...
+#### <a name="setup-forced-alignment"></a>Setup forced alignment...<a href="#table-of-contents">↑</a>
 This button will generate the config file for the forced aligner to work with
 and must be used at least once before doing alignment for the first time. When
 the spawned form is closed a settings file will be written to disk for later
@@ -105,79 +105,90 @@ use with the alignment.
 
 The following options can be specified in the settings menu:
 
+<style>
+	table th td {
+		border: 1px solid black;
+		border-collapse: collapse;
+	}
+</style>
 <table style="border-collapse: collapse; border: 1px solid #C0C0C0;">
 	<tr><th>Name</th><th>default</th><th>Description</th></tr>
 	<tr><td>new</td><td>align</td><td>
-			Name of the tier where the phone alignment is stored.<br/> this may be an
-			existing tier. If the tier exists, the annotations within the selected
-			interval are	removed upon alignment.
-	</td></tr><tr><td> wrd </td><td> alignw </td><td>
-			Name of the tier where the word alignment is stored.<br/> If the tier
-			exists, the annotations within the selected interval are removed upon
-			alignment. Note that in theory this can be the same tier as the phone
-			level tier. When this is the case a warning will be spawned everytime you
-			align.
-	</td></tr><tr><td> lan </td><td> tze </td><td>
-			Language to use for the forced alignment.<br/> Currently this is Spanish,
-			Tzeltal and Dutch. Custom added languages will also appear in the
-			dropdown menu when properly added.
-	</td></tr><tr><td> dic </td><td> False </td><td>
-			Flag for selecting a custom dictionary.<br/> If this is not set, the
-			aligner will rely completely on the phonetizer. If this is set, then a
-			prompt follows to select the dictionary.
-	</td></tr><tr><td> dictionary </td><td></td><td>
+			Name of the tier where the phone alignment is stored.<br/>
+			This may be an existing tier. If the tier exists, the annotations within
+			the selected interval are	removed upon alignment.
+	</td></tr><tr><td>wrd</td><td>alignw</td><td>
+			Name of the tier where the word alignment is stored.<br/>
+			If the tier exists, the annotations within the selected interval are
+			removed upon alignment. Note that in theory this can be the same tier as
+			the phone level tier. When this is the case a warning will be spawned
+			everytime you align.
+	</td></tr><tr><td>lan</td><td>tze</td><td>
+			Language to use for the forced alignment.<br/>
+			Currently this is Spanish, Tzeltal and Dutch. Custom added languages will
+			also appear in the dropdown menu when properly added.
+	</td></tr><tr><td>dic</td><td>False</td><td>
+			Flag for selecting a custom dictionary.<br/>
+			If this is not set, the aligner will rely completely on the phonetizer.
+			If this is set, then a prompt follows to select the dictionary.
+	</td></tr><tr><td>dictionary</td><td></td><td>
+			Current dictionary location.<br/>
 			This option only appears when a dictionary is already set and shows the
 			current dictionary, when you want to select a new one just tick the
 			<code>dic</code> box again or change the path in this textfield.
-	</td></tr><tr><td> thr </td><td> 0 </td><td>
-			Extra margin for all annotations.<br/> When the sources are aligned with
-			to short annotations you can append a number of seconds to the beginning
-			and the end of every annotation you align with this value. When there is
-			an empty annotation next to the annotation to align, this number of
-			seconds is added to the annotation length. It does not change the
-			original annotations.
-	</td></tr><tr><td> log </td><td> null </td><td>
-			Path for the logfile.<br/> If /dev/null(nul on windows) there will be no
+	</td></tr><tr><td>thr</td><td>0</td><td>
+			Extra margin for all annotations.<br/>
+			When the sources are aligned with to short annotations you can append a
+			number of seconds to the beginning and the end of every annotation you
+			align with this value. When there is an empty annotation next to the
+			annotation to align, this number of seconds is added to the annotation
+			length. It does not change the original annotations.
+	</td></tr><tr><td>log</td><td>/dev/null or<br/>null</td><td>
+			Path for the logfile.<br/>
+			If <code>/dev/null</code>(<code>nul</code> on windows) there will be no
 			log. The main python core script will log some usefull things in here,
 			especially when the praat script crashes on executing the system
 			commands.
-	</td></tr><tr><td> sox </td><td> False </td><td>
-			Flag for selecting a custom <code>sox</code> location.<br/> If this is
-			set, then a prompt follows to select the <code>sox</code> executable.
-			When <code>sox</code> is the the <code>$PATH</code> or
+	</td></tr><tr><td>sox</td><td>False</td><td>
+			Flag for selecting a custom <code>sox</code> location.<br/>
+			If this is set, then a prompt follows to select the <code>sox</code>
+			executable. When <code>sox</code> is the the <code>$PATH</code> or
 			<code>%PATH%</code> variable this doesn't need to be changed.
-	</td></tr><tr><td> soxex </td><td> sox </td><td>
-			Current custom <code>sox</code> location.<br/> When sox is the the
-			<code>$PATH</code> or <code>%PATH%</code> variable this doesn't need to
-			be changed. When this is not the case you should put the exact path of
-			the sox executable here. Note that for example <code>.bashrc</code> is
-			not source in the script so the <code>$PATH</code> variable is not always
-			the same as in an interactive shell.
-	</td></tr><tr><td> hvite </td><td> False </td><td>
-			Flag for selecting a custom <code>HVite</code> location.<br/> If this is
-			set, then a prompt follows to select the <code>HVite</code> executable.
-			When <code>HVite</code> is the the <code>$PATH</code> or
+	</td></tr><tr><td>soxex</td><td>sox</td><td>
+			Current custom <code>sox</code> location.<br/>
+			When sox is the the <code>$PATH</code> or <code>%PATH%</code> variable
+			this doesn't need to be changed. When this is not the case you should put
+			the exact path of the sox executable here. Note that for example
+			<code>.bashrc</code> is not source in the script so the
+			<code>$PATH</code> variable is not always the same as in an interactive
+			shell.
+	</td></tr><tr><td>hvite</td><td>False</td><td>
+			Flag for selecting a custom <code>HVite</code> location.<br/>
+			If this is set, then a prompt follows to select the <code>HVite</code>
+			executable. When <code>HVite</code> is the the <code>$PATH</code> or
 			<code>%PATH%</code> variable this doesn't need to be changed.
-	</td></tr><tr><td> hviteex </td><td> HVite </td><td>
-			Current custom <code>HVite</code> location.<br/>This options only appears
-			when a custom <code>HVite</code> location is already set and shows the
-			current location, when you want to select a new one just tick the
-			<code>hvite</code> box again or change the path in this textfield.
-	</td></tr><tr><td> hcopy </td><td> False </td><td>
-			Flag for selecting a custom <code>HCopy</code> location.<br/> If this is
-			set, then a prompt follows to select the <code>HCopy</code> executable.
-			When <code>HCopy</code> is the the <code>$PATH</code> or
+	</td></tr><tr><td>hviteex</td><td>HVite</td><td>
+			Current custom <code>HVite</code> location.<br/>
+			This options only appears when a custom <code>HVite</code> location is
+			already set and shows the current location, when you want to select a new
+			one just tick the <code>hvite</code> box again or change the path in this
+			textfield.
+	</td></tr><tr><td>hcopy</td><td>False</td><td>
+			Flag for selecting a custom <code>HCopy</code> location.<br/>
+			If this is set, then a prompt follows to select the <code>HCopy</code>
+			executable. When <code>HCopy</code> is the the <code>$PATH</code> or
 			<code>%PATH%</code> variable this doesn't need to be changed.
-	</td></tr><tr><td> hcopyex </td><td> HCopy </td><td>
-			Current custom <code>HCopy</code> location.<br/> This options only
-			appears when a custom <code>HCopy</code> location is already set and
-			shows the current location, when you want to select a new one just tick
-			the <code>hcopy</code> box again or change the path in this textfield.
+	</td></tr><tr><td>hcopyex</td><td>HCopy</td><td>
+			Current custom <code>HCopy</code> location.<br/>
+			This options only appears when a custom <code>HCopy</code> location is
+			already set and shows the current location, when you want to select a new
+			one just tick the <code>hcopy</code> box again or change the path in this
+			textfield.
 		</td>
 	</tr>
 </table>
 
-### <a name="dictionary-file"></a>Dictionary file
+### <a name="dictionary-file"></a>Dictionary file<a href="#table-of-contents">↑</a>
 A dictionary file consists of several non-empty lines separated by a newline
 character(``\n``).  Lines starting with a ``#`` will be ignored and can be used
 as comments. The dictionary delivers the pronounciation and optional variants
@@ -188,7 +199,7 @@ to the phonetizer and has to be of the following format:
 	...
 	word-n\tpronounciation-n[\tvariant-na][\tvariant-nb]...
 
-### <a name="ruleset-file"></a>Ruleset file
+### <a name="ruleset-file"></a>Ruleset file<a href="#table-of-contents">↑</a>
 A ruleset file consists of several non-empty lines separated by a newline
 character(``\n``). Lines starting with a ``#`` will be ignored and can be used
 as comments. A ruleset file can provide pronunciation variants in a rule based
@@ -206,7 +217,7 @@ Possible escapes are:
 - ``\c`` for consonants(``[^aoeui]``)
 
 
-### <a name="scriptability"></a>Scriptability
+### <a name="scriptability"></a>Scriptability<a href="#table-of-contents">↑</a>
 The settings menu is not scriptable because it uses pause dialogs instead of
 forms, because of this there is a settings script available that is scriptable.
 For example if you want to setup a non interactive environment you can run this:
@@ -216,8 +227,8 @@ For example if you want to setup a non interactive environment you can run this:
 	..."/some/path/to/ruleset", 0, "tze", "no", "/some/path/to/logfile",
 	..."/usr/bin/sox", "/usr/bin/HVite", "/usr/bin/HCopy"
 
-### <a name="add-language"></a>Add language
-#### <a name="phonetizer"></a>Phonetizer
+### <a name="add-language"></a>Add language<a href="#table-of-contents">↑</a>
+#### <a name="phonetizer"></a>Phonetizer<a href="#table-of-contents">↑</a>
 There is a skeleton model available for writing a new phonetizer. This has to
 be done in Python. Implement the phonetizer and add your phonetizer to the
 dictionary as a tuple with as second value a parameter directory called:
@@ -225,34 +236,34 @@ dictionary as a tuple with as second value a parameter directory called:
 	./par.lan
 Where lan is a three letter language code
 
-#### <a name="models"></a>Models
+#### <a name="models"></a>Models<a href="#table-of-contents">↑</a>
 You can create your own models or use the given models(for example Sampa
 models). Note that in the Python phonetizer file, the connection between models
 and languages is defined in the phonetizer dictionary at the bottom of the
 file.
 
-#### <a name="adapt-the-praat-scripts"></a>Adapt the Praat scripts
+#### <a name="adapt-the-praat-scripts"></a>Adapt the Praat scripts<a href="#table-of-contents">↑</a>
 To add the language to the Praat scripts you have to edit ``settings.praat``
 and add your language in the option menu on line ``53`` and in the big
 selection statement on line ``18``
 
-## <a name="todo"></a>TODO
+## <a name="todo"></a>TODO<a href="#table-of-contents">↑</a>
 - Make slf creating faster. Or at least make the advanced slf generation
   optional.
 - Test more thoroughly on windows.
 - Make tutorials for non cs people.
 
-## <a name="how-to-cite"></a>How to cite
+## <a name="how-to-cite"></a>How to cite<a href="#table-of-contents">↑</a>
 	
 	Lubbers, M. (2014) Praatalign (Version 0.6) [Computer program].
 	Available at https://github.com/dopefishh/praatalign (Accessed 2014-10-29)
 
-## <a name="authors"></a>Authors
+## <a name="authors"></a>Authors<a href="#table-of-contents">↑</a>
 - Programming: Mart Lubbers (mart@martlubbers.net)
 - Supervision: Francisco Torreira (francisco.torreira@mpi.nl)
 - Testing: Emma Valtersson (emma.valtersson@gmail.com)
 
-## <a name="version-history"></a>Version history
+## <a name="version-history"></a>Version history<a href="#table-of-contents">↑</a>
 - 0.8 (2014-10-31)
 	- Removed all the binary folders.
 	- Made the binary finding interactive.
