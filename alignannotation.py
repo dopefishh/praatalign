@@ -24,8 +24,6 @@ settings.update({
     'HVI': os.path.join(p, 'HVITECONF'),
     'MMF': os.path.join(p, 'MMF.mmf'),
     'PRE': os.path.join(p, 'PRECONFIGNIST'),
-    'HC': os.path.join('bin', 'HCopy'),
-    'HV': os.path.join('bin', 'HVite'),
     'HDR': '1'
     })
 

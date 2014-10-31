@@ -8,9 +8,9 @@ import sys
 import time
 import datetime
 
-HCOPY = ('"{CWD}{SEP}{HC}" -T 0 '
+HCOPY = ('"{HCB}" -T 0 '
          '-C "{CWD}{SEP}{PRE}" temp.nis "{CWD}{SEP}{BN}.htk" || true')
-HVITE = ('"{CWD}{SEP}{HV}" '
+HVITE = ('"{HVB}" '
          '-C "{CWD}{SEP}{HVI}" -w -X slf '
          '-H "{CWD}{SEP}{MMF}" '
          '-s 7.0 -p 0.0 '
@@ -33,8 +33,8 @@ def force(phonetizer, code='w', **param):
     BN  - basename, the name of the temp files.
     DIC - htk dict file path.
     DUR - duration in seconds.
-    HC  - htk HCopy binary location.
-    HV  - htk HVite binary location.
+    HCB - htk HCopy binary location.
+    HVB - htk HVite binary location.
     HVI - htk hvite config.
     MMF - htk mmf file path.
     OUT - file to write the output to.
@@ -44,14 +44,13 @@ def force(phonetizer, code='w', **param):
     UTT - utterance.
     WAV - wave file path.
     LOG - log the detailed output to a file.
-    LGC - log code, a for append, w for write.
     SOX - sox executable path.
 
     Optional parameters
     HDR - also write the header to file.
     """
     # Open the log file
-    with open(param['LOG'], param['LGC']) as lg:
+    with open(param['LOG'], 'a') as lg:
         ltime = current_millis()
         lg.write('Starting to align: {}\n'.format(
             time.strftime("%a, %d %b %Y %H:%M:%S +0000", time.gmtime())))
@@ -91,6 +90,7 @@ def force(phonetizer, code='w', **param):
         ltime = ctime
 
         # Run the HCopy process
+        lg.write('{}\n'.format(HCOPY.format(**param)))
         proc = subprocess.Popen(HCOPY.format(**param), shell=True,
                                 env={'PATH': os.environ['PATH']},
                                 stderr=subprocess.PIPE, stdout=subprocess.PIPE)

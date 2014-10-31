@@ -155,16 +155,39 @@ The following options can be specified in the settings menu:
 	Path for the logfile, if /dev/null there will be no log. The main python core
 	script will log some usefull things in here, especially when the praat script
 	crashes on executing the system commands.
-* **lgc**, default: True
-	
-	Append the logfile instead of rewriting it.
-* **sox**, default: sox
+* **sox**, default: False
+
+	Flag for selecting a custom ``sox`` location. If this is set, then a prompt
+	follows to select the ``sox`` executable. When ``sox`` is the the ``$PATH``
+	 or ``%PATH%`` variable this doesn't need to be changed.
+* **soxex**, default: sox
 
 	When sox is the the ``$PATH`` or ``%PATH%`` variable this doesn't need to be
 	changed. When this is not the case you should put the exact path of the sox
 	executable here. Note that for example ``.bashrc`` is not source in the
 	script so the ``$PATH`` variable is not always the same as in an interactive
 	shell.
+* **hvite**, default: False
+
+	Flag for selecting a custom hvite location. If this is set, then a prompt
+	follows to select the ``HVite`` executable. When ``HVite`` is the the
+	``$PATH`` or ``%PATH%`` variable this doesn't need to be changed.
+* **hviteex**, default: HVite
+
+	This options only appears when a custom ``HVite`` location is already set and
+	shows the current location, when you want to select a new one just tick the
+	``hvite`` box again or change the path in this textfield.
+* **hcopy**, default: False
+
+	Flag for selecting a custom hcopy location. If this is set, then a prompt
+	follows to select the ``HCopy`` executable. When ``HCopy`` is the the
+	``$PATH`` or ``%PATH%`` variable this doesn't need to be changed.
+* **hcopyex**, default: HCopy
+
+	This options only appears when a custom ``HCopy`` location is already set and
+	shows the current location, when you want to select a new one just tick the
+	``hcopy`` box again or change the path in this textfield.
+	
 
 ### <a name="dictionary-file"></a>Dictionary file
 A dictionary file consists of several non-empty lines separated by a newline
@@ -202,8 +225,8 @@ For example if you want to setup a non interactive environment you can run this:
  
 	runScript: "/home/frobnicator/.praat-dir/plugin_pralign/settings_ni.praat",
 	..."custom_phone_tier", "custom_word_tier", "/some/path/to/dict",
-	..."/some/path/to/ruleset", 0, "tze", "no", "/some/path/to/logfile", "a",
-	..."/usr/bin/sox"
+	..."/some/path/to/ruleset", 0, "tze", "no", "/some/path/to/logfile",
+	..."/usr/bin/sox", "/usr/bin/HVite", "/usr/bin/HCopy"
 
 ### <a name="add-language"></a>Add language
 #### <a name="phonetizer"></a>Phonetizer
@@ -242,6 +265,10 @@ selection statement on line ``18``
 - Testing: Emma Valtersson (emma.valtersson@gmail.com)
 
 ## <a name="version-history"></a>Version history
+- 0.8 (2014-10-31)
+	- Removed all the binary folders.
+	- Made the binary finding interactive.
+	- Made all the file chooser dialogs interactive.
 - 0.7 (2014-10-29)
 	- Added windows support.
 	- Cleaned up documentation.

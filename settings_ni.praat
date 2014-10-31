@@ -6,10 +6,10 @@ form Set the variables
 	sentence rul
 	sentence lan
 	real thr
-	boolean pau 1
 	sentence log /dev/null
-	sentence lgc a
 	sentence sox sox
+	sentence hvb hvb
+	sentence hcb hcb
 endform
 
 # Process the pause variable
@@ -18,14 +18,13 @@ pau$ = if pau then "True" else "False" fi
 # Write the settings file
 writeFileLine("settings",
 ..."DCT: ", dictionary$, newline$,
+..."HVB: ", hvb$, newline$,
+..."HCB: ", hcb$, newline$,
 ..."LAN: ", lan$, newline$,
-..."LGC: ", lgc$, newline$,
 ..."LOG: ", log$, newline$,
 ..."NEW: ", new$, newline$,
 ..."OUT: ", "praat_temp_out", newline$,
-..."PAU: ", pau$, newline$,
 ..."RUL: ", rul$, newline$,
 ..."SOX: ", sox$, newline$,
 ..."THR: ", thr, newline$,
-..."TMP: ", tmp$, newline$,
 ..."WRD: ", wrd$)

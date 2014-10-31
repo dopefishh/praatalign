@@ -6,7 +6,6 @@
     tmpfile$ = extractLine$(settings$, "OUT: ")
     phonetier_name$ = extractLine$(settings$, "NEW: ")
     wordtier_name$ = extractLine$(settings$, "WRD: ")
-    pause_flag$ = extractLine$(settings$, "PAU: ")
 
 # Get the current selected tier
     editor_info$ = Editor info
@@ -39,10 +38,7 @@ Remove
 writeFileLine("isettings",
 ..."WAV: ", longsound_file$)
 
-# Do the actual alignment but pause if necessary to ask for confirmation
-if pause_flag$ = "True"
-    pause Are you sure, this takes a long time...
-endif
+# Do the actual alignment
 system python aligntier.py
 
 # Read the results
