@@ -5,10 +5,8 @@ Interactive forced alignment in spontaneous speech version 0.7
 - [Table of contents](#table-of-contents)
 - [Installation](#installation)
 	- [Requirements](#requirements)
-	- [Installation process](#installation-process)
-		- [Preparation](#preparation)
-		- [Automatic installation](#automatic-installation)
-		- [Manual installation](#manual-installation)
+	- [Automatic installation](#automatic-installation)
+	- [Manual installation](#manual-installation)
 - [Documentation](#documentation)
 	- [General information](#general-information)
 	- [Menu items](#menu-items)
@@ -41,18 +39,12 @@ Interactive forced alignment in spontaneous speech version 0.7
 	- [Windows binaries](http://htk.eng.cam.ac.uk/ftp/software/htk-3.3-windows-binary.zip)
 	- [Sources](http://htk.eng.cam.ac.uk/ftp/software/HTK-samples-3.4.tar.gz)
 
-### <a name="installation-process"></a>Installation process
-#### <a name="preparation"></a>Preparation
-- Linux: Put ``HVite`` and ``HCopy`` in the ``bin_lin`` folder.
-- Mac: Put ``HVite`` and ``HCopy`` in the ``bin_mac`` folder.
-- Windows: Put ``HVite.exe`` and ``HCopy.exe`` in the ``bin_win`` folder.
-
-#### <a name="automatic-installation"></a>Automatic installation
+### <a name="automatic-installation"></a>Automatic installation
 - Linux: Run ``install_lin.bat``
 - Mac: Run ``install_mac.bat``
 - Windows: Run ``install_win.bat``
 
-#### <a name="manual-installation"></a>Manual installation
+### <a name="manual-installation"></a>Manual installation
 Put the HVite and HCopy binaries in the bin folder and copy all the contents of
 the root folder to:
 
@@ -112,82 +104,78 @@ the spawned form is closed a settings file will be written to disk for later
 use with the alignment.
 
 The following options can be specified in the settings menu:
-* **new**, default: align
 
-	Name of the tier where the alignment is stored, this may be an existing
-	tier. If the tier exists, the annotations within the selected interval are
-	removed upon alignment.
-* **wrd**, default: alignw
-
-	Name of the tier where the alignment on word level is stored. If the tier
-	exists, the annotations within the selected interval are removed upon
-	alignment. Note that in theory this can be the same tier as the phone level
-	tier. When this is the case a warning will be spawned everytime you align.
-* **lan**, default: tze
-
-	Language to use for the forced alignment. Currently this is Spanish, Tzeltal
-  and Dutch. Custom added languages will also appear in the dropdown menu when
-	properly added.
-* **dic**, default: False
-
-	Flag for selecting a custom dictionary. If this is not set, the aligner will
-	rely completely on the phonetizer. If this is set, then a prompt follows to
-	select the dictionary.
-* **dictionary**, default: 
-
-	This option only appears when a dictionary is already set and shows the
-	current dictionary, when you want to select a new one just tick the ``dic``
-	box again or change the path in this textfield.
-* **thr**, default: 0
-	
-	When the sources are aligned with to short annotations you can append a
-  number of seconds to the beginning and the end of every annotation you align
-  with this value. When there is an empty annotation next to the annotation to
-	align, this number of seconds is added to the annotation length. It does not
-	change the original annotations.
-* **pau**, default: False
-
-	Flag to export to pdf. If this is not set, the aligner will not create pdf
-	files for the graphs it follows. If this is set, there will be a temp.pdf
-	located in this plugin folder after the alignment.
-* **log**, default: /dev/null
-
-	Path for the logfile, if /dev/null there will be no log. The main python core
-	script will log some usefull things in here, especially when the praat script
-	crashes on executing the system commands.
-* **sox**, default: False
-
-	Flag for selecting a custom ``sox`` location. If this is set, then a prompt
-	follows to select the ``sox`` executable. When ``sox`` is the the ``$PATH``
-	 or ``%PATH%`` variable this doesn't need to be changed.
-* **soxex**, default: sox
-
-	When sox is the the ``$PATH`` or ``%PATH%`` variable this doesn't need to be
-	changed. When this is not the case you should put the exact path of the sox
-	executable here. Note that for example ``.bashrc`` is not source in the
-	script so the ``$PATH`` variable is not always the same as in an interactive
-	shell.
-* **hvite**, default: False
-
-	Flag for selecting a custom hvite location. If this is set, then a prompt
-	follows to select the ``HVite`` executable. When ``HVite`` is the the
-	``$PATH`` or ``%PATH%`` variable this doesn't need to be changed.
-* **hviteex**, default: HVite
-
-	This options only appears when a custom ``HVite`` location is already set and
-	shows the current location, when you want to select a new one just tick the
-	``hvite`` box again or change the path in this textfield.
-* **hcopy**, default: False
-
-	Flag for selecting a custom hcopy location. If this is set, then a prompt
-	follows to select the ``HCopy`` executable. When ``HCopy`` is the the
-	``$PATH`` or ``%PATH%`` variable this doesn't need to be changed.
-* **hcopyex**, default: HCopy
-
-	This options only appears when a custom ``HCopy`` location is already set and
-	shows the current location, when you want to select a new one just tick the
-	``hcopy`` box again or change the path in this textfield.
-	
+<table style="border-collapse: collapse; border: 1px solid #C0C0C0;">
+	<tr><th>Name</th><th>default</th><th>Description</th></tr>
+	<tr><td>new</td><td>align</td><td>
+			Name of the tier where the phone alignment is stored.<br/> this may be an
+			existing tier. If the tier exists, the annotations within the selected
+			interval are	removed upon alignment.
+	</td></tr><tr><td> wrd </td><td> alignw </td><td>
+			Name of the tier where the word alignment is stored.<br/> If the tier
+			exists, the annotations within the selected interval are removed upon
+			alignment. Note that in theory this can be the same tier as the phone
+			level tier. When this is the case a warning will be spawned everytime you
+			align.
+	</td></tr><tr><td> lan </td><td> tze </td><td>
+			Language to use for the forced alignment.<br/> Currently this is Spanish,
+			Tzeltal and Dutch. Custom added languages will also appear in the
+			dropdown menu when properly added.
+	</td></tr><tr><td> dic </td><td> False </td><td>
+			Flag for selecting a custom dictionary.<br/> If this is not set, the
+			aligner will rely completely on the phonetizer. If this is set, then a
+			prompt follows to select the dictionary.
+	</td></tr><tr><td> dictionary </td><td></td><td>
+			This option only appears when a dictionary is already set and shows the
+			current dictionary, when you want to select a new one just tick the
+			<code>dic</code> box again or change the path in this textfield.
+	</td></tr><tr><td> thr </td><td> 0 </td><td>
+			Extra margin for all annotations.<br/> When the sources are aligned with
+			to short annotations you can append a number of seconds to the beginning
+			and the end of every annotation you align with this value. When there is
+			an empty annotation next to the annotation to align, this number of
+			seconds is added to the annotation length. It does not change the
+			original annotations.
+	</td></tr><tr><td> log </td><td> null </td><td>
+			Path for the logfile.<br/> If /dev/null(nul on windows) there will be no
+			log. The main python core script will log some usefull things in here,
+			especially when the praat script crashes on executing the system
+			commands.
+	</td></tr><tr><td> sox </td><td> False </td><td>
+			Flag for selecting a custom <code>sox</code> location.<br/> If this is
+			set, then a prompt follows to select the <code>sox</code> executable.
+			When <code>sox</code> is the the <code>$PATH</code> or
+			<code>%PATH%</code> variable this doesn't need to be changed.
+	</td></tr><tr><td> soxex </td><td> sox </td><td>
+			Current custom <code>sox</code> location.<br/> When sox is the the
+			<code>$PATH</code> or <code>%PATH%</code> variable this doesn't need to
+			be changed. When this is not the case you should put the exact path of
+			the sox executable here. Note that for example <code>.bashrc</code> is
+			not source in the script so the <code>$PATH</code> variable is not always
+			the same as in an interactive shell.
+	</td></tr><tr><td> hvite </td><td> False </td><td>
+			Flag for selecting a custom <code>HVite</code> location.<br/> If this is
+			set, then a prompt follows to select the <code>HVite</code> executable.
+			When <code>HVite</code> is the the <code>$PATH</code> or
+			<code>%PATH%</code> variable this doesn't need to be changed.
+	</td></tr><tr><td> hviteex </td><td> HVite </td><td>
+			Current custom <code>HVite</code> location.<br/>This options only appears
+			when a custom <code>HVite</code> location is already set and shows the
+			current location, when you want to select a new one just tick the
+			<code>hvite</code> box again or change the path in this textfield.
+	</td></tr><tr><td> hcopy </td><td> False </td><td>
+			Flag for selecting a custom <code>HCopy</code> location.<br/> If this is
+			set, then a prompt follows to select the <code>HCopy</code> executable.
+			When <code>HCopy</code> is the the <code>$PATH</code> or
+			<code>%PATH%</code> variable this doesn't need to be changed.
+	</td></tr><tr><td> hcopyex </td><td> HCopy </td><td>
+			Current custom <code>HCopy</code> location.<br/> This options only
+			appears when a custom <code>HCopy</code> location is already set and
+			shows the current location, when you want to select a new one just tick
+			the <code>hcopy</code> box again or change the path in this textfield.
+		</td>
+	</tr>
+</table>
 
 ### <a name="dictionary-file"></a>Dictionary file
 A dictionary file consists of several non-empty lines separated by a newline
