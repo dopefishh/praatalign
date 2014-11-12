@@ -7,4 +7,4 @@ temp*
 settings
 isettings
 test/
-oldversions
+oldversions/*

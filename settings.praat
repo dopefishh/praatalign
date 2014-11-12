@@ -12,14 +12,16 @@ if fileReadable("settings")
 	new$ = extractLine$(settingsData$, "NEW: ")
 	wrd$ = extractLine$(settingsData$, "WRD: ")
 	lan$ = extractLine$(settingsData$, "LAN: ")
-	if lan$ = "tze"
+	if lan$ = "dut"
 		lan = 1
-	elif lan$ = "spa"
+	elif lan$ = "eng"
 		lan = 2
-	elif lan$ = "dut"
+	elif lan$ = "spa"
 		lan = 3
+	elif lan$ = "tze"
+		lan = 4
 	else
-		lan = 1
+		lan = 4
 	endif
 	log$ = extractLine$(settingsData$, "LOG: ")
 	if extractLine$(settingsData$, "LGC: ") = "a"
@@ -37,7 +39,7 @@ else
 	ruleset$ = ""
 	new$ = "align_phon"
 	wrd$ = "align_word"
-	lan = 1
+	lan = 4
 	if windows
 		log$ = "nul"
 	else
@@ -60,9 +62,10 @@ beginPause: "Set the variables"
 
 	comment: "Select language"
 	optionMenu: "lan", lan
-		option: "tze"
-		option: "spa"
 		option: "dut"
+		option: "eng"
+		option: "spa"
+		option: "tze"
 
 	comment: "Select a dictionary when pressing apply"
 	boolean: "dic", 0

@@ -16,6 +16,10 @@ with open('README.md', 'r') as f1:
             td {{
                 vertical-align: baseline;
             }}
+            code {{
+                font-family: monospace;
+                background-color: rgba(0, 0, 0, 0.04);
+            }}
         </style>
         <title>Manual for praatalign</title>
     </head>

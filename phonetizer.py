@@ -27,6 +27,7 @@ class Phonetizer:
         """
         self.parseruleset(ruleset)
         self.dictionary = dict()
+        self.slfwordthing = True
         if dictpath is not None:
             with codecs.open(dictpath, 'r', 'utf-8') as f:
                 for l in f:
@@ -67,7 +68,9 @@ class Phonetizer:
         stop = False
         while not stop:
             # Add the current word
-            current = [word[var_is[i]]+['#'] for i, word in enumerate(pron)]
+            current = [word[var_is[i]]+['#'] for i, word in enumerate(pron)]\
+                if self.slfwordthing else\
+                [word[var_is[i]] for i, word in enumerate(pron)]
             possibles.append(current)
             # Increment the indices
             for i in xrange(0, len(pron)):
@@ -430,6 +433,23 @@ class PhonetizerDictionary(Phonetizer):
             return None
 
 
+class PhonetizerLoopback(Phonetizer):
+    """Dummy phonetizer that uses direct loopback to generate phonetic
+    transcription, therefore allowing the user to use his own phonetic
+    transcription"""
+
+    def __init__(self, *args, **kwargs):
+        Phonetizer.__init__(self, *args, **kwargs)
+        self.slfwordthing = False
+
+    def phonetize(self, utterance):
+        """Phonetizes one utterance
+
+        utterance -- The utterance to phonetize
+        """
+        return [[[a]] for a in utterance.split(' ')]
+
+
 class PhonetizerSkeleton(Phonetizer):
     """Skeleton to create your own phonetizer"""
 
@@ -452,9 +472,10 @@ class PhonetizerSkeleton(Phonetizer):
         pass
 
 phonetizerdict = {
+    'dut': (PhonetizerDictionary, 'par.dut'),
+    'eng': (PhonetizerDictionary, 'par.eng'),
     'spa': (PhonetizerSpanish, 'par.spa'),
-    'tze': (PhonetizerTzeltal, 'par.sam'),
-    'dut': (PhonetizerDictionary, 'par.dut')
+    'tze': (PhonetizerTzeltal, 'par.sam')
     }
 
 

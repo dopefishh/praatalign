@@ -9,11 +9,15 @@
             td {
                 vertical-align: baseline;
             }
+            code {
+                font-family: monospace;
+                background-color: rgba(0, 0, 0, 0.04);
+            }
         </style>
         <title>Manual for praatalign</title>
     </head>
     <body>
-    <h1>Interactive forced alignment in spontaneous speech version 0.8</h1>
+    <h1>Interactive forced alignment in spontaneous speech version 0.9</h1>
 <h2><a name="table-of-contents"></a>Table of Contents</h2>
 <ul>
 <li><a href="#table-of-contents">Table of contents</a></li>
@@ -35,6 +39,13 @@
 </li>
 <li><a href="#dictionary-file">Dictionary file</a></li>
 <li><a href="#ruleset-file">Ruleset file</a></li>
+<li><a href="#supported-languages">Supported languages</a><ul>
+<li><a href="#sl-dutch">Dutch</a></li>
+<li><a href="#sl-english">English</a></li>
+<li><a href="#sl-spanish">Spanish</a></li>
+<li><a href="#sl-tzeltal">Tzeltal</a></li>
+</ul>
+</li>
 <li><a href="#scriptability">Scriptability</a></li>
 <li><a href="#add-language">Add language</a><ul>
 <li><a href="#phonetizer">Phonetizer</a></li>
@@ -66,8 +77,8 @@ binaries. They are for free and you can download them after registering
 </ul>
 <h3><a name="automatic-installation"></a>Automatic installation<a href="#table-of-contents">↑</a></h3>
 <ul>
-<li>Linux: Run <code>install_lin.bat</code></li>
-<li>Mac: Run <code>install_mac.bat</code></li>
+<li>Linux: Run <code>install_lin</code></li>
+<li>Mac: Run <code>install_mac</code></li>
 <li>Windows: Run <code>install_win.bat</code></li>
 </ul>
 <h3><a name="manual-installation"></a>Manual installation<a href="#table-of-contents">↑</a></h3>
@@ -80,8 +91,8 @@ the root folder to:</p>
 </ul>
 <h2><a name="documentation"></a>Documentation<a href="#table-of-contents">↑</a></h2>
 <h3><a name="general-information"></a>General information<a href="#table-of-contents">↑</a></h3>
-<p>Presets for Spanish, Tzeltal and Dutch are included. Presets for Australian
-English, English, Estonian, German, Hungarian, Italian, Newzealang English
+<p>Presets for Spanish, Tzeltal, English and Dutch are included. Presets for
+Australian English, Estonian, German, Hungarian, Italian, Newzealand English
 Polish and Portuguese will be added in the future. When you want a language
 from the above list implemented with priority you can always contact us.</p>
 <p>Dictionary, ruleset and all other files are, and should be, encoded in <em>UTF-8</em>.
@@ -231,6 +242,48 @@ boundary) and succeeded by two vowels.</p>
 <li><code>\v</code> for vowels(<code>[aoeiu]</code>)</li>
 <li><code>\c</code> for consonants(<code>[^aoeui]</code>)</li>
 </ul>
+<h3><a name="supported-languages"></a>Supported languages<a href="#table-of-contents">↑</a></h3>
+<p>Different languages vary in usage because of for example phonetizing
+possibilities and dictionaries. The following sections describe briefly what
+you need to phonetize in that language.</p>
+<h4><a name="sl-dutch"></a>Dutch<a href="#table-of-contents">↑</a></h4>
+<p>Dutch is not phonetizable and therefore you need:</p>
+<ul>
+<li>TextGrid with utterance level alignment.</li>
+<li>Dictionary containing all the words and their pronunciation variants. The
+possible phones can be found in <code>./par.dut/readme.txt</code>.</li>
+<li><em>Optional</em> ruleset to define pronunciation variants.</li>
+</ul>
+<h4><a name="sl-english"></a>English<a href="#table-of-contents">↑</a></h4>
+<p>English is not phonetizable and also hard to make a dictionary. Therefore we
+need:</p>
+<ul>
+<li>TextGrid with the utterance level alignment. The possible phones can be
+  found in <code>./par.eng/readme.txt</code>.</li>
+<li>Dictionary containing all the words and their pronunciation variants. The
+  possible phones can be found in <code>./par.eng/readme.txt</code>. A conversion script
+  can be found in the <code>./par.eng/</code> directory to convert the 
+  <a href="http://www.speech.cs.cmu.edu/cgi-bin/cmudict">cmu dictionary</a> to the
+  praatalign format.</li>
+<li><em>Optional</em> ruleset to define pronunciation variants.</li>
+</ul>
+<p><strong>NOTE</strong> that in here you have to define your own word boundaries.</p>
+<h4><a name="sl-spanish"></a>Spanish<a href="#table-of-contents">↑</a></h4>
+<p>Spanish is almost entirely phonetizable therefore you need:</p>
+<ul>
+<li>TextGrid with utterance level alignment.</li>
+<li><em>Optional</em> dictionary that contains foreign words and other unphonetizable
+words. The possible phones can be found in <code>./par.spa/readme.txt</code>.</li>
+<li><em>Optional</em> ruleset that contains pronunciation variants.</li>
+</ul>
+<h4><a name="sl-tzeltal"></a>Tzeltal<a href="#table-of-contents">↑</a></h4>
+<p>Tzeltal is almost entirely phonetizable therefore you need:</p>
+<ul>
+<li>TextGrid with utterance level alignment.</li>
+<li><em>Optional</em> dictionary that contains foreign words and other unphonetizable
+words. The possible phones can be found in <code>./par.sam/readme.txt</code>.</li>
+<li><em>Optional</em> ruleset that contains pronunciation variants.</li>
+</ul>
 <h3><a name="scriptability"></a>Scriptability<a href="#table-of-contents">↑</a></h3>
 <p>The settings menu is not scriptable because it uses pause dialogs instead of
 forms, because of this there is a settings script available that is scriptable.
@@ -245,19 +298,24 @@ For example if you want to setup a non interactive environment you can run this:
 <h4><a name="phonetizer"></a>Phonetizer<a href="#table-of-contents">↑</a></h4>
 <p>There is a skeleton model available for writing a new phonetizer. This has to
 be done in Python. Implement the phonetizer and add your phonetizer to the
-dictionary as a tuple with as second value a parameter directory called:</p>
-<pre><code>./par.lan
-</code></pre>
-<p>Where lan is a three letter language code</p>
+dictionary as a tuple with as second value a parameter directory called: 
+<code>./par.XXX</code>. Where <code>XXX</code> is a three letter language code .</p>
 <h4><a name="models"></a>Models<a href="#table-of-contents">↑</a></h4>
 <p>You can create your own models or use the given models(for example Sampa
 models). Note that in the Python phonetizer file, the connection between models
 and languages is defined in the phonetizer dictionary at the bottom of the
 file.</p>
 <h4><a name="adapt-the-praat-scripts"></a>Adapt the Praat scripts<a href="#table-of-contents">↑</a></h4>
-<p>To add the language to the Praat scripts you have to edit <code>settings.praat</code>
-and add your language in the option menu on line <code>53</code> and in the big
-selection statement on line <code>18</code></p>
+<p>To add the language to the program you have to add the entry in:</p>
+<ul>
+<li><code>phonetizer.py</code> in the bottom you have to add the entry to
+<code>phonetizerdict</code> dictionary that maps names of languages to Phonetizer
+  subclasses.</li>
+<li><code>settings.praat</code> in the menu parsing of the options around line <code>15</code> you
+have to edit the entries so that the names match the indices again. Also
+  within the <code>beginPause</code> block you have to add your language to the
+  optionmenu that succeeds the comment block <code>comment: "Select language"</code></li>
+</ul>
 <h2><a name="todo"></a>TODO<a href="#table-of-contents">↑</a></h2>
 <ul>
 <li>Make slf creating faster. Or at least make the advanced slf generation
@@ -266,8 +324,7 @@ optional.</li>
 <li>Make tutorials for non cs people.</li>
 </ul>
 <h2><a name="how-to-cite"></a>How to cite<a href="#table-of-contents">↑</a></h2>
-<pre><code>Lubbers, M. (2014) Praatalign (Version 0.6) [Computer program].
-Available at https://github.com/dopefishh/praatalign (Accessed 2014-10-29)
+<pre><code>Lubbers, M. and Torreira, F. (2014) Praatalign: an interactive Praat plug-in for performing phonetic forced alignment. URL: https://github.com/dopefishh/praatalign
 
 </code></pre>
 <h2><a name="authors"></a>Authors<a href="#table-of-contents">↑</a></h2>
@@ -278,6 +335,13 @@ Available at https://github.com/dopefishh/praatalign (Accessed 2014-10-29)
 </ul>
 <h2><a name="version-history"></a>Version history<a href="#table-of-contents">↑</a></h2>
 <ul>
+<li>0.9<ul>
+<li>Cleaned up some parts of the readme.</li>
+<li>Added language specific information.</li>
+<li>Added english as language. Although there is no phonetizing implemented.</li>
+<li>README.html better with light background for code blocks.</li>
+</ul>
+</li>
 <li>0.8 (2014-10-31)<ul>
 <li>Removed all the binary folders.</li>
 <li>Made the binary finding interactive.</li>
