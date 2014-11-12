@@ -301,8 +301,15 @@ To add the language to the program you have to add the entry in:
 - Make tutorials for non cs people.
 
 ## <a name="how-to-cite"></a>How to cite<a href="#table-of-contents">↑</a>
-	
-	Lubbers, M. and Torreira, F. (2014) Praatalign: an interactive Praat plug-in for performing phonetic forced alignment. URL: https://github.com/dopefishh/praatalign
+Bibtex:
+
+	@misc{praatalign,
+		author={Lubbers, Mart and Torreira, Francisco},
+		title={Praatalign: an interactive Praat plug-in for performing phonetic forced alignment},
+		howpublished={\url{https://github.com/dopefishh/praatalign}},
+		year={2013-2014},
+		note={Version 0.9}
+	}
 
 ## <a name="authors"></a>Authors<a href="#table-of-contents">↑</a>
 - Programming: Mart Lubbers (mart@martlubbers.net)
@@ -315,6 +322,7 @@ To add the language to the program you have to add the entry in:
 	- Added language specific information.
 	- Added english as language. Although there is no phonetizing implemented.
 	- README.html better with light background for code blocks.
+	- Updated citing method with bibtex.
 - 0.8 (2014-10-31)
 	- Removed all the binary folders.
 	- Made the binary finding interactive.
