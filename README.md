@@ -135,6 +135,14 @@ The following options can be specified in the settings menu:
 			This option only appears when a dictionary is already set and shows the
 			current dictionary, when you want to select a new one just tick the
 			<code>dic</code> box again or change the path in this textfield.
+	</td></tr><tr><td>rul</td><td>False</td><td>
+			Flag for selecting a custom ruleset.<br/>
+			If this is set, then a prompt follows to select the ruleset.
+	</td></tr><tr><td>ruleset</td><td></td><td>
+			Current ruleset location.<br/>
+			This option only appears when a ruleset is already set and shows the
+			current ruleset, when you want to select a new one just tick the
+			<code>rul</code> box again or change the path in this textfield.
 	</td></tr><tr><td>thr</td><td>0</td><td>
 			Extra margin for all annotations.<br/>
 			When the sources are aligned with to short annotations you can append a
