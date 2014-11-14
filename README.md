@@ -110,12 +110,6 @@ use with the alignment.
 
 The following options can be specified in the settings menu:
 
-<style>
-	table th td {
-		border: 1px solid black;
-		border-collapse: collapse;
-	}
-</style>
 <table style="border-collapse: collapse; border: 1px solid #C0C0C0;">
 	<tr><th>Name</th><th>default</th><th>Description</th></tr>
 	<tr><td>new</td><td>align</td><td>
@@ -244,8 +238,6 @@ need:
 	[cmu dictionary](http://www.speech.cs.cmu.edu/cgi-bin/cmudict) to the
 	praatalign format.
 - *Optional* ruleset to define pronunciation variants.
-
-**NOTE** that in here you have to define your own word boundaries.
 
 ####<a name="sl-spanish"></a>Spanish<a href="#table-of-contents">↑</a>
 Spanish is almost entirely phonetizable therefore you need:
