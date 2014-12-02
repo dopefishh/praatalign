@@ -1,5 +1,5 @@
-Interactive forced alignment in spontaneous speech version 0.9
-==============================================================
+Interactive forced alignment in spontaneous speech version 0.9a
+===============================================================
 
 ## <a name="table-of-contents"></a>Table of Contents
 - [Table of contents](#table-of-contents)
@@ -317,6 +317,8 @@ Bibtex:
 - Testing: Emma Valtersson (emma.valtersson@gmail.com)
 
 ## <a name="version-history"></a>Version history<a href="#table-of-contents">↑</a>
+- 0.9a
+	- Small bugfix in dictionary generation fixed.
 - 0.9
 	- Cleaned up some parts of the readme.
 	- Added language specific information.
