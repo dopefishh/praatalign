@@ -23,6 +23,33 @@
     editor_info$ = Editor info
     current_tier = extractNumber(editor_info$, "Selected tier: ")
 
+# Unshow pitch, intensity and spectrum if they are enabled
+		pitch_on = 0
+		intensity_on = 0
+		formant_on = 0
+		spectrum_on = 0
+		pulses_on = 0
+		if extractWord$(editor_info$, "Pitch show: ") == "yes"
+			pitch_on = 1
+			Show pitch
+		endif
+		if extractWord$(editor_info$, "Intensity show: ") == "yes"
+			intensity_on = 1
+			Show intensity
+		endif
+		if extractWord$(editor_info$, "Spectrogram show: ") == "yes"
+			spectrum_on = 1
+			Show spectrogram
+		endif
+		if extractWord$(editor_info$, "Formant show: ") == "yes"
+			formant_on = 1
+			Show formants
+		endif
+		if extractWord$(editor_info$, "Pulses show: ") == "yes"
+			pulses_on = 1
+			Show pulses
+		endif
+
 # Extract the object name
     textgrid_info$ = TextGrid info
     textgrid_object$ = extractLine$(textgrid_info$, "Object name: ")
@@ -43,6 +70,9 @@
 		else
 			margin_after = 0
 		endif
+		Select previous interval
+		Zoom to selection
+		Zoom out
 endeditor
 
 # Calculate the true start and end times with respect to the extended bounds
@@ -161,3 +191,21 @@ endfor
 # Remove temporary table file
 select Table praat_temp_out
 Remove
+
+# Reset pitch, intensity and spectrum if they were unset before
+editor
+		if pitch_on == 1
+			Show pitch
+		endif
+		if intensity_on == 1
+			Show intensity
+		endif
+		if spectrum_on == 1
+			Show spectrogram
+		endif
+		if formant_on == 1
+			Show formants
+		endif
+		if pulses_on == 1
+			Show pulses
+		endif

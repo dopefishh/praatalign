@@ -1,7 +1,0 @@
-digraph {
-	rankdir=LR;
-	n0 -> n1 [label="a"]
-	n1 -> n2 [label="d"]
-	n2 -> n3 [label="o"]
-	n1 -> n3 [label="o",constraints=false]
-}

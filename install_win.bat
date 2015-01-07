@@ -6,6 +6,6 @@ RD /Q /S "%_plugindir%"
 echo Creating directory
 MD "%_plugindir%"
 echo Copy plugin files
-ROBOCOPY "%CD%" "%_plugindir%" /S /Z /XD .* /XF .* /XF install* /XF temp* /XD tutorial*
+ROBOCOPY "%CD%" "%_plugindir%" /S /Z /XD .* /XF .* /XF install* /XF temp* /XD book*
 echo Installing completed, please press enter to close this window...
 pause > nul
