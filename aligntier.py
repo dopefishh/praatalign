@@ -38,8 +38,8 @@ code = 'w'
 settings['HDR'] = 'True'
 
 # Create dummy values if there are less then 4 values
-while len(data) < 4:
-    data.append(None)
+#while len(data) < 4:
+#    data.append(None)
 
 # Parse the data
 data = map(lambda x: x.strip().split('\t'), data[1:])

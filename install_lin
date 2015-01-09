@@ -8,5 +8,5 @@ echo Creating directory
 mkdir -p "$dir"
 echo Copy plugin files
 find . -maxdepth 1 ! -name "\." ! -name "install*" ! -name ".*" \
-! -name "temp*" ! -name "tutorial*" -print0 | xargs -P 2 -0 -I{} cp -vR "{}" "$dir"
+! -name "temp*" ! -name "book*" -print0 | xargs -P 2 -0 -I{} cp -vR "{}" "$dir"
 echo Installing complete
