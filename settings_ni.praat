@@ -2,9 +2,9 @@
 form Set the variables
 	sentence new align
 	sentence wrd align_w
-	sentence dictionary
-	sentence rul
 	sentence lan
+	sentence dic
+	sentence rul
 	real thr
 	sentence log /dev/null
 	sentence sox sox
@@ -12,12 +12,9 @@ form Set the variables
 	sentence hcb hcb
 endform
 
-# Process the pause variable
-pau$ = if pau then "True" else "False" fi
-
 # Write the settings file
 writeFileLine("settings",
-..."DCT: ", dictionary$, newline$,
+..."DCT: ", dic$, newline$,
 ..."HVB: ", hvb$, newline$,
 ..."HCB: ", hcb$, newline$,
 ..."LAN: ", lan$, newline$,
