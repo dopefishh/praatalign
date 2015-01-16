@@ -410,8 +410,11 @@ class PhonetizerSpanish(Phonetizer):
                     phonemap.append('k')
                     if i+1 < len(lw) and lw[i+1] == 'u':
                         next(it, None)
-                elif ch == 'r' and (i is 0 or lw[i-1] in 'nlsm'):
-                    phonemap += 'r'
+                elif ch == 'r' and ((i is 0 or lw[i-1] in 'nlsm') or
+                                    (i+1 < len(lw) and lw[i+1] == 'r')):
+                    if i+1 < len(lw) and lw[i+1] == 'r':
+                        next(it, None)
+                    phonemap += 'rr'
                 elif ch == 'y' and i+1 >= len(lw):
                     phonemap.append('i')
                 elif ch == 'h':
