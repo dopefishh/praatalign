@@ -225,57 +225,6 @@ class Phonetizer:
             items2.remove(item)
             self.permute(items2, output)
 
-#    def toslf(self, pron, bn, graphviz=False):
-#        """Generates a mlf file and slf file regarding the ruleset
-#
-#        pron     -- pronunciation in the form of [word1, word2, ..., wordn]
-#                        where wordi = [var1, var2, ..., varn]
-#                        where vari  = [char1, char2, ..., charn]
-#        bn       -- filename without extension for the output files
-#        graphviz -- Flag to make a dotfile
-#        """
-#        nit, eit = 0, 0
-#        nodebase = 'I={:d} W={}\n'
-#        edgebase = 'J={:d} S={:d} E={:d}\n'
-#        wordb = 0
-#        nodestr = nodebase.format(0, '<')
-#        nit += 1
-#        edgestr = ''
-#        for word in pron:
-#            toadd = []
-#            for var in word:
-#                edgestr += edgebase.format(eit, wordb, nit)
-#                eit += 1
-#                for num, char in enumerate(var):
-#                    if num > 0:
-#                        edgestr += edgebase.format(eit, nit-1, nit)
-#                        eit += 1
-#                    nodestr += nodebase.format(nit, char)
-#                    nit += 1
-#                toadd.append(nit-1)
-#            nodestr += nodebase.format(nit, '#')
-#            wordb = nit
-#            nit += 1
-#            for to in toadd:
-#                edgestr += edgebase.format(eit, to, wordb)
-#                eit += 1
-#        nodestr += nodebase.format(nit, '>')
-#        edgestr += edgebase.format(eit, nit-1, nit)
-#        slfstr = 'N={:d} L={:d}\n{}{}'.format(nit+1, eit+1, nodestr, edgestr)
-#        with open('{}.slf'.format(bn), 'w') as ff:
-#            ff.writelines(slfstr)
-#        if graphviz:
-#            with open('{}.dot'.format(bn), 'w') as ff:
-#                ff.write('digraph g{\n')
-#                for li in filter(None,
-#                                 [l.split() for l in slfstr.split('\n')]):
-#                    if li[0][0] == 'I':
-#                        ff.write('\t{} [label="{}"]\n'.format(
-#                            li[0][2:], li[1][2:]))
-#                    if li[0][0] == 'J':
-#                        ff.write('\t{} -> {}\n'.format(li[1][2:], li[2][2:]))
-#                ff.write('}')
-
     def applyrules(self, phon):
         """Apply the rules specified in the ruleset
 
