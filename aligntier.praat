@@ -39,7 +39,7 @@ writeFileLine("isettings",
 ..."WAV: ", longsound_file$)
 
 # Do the actual alignment
-system python aligntier.py
+system python align.py tier
 
 # Read the results
 Read Table from comma-separated file... 'tmpfile$'
