@@ -1,11 +1,15 @@
+setlocal enabledelayedexpansion
 @ECHO OFF
-ECHO Setting directory
 SET _plugindir=%USERPROFILE%\Praat\plugin_pralign
-ECHO Clearing out directory
 RD /Q /S "%_plugindir%"
-echo Creating directory
 MD "%_plugindir%"
-echo Copy plugin files
-ROBOCOPY "%CD%" "%_plugindir%" /S /Z /XD .* /XF .* /XF install* /XF temp* /XD book*
+COPY %~dp0*.py "%_plugindir%"
+COPY %~dp0*.praat "%_plugindir%"
+FOR /D %%i IN (%~dp0par.???) DO (
+	SET test=%%i
+	SET test=!test:~-7%!
+	MD "%_plugindir%\!test!\"
+	COPY "%%i\*" "%_plugindir%\!test!\"
+)
 echo Installing completed, please press enter to close this window...
 pause > nul
