@@ -10,23 +10,19 @@ import sys
 import logging
 
 
-HCOPY = ('"{HCB}" -T 0 '
-         '-C "{CWD}{SEP}{PRE}" temp.nis "{CWD}{SEP}{BN}.htk"')
-HVITE = ('"{HVB}" '
-         '-C "{CWD}{SEP}{HVI}" -w -X slf '
-         '-H "{CWD}{SEP}{MMF}" '
-         '-s 7.0 -p 0.0 '
-         '"{CWD}{SEP}{DIC}" "{CWD}{SEP}{HMM}" "{CWD}{SEP}{BN}.htk"')
-SOUND = ('"{SOX}" "{WAV}" '
-         '-t sph -e signed-integer -b 16 -c 1 '
-         '"{CWD}{SEP}temp.nis" trim {STA} {DUR} rate -s -a {SOU}')
+HCOPY = '"{HCB}" -T 0 -C "{CWD}{SEP}{PRE}" temp.nis "{CWD}{SEP}{BN}.htk"'
+HVITE = """"{HVB}" -C "{CWD}{SEP}{HVI}" -w -X slf -H "{CWD}{SEP}{MMF}" -s 7.0 \
+-p 0.0 "{CWD}{SEP}{DIC}" "{CWD}{SEP}{HMM}" "{CWD}{SEP}{BN}.htk" """
+SOUND = """"{SOX}" "{WAV}" -t sph -e signed-integer -b 16 -c 1 \
+"{CWD}{SEP}temp.nis" trim {STA} {DUR} rate -s -a {SOU}"""
 
 
 def force(*args, **kwargs):
-    """Wrapper for the _force function that writes the status to a file.
+    """Wrapper for the _force function that writes the status to a file for
+    feedback via praat module.
 
     statusses can be:
-        done      - Alignment was successfull.
+        done     - Alignment was successfull.
         missox   - Sox binary not found.
         mishcopy - HCopy binary not found.
         mishvite - HVite binary not found.
@@ -50,7 +46,6 @@ def _force(phonetizer, code='w', **param):
     HVI - htk hvite config.
     MMF - htk mmf file path.
     OUT - file to write the output to.
-    PDF - {True, False}, the option to leave a pdf file on site with the graph.
     PRE - htk preconfig.
     STA - start time in seconds.
     UTT - utterance.

@@ -50,13 +50,12 @@ class Phonetizer:
                          reps, l)) for l in f if l and l[0] != '"']
                 self.r += lines
 
-    def toslf(self, pron, bn='temp', graphviz=True):
+    def toslf(self, pron, bn='temp'):
         """Converts the pronunciation variants and rules to a graph
         representation
 
         pron     -- Pronunciation
         bn       -- Basename for the output
-        graphviz -- If set, this function also produces a .dot file
         """
         # Make a translation for all multi character phones
         c2 = [ch for wd in pron for var in wd for ch in var if len(ch) > 1]
@@ -199,17 +198,6 @@ class Phonetizer:
                 for c in to:
                     out.write('J={} S={} E={}\n'.format(i, fr, c))
                     i += 1
-        # If specified create graphviz file
-        if graphviz:
-            with open('{}.dot'.format(bn), 'w') as out:
-                out.write('digraph dawg {\n')
-                for number, label in nnodes.iteritems():
-                    out.write('\t{} [shape = circle, label = "{}"];\n'.format(
-                        number, label))
-                for fr, to in nedges.iteritems():
-                    for c in to:
-                        out.write('\t{} -> {};\n'.format(fr, c))
-                out.write('}\n')
 
     def permute(self, items, output):
         """Helper function that creates all possible combinations of a list
