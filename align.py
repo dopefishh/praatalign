@@ -69,8 +69,12 @@ def _force(phonetizer, code='w', **param):
     logging.info('Utterance phonetized spawned')
 
     # Create the graph file
-    phonetizer.toslf(pron, param['BN'])
-    logging.info('Graph created')
+    dawg = phonetizer.todawg(pron)
+    with open('{}.slf'.format(param['BN']), 'w') as f:
+        f.write(phonetizer.toslf(*dawg))
+    with open('{}.dot'.format(param['BN']), 'w') as f:
+        f.write(phonetizer.todot(*dawg))
+    logging.info('SLF file created')
 
     # Extract the current directory to eliminate some PATH problems
     param['CWD'] = os.getcwd()

@@ -3,6 +3,7 @@
 import codecs
 import re
 import unicodedata
+import itertools
 
 
 class tdict(dict):
@@ -42,85 +43,70 @@ class Phonetizer:
         path -- The path of the ruleset file, if None then there will be an
                 empty ruleset
         """
-        self.r = list()
+        self.r = []
         if path is not None:
             reps = [(r'\v', '[aoeiu]'), (r'\c', '[^aoeui]'), ('\n', '')]
             with open(path, 'r') as f:
-                lines = [re.compile(reduce(lambda x, (o, n): x.replace(o, n),
-                         reps, l)) for l in f if l and l[0] != '"']
-                self.r += lines
+                for l in itertools.ifilter(lambda x: x[0] != '"', f):
+                    if not l.startswith('\t'):
+                        l = re.sub(r'([.^$*+?{}[\]\|()])', r'\\\1', l)
+                    else:
+                        l = reduce(lambda x, (o, n): x.replace(o, n), reps, l)
+                    self.r.append(l.strip().split('\t'))
 
-    def toslf(self, pron, bn='temp'):
+    def todawg(self, pron):
         """Converts the pronunciation variants and rules to a graph
-        representation
+        representation.
 
         pron     -- Pronunciation
-        bn       -- Basename for the output
         """
         # Make a translation for all multi character phones
         c2 = [ch for wd in pron for var in wd for ch in var if len(ch) > 1]
         c2 = dict(zip(c2, map(chr, range(1, len(c2)+1))))
 
         # Create all possible combinations of pronunciation variants
-        possibles = []
-        var_is = [0]*len(pron)
-        stop = False
-        while not stop:
-            # Add the current word
-            current = [word[var_is[i]]+['#'] for i, word in enumerate(pron)]\
-                if self.slfwordthing else\
-                [word[var_is[i]] for i, word in enumerate(pron)]
-            possibles.append(current)
-            # Increment the indices
-            for i in xrange(0, len(pron)):
-                # If the index can be incremented, do so and break
-                if var_is[i] < len(pron[i])-1:
-                    var_is[i] += 1
-                    break
-                # else make it zero and go to the next one
-                else:
-                    # If this is the last one, stop...
-                    if i == len(var_is)-1:
-                        stop = True
-                    var_is[i] = 0
+        pron = ((' '.join(varnt + ['#']) for varnt in word) for word in pron)
+        # Make strings of these variants
+        pron = ('< ' + ' '.join(x) + ' >' for x in itertools.product(*pron))
+        # Create combinations of all rulesets
+        rcs = [()]
+        for i in range(len(self.r)):
+            rcs += itertools.combinations(self.r, i+1)
+        all_prons = set()
+        # For every variant
+        for variant in pron:
+            # For every combination of rules
+            for combo in rcs:
+                all_prons.add(variant)
+                # For every rule combination
+                for pat, target in combo:
+                    app = sorted(x.span() for x in re.finditer(pat, variant))
+                    apporders = [()]
+                    for i in range(len(app)):
+                        apporders += itertools.permutations(app, i+1)
+                    # For every appliance order
+                    for appc in reversed(apporders):
+                        wordapp = variant
+                        for st, en in appc:
+                            try:
+                                wordapp = '{}{}{}'.format(
+                                    wordapp[:st], 
+                                    re.sub(pat, target, wordapp[st:en]),
+                                    wordapp[en:])
+                            except:
+                                pass
+                        all_prons.add(wordapp)
 
-        # Create all the possible combinations of ruleset combos and applied
-        # rules. Duplicates will occur so a set is used
-        all_pos = set()
-        # Loop over all the words, but now in plain strings
-        for word in [''.join(a for p in pp for a in p) for pp in possibles]:
-            # Get all the combinations of rules present in the ruleset
-            ruleset_combos = []
-            self.permute(self.r, ruleset_combos)
-            # Loop over all possible combinations
-            for ruleset_combo in ruleset_combos:
-                # When the combination is empty we can just add the word
-                if not ruleset_combo:
-                    all_pos.add(word)
-                    break
-                # Otherwise we have to add for every combination of rules
-                for rule in ruleset_combo:
-                    # Find all rule matches and find all combinations of these
-                    mo = list(rule.finditer(word))
-                    possible_replace_combos = []
-                    self.permute(mo, possible_replace_combos)
-                    # For every combinations, apply them and add it to the set
-                    for combi in possible_replace_combos:
-                        nword = word
-                        for r in reversed(combi):
-                            nword = nword[:r.end('fr')]+nword[r.start('to'):]
-                        all_pos.add(nword)
-        # Replace all the multichar phones with their appropriate byte
-        chain_rep = lambda x, (f, t): x.replace(f, t)
-        all_pos = {reduce(chain_rep, c2.iteritems(), v) for v in all_pos}
-
-        # Reverse the dictionary so that we later can change it back
+        ## Replace all the multichar phones with their appropriate byte
+        for f, t in c2.iteritems():
+            all_prons = {x.replace(f, t) for x in all_prons} 
+        all_prons = {x.replace(' ', '') for x in all_prons} 
         c2 = {v: k for k, v in c2.iteritems()}
 
         # Add all the words to the DAWG
         import pyDAWG
         pyd = pyDAWG.DAWG()
-        for word in sorted(all_pos):
+        for word in sorted(all_prons):
             pyd.add_word(word)
 
         # Create a slf with breath first search and use a translation list to
@@ -183,21 +169,29 @@ class Phonetizer:
             if final not in nedges:
                 nedges[final] = set()
             nedges[final].add(finalnode)
+        return nedges, nnodes
 
-        # Open the slf for writing
-        with open('{}.slf'.format(bn), 'w') as out:
-            # Write statistics about the number of nodes and edges
-            out.write('N={} L={}\n'.format(
-                len(nnodes), sum(len(to) for _, to in nedges.iteritems())))
+    def todot(self, nedges, nnodes):
+        dot = 'digraph {rankdir=LR;'
+        dot += ''.join('q{} [label="{}"];'.format(*x) for x in nnodes.items())
+        for fr, to in nedges.iteritems():
+            for c in to:
+                dot += 'q{} -> q{};'.format(fr, c)
+        return dot + '}'
+
+    def toslf(self, nedges, nnodes):
+        slf = 'N={} L={}\n'.format(
+            len(nnodes), sum(len(to) for _, to in nedges.iteritems()))
             # Write all the nodes
-            out.write(''.join(
-                'I={} W={}\n'.format(k, v) for k, v in nnodes.iteritems()))
-            # Write all the edges
-            i = 0
-            for fr, to in nedges.iteritems():
-                for c in to:
-                    out.write('J={} S={} E={}\n'.format(i, fr, c))
-                    i += 1
+        slf += ''.join(
+            'I={} W={}\n'.format(k, v) for k, v in nnodes.iteritems())
+        # Write all the edges
+        i = 0
+        for fr, to in nedges.iteritems():
+            for c in to:
+                slf += 'J={} S={} E={}\n'.format(i, fr, c)
+                i += 1
+        return slf
 
     def permute(self, items, output):
         """Helper function that creates all possible combinations of a list
