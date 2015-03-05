@@ -10,12 +10,36 @@ import sys
 import logging
 
 
-HCOPY = '"{HCB}" -T 0 -C "{CWD}{SEP}{PRE}" temp.nis "{CWD}{SEP}{BN}.htk"'
-HVITE = """"{HVB}" -C "{CWD}{SEP}{HVI}" -w -X slf -H "{CWD}{SEP}{MMF}" -s 7.0 \
--p 0.0 "{CWD}{SEP}{DIC}" "{CWD}{SEP}{HMM}" "{CWD}{SEP}{BN}.htk" """
-SOUND = """"{SOX}" "{WAV}" -t sph -e signed-integer -b 16 -c 1 \
-"{CWD}{SEP}temp.nis" trim {STA} {DUR} rate -s -a {SOU}"""
-
+HCOPY = """\
+"{HCB}" \
+-T 0 \
+-C "{CWD}{SEP}{PRE}" \
+temp.nis \
+"{CWD}{SEP}{BN}.htk"\
+"""
+HVITE = """\
+"{HVB}" \
+-C "{CWD}{SEP}{HVI}" \
+-w \
+-X slf \
+-H "{CWD}{SEP}{MMF}" \
+-s 7.0 \
+-p 0.0 \
+"{CWD}{SEP}{DIC}" \
+"{CWD}{SEP}{HMM}" \
+"{CWD}{SEP}{BN}.htk"\
+"""
+SOUND = """\
+"{SOX}" \
+"{WAV}" \
+-t sph \
+-e signed-integer \
+-b 16 \
+-c 1 \
+"{CWD}{SEP}temp.nis" \
+trim {STA} {DUR} \
+rate -s -a {SOU}\
+"""
 
 def force(*args, **kwargs):
     """Wrapper for the _force function that writes the status to a file for
@@ -111,37 +135,34 @@ def _force(phonetizer, code='w', **param):
 
     # Open the output file
     out = param['OUT']
-    fileio = sys.stdout if out == '-' else open(out, code)
-    logging.info('Output file selected')
-    with open(param['BN'] + '.rec', 'r') as f:
-        # Write if necessary the header
-        if param['HDR'] != 'False':
-            fileio.write('start,end,label,type\n')
-            logging.info('Header written')
-        for d in itertools.imap(lambda x: x.split(), f):
-            # Parse the time parameters and convert them to seconds
-            start = float(param['STA']) + int(d[0]) / 1e7
-            end = float(param['STA']) + int(d[1]) / 1e7
+    with open(param['OUT'], 'w') as fileio:
+        logging.info('Output file selected')
+        with open(param['BN'] + '.rec', 'r') as f:
+            # Write if necessary the header
+            if param['HDR'] != 'False':
+                fileio.write('start,end,label,type\n')
+                logging.info('Header written')
+            for d in itertools.imap(lambda x: x.split(), f):
+                # Parse the time parameters and convert them to seconds
+                start = float(param['STA']) + int(d[0]) / 1e7
+                end = float(param['STA']) + int(d[1]) / 1e7
 
-            # Detect word boundaries
-            if d[2] == '<':
-                word = (end, '')
-            # If the end of a word is reached write the word to file
-            elif d[2] == '#':
-                fileio.write('{:f},{:f},{},w\n'.format(
-                    word[0], start, word[1]))
-                word = (end, '')
-            # Else add the current phone to the current word
-            else:
-                word = (word[0], word[1] + d[2])
-            # If the length is non zero write the phone to the file
-            if end - start > 0:
-                fileio.write('{:f},{:f},{},p\n'.format(
-                    start, end, d[2]))
-        logging.info('Datafile written')
-    # Close the file again
-    if out != '-':
-        fileio.close()
+                # Detect word boundaries
+                if d[2] == '<':
+                    word = (end, '')
+                # If the end of a word is reached write the word to file
+                elif d[2] == '#':
+                    fileio.write('{:f},{:f},{},w\n'.format(
+                        word[0], start, word[1]))
+                    word = (end, '')
+                # Else add the current phone to the current word
+                else:
+                    word = (word[0], word[1] + d[2])
+                # If the length is non zero write the phone to the file
+                if end - start > 0:
+                    fileio.write('{:f},{:f},{},p\n'.format(
+                        start, end, d[2]))
+            logging.info('Datafile written')
     logging.info('Finished')
     return 'done'
 

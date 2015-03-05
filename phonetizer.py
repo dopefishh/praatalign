@@ -17,6 +17,7 @@ class tdict(dict):
 
 class Phonetizer:
     """Skeleton class for a phonetizer for the praat align program"""
+    reps = [(r'\v', '[aoeiu]'), (r'\c', '[^aoeui]'), ('\n', '')]
 
     def __init__(self, dictpath=None, ruleset=None):
         """Constructor with an optional dictionary
@@ -26,9 +27,8 @@ class Phonetizer:
         dictpath -- Path to an optional dictonary
         ruleset  -- Path to an optional ruleset file
         """
-        self.parseruleset(ruleset)
+        self.r = []
         self.dictionary = dict()
-        self.slfwordthing = True
         if dictpath is not None:
             with codecs.open(dictpath, 'r', 'utf-8') as f:
                 for l in f:
@@ -36,22 +36,14 @@ class Phonetizer:
                         l = [s.strip() for s in l.split('\t')]
                         self.dictionary[l[0]] = [var.split() for var in
                                                  map(str, l[1:])]
-
-    def parseruleset(self, path):
-        """Parses the ruleset from a file
-
-        path -- The path of the ruleset file, if None then there will be an
-                empty ruleset
-        """
-        self.r = []
-        if path is not None:
-            reps = [(r'\v', '[aoeiu]'), (r'\c', '[^aoeui]'), ('\n', '')]
-            with open(path, 'r') as f:
-                for l in itertools.ifilter(lambda x: x[0] != '"', f):
+        if ruleset is not None:
+            with codecs.open(ruleset, 'r', 'utf-8') as f:
+                for l in itertools.ifilter(lambda x: x[0] != '#', f):
                     if not l.startswith('\t'):
                         l = re.sub(r'([.^$*+?{}[\]\|()])', r'\\\1', l)
                     else:
-                        l = reduce(lambda x, (o, n): x.replace(o, n), reps, l)
+                        for target, repl in self.reps:
+                            l = l.replace(target, repl)
                     self.r.append(l.strip().split('\t'))
 
     def todawg(self, pron):
@@ -376,7 +368,6 @@ class PhonetizerLoopback(Phonetizer):
 
     def __init__(self, *args, **kwargs):
         Phonetizer.__init__(self, *args, **kwargs)
-        self.slfwordthing = False
 
     def phonetize(self, utterance):
         """Phonetizes one utterance

@@ -1,5 +1,14 @@
 #!/bin/bash
 set -e
+if [ "$(id -u)" == "0" ]; then
+	echo "This script should not need root rights..." 1>&2
+	echo "Please press CRTL+C and rerun the script as a normal user"
+	echo "If you still wish to continue type PLEASE"
+	read line
+	if [ "$line" -ne "PLEASE" ]; then
+		exit
+	fi
+fi
 case "$OSTYPE" in
 	solaris* | *bsd* | linux*)
 		echo "Detected LINUX/SOLARIS/BSD"
