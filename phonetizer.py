@@ -67,7 +67,7 @@ class Phonetizer:
         # Create all possible combinations of pronunciation variants
         pron = ((' '.join(varnt + ['#']) for varnt in word) for word in pron)
         # Make strings of these variants
-        pron = ('< ' + ' '.join(x) + ' >' for x in itertools.product(*pron))
+        pron = (' '.join(x) for x in itertools.product(*pron))
         # Create combinations of all rulesets
         rcs = [()]
         for i in range(len(self.r)):
