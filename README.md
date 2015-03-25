@@ -1,4 +1,4 @@
-Interactive forced alignment in spontaneous speech version 1.31
+Interactive forced alignment in spontaneous speech version 1.30
 ===============================================================================
 For the full documentation either compile the book from the ```gh-pages```
 branch or download the manual at: http://dopefishh.github.io/praatalign/
