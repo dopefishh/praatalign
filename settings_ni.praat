@@ -10,6 +10,7 @@ form Set the variables
 	sentence sox sox
 	sentence hvb hvb
 	sentence hcb hcb
+	sentence py py
 endform
 
 # Write the settings file
@@ -24,4 +25,5 @@ writeFileLine("settings",
 ..."RUL: ", rul$, newline$,
 ..."SOX: ", sox$, newline$,
 ..."THR: ", thr, newline$,
+..."PY2: ", py, newline$,
 ..."WRD: ", wrd$)

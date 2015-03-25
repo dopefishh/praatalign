@@ -6,6 +6,7 @@
     tmpfile$ = extractLine$(settings$, "OUT: ")
     phonetier_name$ = extractLine$(settings$, "NEW: ")
     wordtier_name$ = extractLine$(settings$, "WRD: ")
+    pythonex$ = extractLine$(settings$, "PY2: ")
 
 # Get the current selected tier
     editor_info$ = Editor info
@@ -39,7 +40,7 @@ writeFileLine("isettings",
 ..."WAV: ", longsound_file$)
 
 # Do the actual alignment
-system python align.py tier
+system 'pythonex$' align.py tier
 
 # Read the results
 Read Table from comma-separated file... 'tmpfile$'

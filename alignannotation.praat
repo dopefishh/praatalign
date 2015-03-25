@@ -8,6 +8,7 @@
     tmpfile$ = extractLine$(settings$, "OUT: ")
     statusfile$ = "temp.status"
     boundary_margin = extractNumber(settings$, "THR: ")
+    pythonex$ = extractLine$(settings$, "PY2: ")
 
 # Get current selection
     selection_start = Get starting point of interval
@@ -158,7 +159,7 @@ writeFileLine("isettings",
 ..."WAV: ", wav_filepath$)
 
 # Do the actual alignment
-system python align.py annotation
+system 'pythonex$' align.py annotation
 
 returnstatus$ = readFile$: statusfile$
 if returnstatus$ == "done"

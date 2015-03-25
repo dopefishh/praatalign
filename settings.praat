@@ -32,6 +32,7 @@ if fileReadable("settings")
 	soxex$ = extractLine$(settingsData$, "SOX: ")
 	hviteex$ = extractLine$(settingsData$, "HVB: ")
 	hcopyex$ = extractLine$(settingsData$, "HCB: ")
+	pythonex$ = extractLine$(settingsData$, "PY2: ")
 	thr = extractNumber(settingsData$, "THR: ")
 # If the settings isn't present initialize everything
 else
@@ -49,6 +50,7 @@ else
 	soxex$ = "sox"
 	hviteex$ = "HVite"
 	hcopyex$ = "HCopy"
+	pythonex$ = if windows then "python.exe" else "python" fi
 	thr = 0
 endif
 
@@ -102,6 +104,12 @@ beginPause: "Set the variables"
 	if hcopyex$ <> "HCopy"
 		sentence: "hcopyex", hcopyex$
 	endif
+
+	comment: "Select python executable location when pressing apply"
+	boolean: "python", 0
+	if pythonex$ <> "python"
+		sentence: "pythonex", pythonex$
+	endif
 endPause: "Apply", 1
 
 # Process the special options and optionally ask for filepaths
@@ -138,6 +146,7 @@ endif
 
 pathstring$ = if windows then "%PATH%" else "$PATH" fi
 messagesox$ = if windows then "C:\Program Files" else "/usr/bin" fi
+messagepy$ = if windows then "C:\Python27\" else "/usr/bin" fi
 messagehtk$ = if windows then
 ... "where you unzipped the file pointed out in README.html" else
 ... "where you downloaded or compiled the executables" fi
@@ -186,6 +195,21 @@ if hcopyex$ = ""
 	hcopyex$ = "HCopy"
 endif
 
+# Ask for the python executable
+if python
+	beginPause: "Instructions"
+		comment: "Please point me to the python executable."
+		comment: "When python is in your 'pathstring$' you can cancel this."
+		comment: "It can be found 'messagepy$'"
+	clicked = endPause: "Cancel", "Continue", 2, 1
+	if clicked = 2
+		pythonex$ = chooseReadFile$("Point me to the python executable")
+	endif
+endif
+if pythonex$ = ""
+	pythonex$ = if windows then "python.exe" else "python" fi
+endif
+
 # Delete the original settings file and write the new one
 deleteFile("settings")
 writeFileLine("settings",
@@ -199,4 +223,5 @@ writeFileLine("settings",
 ..."RUL: ", ruleset$, newline$,
 ..."SOX: ", soxex$, newline$,
 ..."THR: ", thr, newline$,
+..."PY2: ", pythonex$, newline$,
 ..."WRD: ", wrd$)
