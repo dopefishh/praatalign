@@ -80,7 +80,7 @@ def _force(phonetizer, code='w', **param):
     Optional parameters
     HDR - also write the header to file.
     """
-    logging.info('Starting to align')
+    logging.info('Starting to align: {}'.format(code))
 
     # Open the preconfig and extract the sourcerate
     with open(param['PRE'], 'r') as f:
@@ -135,7 +135,7 @@ def _force(phonetizer, code='w', **param):
 
     # Open the output file
     out = param['OUT']
-    with open(param['OUT'], 'w') as fileio:
+    with open(param['OUT'], code) as fileio:
         logging.info('Output file selected')
         with open(param['BN'] + '.rec', 'r') as f:
             # Write if necessary the header
