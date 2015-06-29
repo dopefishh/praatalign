@@ -25,5 +25,5 @@ writeFileLine("settings",
 ..."RUL: ", rul$, newline$,
 ..."SOX: ", sox$, newline$,
 ..."THR: ", thr, newline$,
-..."PY2: ", py, newline$,
+..."PY2: ", py$, newline$,
 ..."WRD: ", wrd$)
