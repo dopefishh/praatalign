@@ -1,5 +1,5 @@
 #!/bin/bash
-VERSION=1.39
+VERSION=1.4
 zip -9rv praatalign_$VERSION.zip *.{praat,py,md} {install,par,LICENCE}*
 tar -cvf praatalign_$VERSION.tar *.{praat,py,md} {install,par,LICENCE}*
 gzip -vv9c praatalign_$VERSION.tar > praatalign_$VERSION.tar.gz
