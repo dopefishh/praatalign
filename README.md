@@ -8,14 +8,14 @@ the powerful HTK toolkit with the interactivity and modularity of Praat to
 create an interactive, intuitive and extendable application.
 
 ###Releases
-[Latest manual](https://github.com/dopefishh/praatalign2/releases/download/v1.5/book_1.5.pdf)
+[Latest manual](https://github.com/dopefishh/praatalign/releases/download/v1.5/book_1.5.pdf)
 
 Latest plugin:
-[.tar.xz](https://github.com/dopefishh/praatalign2/releases/download/v1.5/praatalign_1.5.tar.xz)
-[.zip](https://github.com/dopefishh/praatalign2/releases/download/v1.5/praatalign_1.5.zip)
+[.tar.xz](https://github.com/dopefishh/praatalign/releases/download/v1.5/praatalign_1.5.tar.xz)
+[.zip](https://github.com/dopefishh/praatalign/releases/download/v1.5/praatalign_1.5.zip)
 
 
-[Older releases](https://github.com/dopefishh/praatalign2/releases)
+[Older releases](https://github.com/dopefishh/praatalign/releases)
 
 ###How to cite
 ```tex
