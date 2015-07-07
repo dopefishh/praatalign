@@ -21,7 +21,6 @@ Latest plugin:
 [Older releases](https://github.com/dopefishh/praatalign2/releases)
 
 ###How to cite
-
 ```tex
 @misc{praatalign,
 	author={Lubbers, Mart and Torreira, Francisco},
