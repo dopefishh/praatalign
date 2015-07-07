@@ -1,10 +1,5 @@
-bin/H*
-bin_lin/H*
-bin_win/H*
-bin_mac/H*
-temp*
 *.pyc
+*.tar.xz
+*.zip
 settings
 isettings
-test/
-oldversions/*
