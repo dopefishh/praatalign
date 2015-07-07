@@ -23,13 +23,13 @@ Latest plugin:
 ###How to cite
 
 ```
-	@misc{praatalign,
-		author={Lubbers, Mart and Torreira, Francisco},
-		title={Praatalign: an interactive Praat plug-in for performing phonetic forced alignment},
-		howpublished={\url{https://github.com/dopefishh/praatalign}},
-		year={2013-2015},
-		note={Version 1.5}
-	}
+@misc{praatalign,
+	author={Lubbers, Mart and Torreira, Francisco},
+	title={Praatalign: an interactive Praat plug-in for performing phonetic forced alignment},
+	howpublished={\url{https://github.com/dopefishh/praatalign}},
+	year={2013-2015},
+	note={Version 1.5}
+}
 ```
 
 ###Authors
