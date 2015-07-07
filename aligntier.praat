@@ -1,34 +1,21 @@
-# Read all the settings
-    if not fileReadable("settings")
-        exitScript("No settings file found, please run the setup first")
-    endif
-    settings$ = readFile$("settings")
-    tmpfile$ = extractLine$(settings$, "OUT: ")
-    phonetier_name$ = extractLine$(settings$, "NEW: ")
-    wordtier_name$ = extractLine$(settings$, "WRD: ")
-    pythonex$ = extractLine$(settings$, "PY2: ")
+include procs.praat
+	# Settings loads: phonetier_name$, wordtier_name$, cantier_name$, tmpfile$,
+	# pythonex$, boundary_margin
+	@loadSettings:
 
-# Get the current selected tier
-    editor_info$ = Editor info
-    curtier = extractNumber(editor_info$, "Selected tier:")
+	# Load editor and longsound info: longsound_file$, longsound_object$,
+	# textgrid_object$, selected_tier, longsound_duration, pitch_on,
+	# intensity_on, spectrum_on, formant_on, pulses_on
+	@loadFileInfo:
 
-# Extract the file name of the wave file
-    longsound_info$ = LongSound info
-    longsound_file$ = extractLine$(longsound_info$, "File name: ")
-    longsound_object$ = extractLine$(longsound_info$, "Object name: ")
-
-# Extract the object name
-    textgrid_info$ = TextGrid info
-    textgrid_object$ = extractLine$(textgrid_info$, "Object name: ")
-
-# Extract the tier
-    Extract entire selected tier
+	# Extract the tier
+	Extract entire selected tier
 endeditor
 
 # Select the tier and convert it to a table and write it to a file
 extracted_tier$ = selected$("TextGrid", 1)
-Down to Table... "no" 6 "yes" "no"
-Save as tab-separated file... 'tmpfile$'
+Down to Table: "no", 6, "yes", "no"
+Save as tab-separated file: tmpfile$
 
 # Remove all the created temporary objects
 Remove
@@ -39,66 +26,60 @@ Remove
 writeFileLine("isettings",
 ..."WAV: ", longsound_file$)
 
-# Do the actual alignment
-system 'pythonex$' align.py tier
-
-# Read the results
-Read Table from comma-separated file... 'tmpfile$'
-
 # Remove the tiers if they already exist
-number_of_rows = Get number of rows
-select TextGrid 'textgrid_object$'
+selectObject: textgrid_object$
 number_of_tiers = Get number of tiers
 tiernumber = 1
 while tiernumber < number_of_tiers
-    nametier$ = Get tier name... 'tiernumber'
-    if nametier$ = phonetier_name$ or nametier$ = wordtier_name$
-        Remove tier... 'tiernumber'
+    nametier$ = Get tier name: tiernumber
+    if nametier$ = phonetier_name$ or nametier$ = wordtier_name$ or nametier$ = cantier_name$ or nametier$ = llhtier_name$
+        Remove tier: tiernumber
     else
         tiernumber = tiernumber + 1
     endif
     number_of_tiers = Get number of tiers
 endwhile
 
-# Create the tiers again(easier cleaning)
-Insert interval tier... 1 'wordtier_name$'
-wordtier_index = 1
-Insert interval tier... 2 'phonetier_name$'
-phontier_index = 2
+# Get the index the tiers
+selectObject: textgrid_object$
+@indexOfTier: phonetier_name$
+phonetier_number = indexOfTier.number
+
+@indexOfTier: llhtier_name$
+llhtier_number = indexOfTier.number
+if llhtier_number <> -1
+	phonetier_number = phonetier_number + 1
+endif
+
+@indexOfTier: wordtier_name$
+wordtier_number = indexOfTier.number
+if wordtier_number <> -1
+	phonetier_number = phonetier_number + 1
+	llhtier_number = llhtier_number + 1
+endif
+
+@indexOfTier: cantier_name$
+cantier_number = indexOfTier.number
+if cantier_number <> -1
+	phonetier_number = phonetier_number + 1
+	wordtier_number = wordtier_number + 1
+	llhtier_number = llhtier_number + 1
+endif
+
+# Do the actual alignment
+system 'pythonex$' align.py tier
 
 # Close the editor for more speed
-editor TextGrid 'textgrid_object$'
+editor: textgrid_object$
     Close
 endeditor
 
-# Put the results in the textgrid
-for current_row to number_of_rows
-# Extract the values
-    select Table praat_temp_out
-    fto_start$ = Get value... 'current_row' start
-    fto_end$ = Get value... 'current_row' end
-    fto_value$ = Get value... 'current_row' label
-    fto_type$ = Get value... 'current_row' type
-    select TextGrid 'textgrid_object$'
-# Create either a phone or a word interval
-    if fto_type$ = "p"
-        nocheck Insert boundary... 'phontier_index' 'fto_start$'
-        nocheck Insert boundary... 'phontier_index' 'fto_end$'
-        intnum = Get interval at time... 'phontier_index' 'fto_start$' + 0.0001
-        Set interval text... 'phontier_index' 'intnum' 'fto_value$'
-    elif fto_type$ = "w"
-        nocheck Insert boundary... 'wordtier_index' 'fto_start$'
-        nocheck Insert boundary... 'wordtier_index' 'fto_end$'
-        intnum = Get interval at time... 'wordtier_index' 'fto_start$' + 0.0001
-        Set interval text... 'wordtier_index' 'intnum' 'fto_value$'
-    endif
-endfor
-
-# Remove temporary table file
-select Table praat_temp_out
-Remove
+# Read the results
+@insertTableTextGrid: tmpfile$, textgrid_object$, phonetier_name$,
+... wordtier_name$, cantier_name$, llhtier_name$, phonetier_number,
+... wordtier_number, cantier_number, llhtier_number
 
 # Reselect the TextGrid and re-open editor
-select TextGrid 'textgrid_object$'
-plus LongSound 'longsound_object$'
+selectObject: textgrid_object$
+plusObject: longsound_object$
 Edit

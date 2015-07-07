@@ -1,60 +1,22 @@
-# Read all the settings
-    if not fileReadable("settings")
-        exitScript("No settings file found, please run the setup first")
-    endif
-    settings$ = readFile$("settings")
-    phonetier_name$ = extractLine$(settings$, "NEW: ")
-    wordtier_name$ = extractLine$(settings$, "WRD: ")
-    tmpfile$ = extractLine$(settings$, "OUT: ")
-    statusfile$ = "temp.status"
-    boundary_margin = extractNumber(settings$, "THR: ")
-    pythonex$ = extractLine$(settings$, "PY2: ")
+include procs.praat
+	# Settings loads: phonetier_name$, wordtier_name$, cantier_name$, tmpfile$,
+	# pythonex$, boundary_margin, llhtier_name$
+	@loadSettings: 
+
+	# Load editor and longsound info: longsound_file$, longsound_object$,
+	# textgrid_object$, selected_tier, longsound_duration, pitch_on,
+	# intensity_on, spectrum_on, formant_on, pulses_on
+	@loadFileInfo:
+
+	statusfile$ = "temp.status"
 
 # Get current selection
-    selection_start = Get starting point of interval
-    selection_end = Get end point of interval
-
-# Extract file name and duration of the entire wave file
-    longsound_info$ = LongSound info
-    wav_filepath$ = extractLine$(longsound_info$, "File name: ")
-    wav_object$ = extractLine$(longsound_info$, "Object name: ")
-    utterance$ = Get label of interval
-    fullduration = extractNumber(longsound_info$, "Duration: ")
-
-# Extract current tier to later match with word and phon tier
-    editor_info$ = Editor info
-    current_tier = extractNumber(editor_info$, "Selected tier: ")
+	selection_start = Get starting point of interval
+	selection_end = Get end point of interval
+	utterance$ = Get label of interval
 
 # Unshow pitch, intensity and spectrum if they are enabled
-    pitch_on = 0
-    intensity_on = 0
-    formant_on = 0
-    spectrum_on = 0
-    pulses_on = 0
-    if extractWord$(editor_info$, "Pitch show: ") == "yes"
-      pitch_on = 1
-      Show pitch
-    endif
-    if extractWord$(editor_info$, "Intensity show: ") == "yes"
-      intensity_on = 1
-      Show intensity
-    endif
-    if extractWord$(editor_info$, "Spectrogram show: ") == "yes"
-      spectrum_on = 1
-      Show spectrogram
-    endif
-    if extractWord$(editor_info$, "Formant show: ") == "yes"
-      formant_on = 1
-      Show formants
-    endif
-    if extractWord$(editor_info$, "Pulses show: ") == "yes"
-      pulses_on = 1
-      Show pulses
-    endif
-
-# Extract the object name
-    textgrid_info$ = TextGrid info
-    textgrid_object$ = extractLine$(textgrid_info$, "Object name: ")
+	@toggleGUIValues:
 
 # Check if the previous or next interval are empty
     Select previous interval
@@ -79,144 +41,72 @@ endeditor
 
 # Calculate the true start and end times with respect to the extended bounds
 selection_start = max(selection_start - margin_before, 0)
-selection_end = min(selection_end + margin_after, fullduration)
+selection_end = min(selection_end + margin_after, longsound_duration)
 selection_duration = selection_end - selection_start
 
-# Get the index of the phone tier
-select TextGrid 'textgrid_object$'
-phonetier_number = -1
-number_tiers = Get number of tiers
-for i to number_tiers
-    tiername$ = Get tier name... i
-    if tiername$ = phonetier_name$
-        phonetier_number = i
-    endif
-endfor
-# If it doesn't exist, create it
-if phonetier_number = -1
-    current_tier = current_tier + 1
-    Insert interval tier... 1 'phonetier_name$'
-    phonetier_number = 1
+# Get the index the tiers
+selectObject: textgrid_object$
+@indexOfTier: phonetier_name$
+phonetier_number = indexOfTier.number
+
+@indexOfTier: llhtier_name$
+llhtier_number = indexOfTier.number
+if indexOfTier.inserted = 1
+	phonetier_number = phonetier_number + 1
 endif
 
-# Get the index of the word tier
-wordtier_number = -1
-number_tiers = Get number of tiers
-for i to number_tiers
-    tiername$ = Get tier name... i
-    if tiername$ == wordtier_name$
-        wordtier_number = i
-    endif
-endfor
-# If it doesn't exist, create it
-if wordtier_number = -1
-    current_tier = current_tier + 1
-    Insert interval tier... 1 'wordtier_name$'
-    wordtier_number = 1
-    phonetier_number = phonetier_number + 1
+@indexOfTier: wordtier_name$
+wordtier_number = indexOfTier.number
+if indexOfTier.inserted = 1
+	phonetier_number = phonetier_number + 1
+	llhtier_number = llhtier_number + 1
 endif
 
-# If the phone tier is the same as the word tier, let know
-if current_tier == phonetier_number or current_tier == wordtier_number
-  pause You have selected your word or phonetier as source tier... Are you sure
-... you want to continue
-elif phonetier_number == wordtier_number
-pause The phone tier is the same as the word tier... Are you sure you want 
-...to continue?
+@indexOfTier: cantier_name$
+cantier_number = indexOfTier.number
+if indexOfTier.inserted = 1
+	phonetier_number = phonetier_number + 1
+	wordtier_number = wordtier_number + 1
+	llhtier_number = llhtier_number + 1
 endif
 
 # Clean up the phone tier
-editor TextGrid 'textgrid_object$'
-# Select the interval
-    current_tier_num = -1
-    repeat
-        Select next tier
-        editor_info$ = Editor info
-        current_tier_num = extractNumber(editor_info$, "Selected tier:")
-    until phonetier_number = current_tier_num
-    Select... 'selection_start' 'selection_end'
-# Clean up
-include cleaninterval.praat
-
-# Clean up the word tier
-editor TextGrid 'textgrid_object$'
-# Select the tier
-    current_tier_num = -1
-    repeat
-        Select next tier
-        editor_info$ = Editor info
-        current_tier_num = extractNumber(editor_info$, "Selected tier:")
-    until wordtier_number = current_tier_num
-    Select... 'selection_start' 'selection_end'
-# Clean up
-include cleaninterval.praat
+if phonetier_name$ <> ""
+	@cleanAnnotation: textgrid_object$, phonetier_number, selection_start, selection_end
+endif
+if wordtier_name$ <> ""
+	@cleanAnnotation: textgrid_object$, wordtier_number, selection_start, selection_end
+endif
+if cantier_name$ <> ""
+	@cleanAnnotation: textgrid_object$, cantier_number, selection_start, selection_end
+endif
+if llhtier_name$ <> ""
+	@cleanAnnotation: textgrid_object$, llhtier_number, selection_start, selection_end
+endif
 
 # Write the interval specific settings to the settings file
 writeFileLine("isettings",
 ..."STA: ", selection_start, newline$,
 ..."DUR: ", selection_duration, newline$,
 ..."UTT: ", utterance$, newline$,
-..."WAV: ", wav_filepath$)
+..."WAV: ", longsound_file$)
 
 # Do the actual alignment
 system 'pythonex$' align.py annotation
 
 returnstatus$ = readFile$: statusfile$
 if returnstatus$ == "done"
-  # Read the results
-  Read Table from comma-separated file... 'tmpfile$'
-  
-  # Put the results in the textgrid
-  number_rows = Get number of rows
-  for i to number_rows
-  #Extract the values
-      select Table praat_temp_out
-      current_start$ = Get value... 'i' start
-      current_end$ = Get value... 'i' end
-      current_value$ = Get value... 'i' label
-      current_type$ = Get value... 'i' type
-      select TextGrid 'textgrid_object$'
-  # Create either a phone or a word interval
-      if current_type$ = "p"
-          nocheck Insert boundary... 'phonetier_number' 'current_start$'
-          nocheck Insert boundary... 'phonetier_number' 'current_end$'
-          intnum = Get interval at time... 'phonetier_number'
-... 'current_start$'+0.0001
-          Set interval text... 'phonetier_number' 'intnum' 'current_value$'
-      elif current_type$ = "w"
-          nocheck Insert boundary... 'wordtier_number' 'current_start$'
-          nocheck Insert boundary... 'wordtier_number' 'current_end$'
-          intnum = Get interval at time... 'wordtier_number'
-... 'current_start$'+0.0001
-          Set interval text... 'wordtier_number' 'intnum' 'current_value$'
-      endif
-  endfor
-  
-  # Remove temporary table file
-  select Table praat_temp_out
-  Remove
+	@insertTableTextGrid: tmpfile$, textgrid_object$, phonetier_name$,
+... wordtier_name$, cantier_name$, llhtier_name$, phonetier_number,
+... wordtier_number, cantier_number, llhtier_number
 elif returnstatus$ == "missox"
-  pause SoX couldn't be found, please set it manually in the settings window
+	pause SoX couldn't be found, please set it manually in the settings window
 elif returnstatus$ == "mishcopy"
-  pause HCopy couldn't be found, please set it manually in the settings window
+	pause HCopy couldn't be found, please set it manually in the settings window
 elif returnstatus$ == "mishvite"
-  pause HVite couldn't be found, please set it manually in the settings window
+	pause HVite couldn't be found, please set it manually in the settings window
 endif
 
 # Reset pitch, intensity and spectrum if they were unset before
 editor
-    if pitch_on == 1
-      Show pitch
-    endif
-    if intensity_on == 1
-      Show intensity
-    endif
-    if spectrum_on == 1
-      Show spectrogram
-    endif
-    if formant_on == 1
-      Show formants
-    endif
-    if pulses_on == 1
-      Show pulses
-    endif
+	@toggleGUIValues:

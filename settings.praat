@@ -1,3 +1,9 @@
+include procs.praat
+
+pythonexecutablename$ = if windows then "python.exe" else "python" fi
+hcopyexecutablename$ = if windows then "HCopy.exe" else "HCopy" fi
+hviteexecutablename$ = if windows then "HVite.exe" else "HVite" fi
+soxexecutablename$ = if windows then "sox.exe" else "sox" fi
 # If the settings is already present extract all the entries
 if fileReadable("settings")
 	settingsData$ = readFile$("settings")
@@ -11,6 +17,8 @@ if fileReadable("settings")
 	endif
 	new$ = extractLine$(settingsData$, "NEW: ")
 	wrd$ = extractLine$(settingsData$, "WRD: ")
+	can$ = extractLine$(settingsData$, "CAN: ")
+	llh$ = extractLine$(settingsData$, "LLH: ")
 	lan$ = extractLine$(settingsData$, "LAN: ")
 	if lan$ = "dut"
 		lan = 1
@@ -20,15 +28,12 @@ if fileReadable("settings")
 		lan = 3
 	elif lan$ = "tze"
 		lan = 4
+	elif lan$ = "exp"
+		lan = 5
 	else
-		lan = 4
+		lan = 3
 	endif
 	log$ = extractLine$(settingsData$, "LOG: ")
-	if extractLine$(settingsData$, "LGC: ") = "a"
-		lgc = 1
-	else
-		lgc = 0
-	endif
 	soxex$ = extractLine$(settingsData$, "SOX: ")
 	hviteex$ = extractLine$(settingsData$, "HVB: ")
 	hcopyex$ = extractLine$(settingsData$, "HCB: ")
@@ -39,35 +44,48 @@ else
 	dictionary$ = ""
 	ruleset$ = ""
 	new$ = "align_phon"
-	wrd$ = "align_word"
-	lan = 4
+	wrd$ = ""
+	can$ = ""
+	llh$ = ""
+	lan = 3
 	if windows
 		log$ = "nul"
 	else
 		log$ = "/dev/null"
 	endif
-	lgc = 1
-	soxex$ = "sox"
-	hviteex$ = "HVite"
-	hcopyex$ = "HCopy"
-	pythonex$ = if windows then "python.exe" else "python" fi
+	soxex$ = soxexecutablename$
+	hviteex$ = hviteexecutablename$
+	hcopyex$ = hcopyexecutablename$
+	pythonex$ = pythonexecutablename$
 	thr = 0
 endif
 
 # Spawn the option window for the user
-beginPause: "Set the variables"
+beginPause: "Basic options"
 	comment: "Name for the output tier(may already exist)"
 	sentence: "new", new$
 	
 	comment: "Name for the output tier used for word level alignment"
 	sentence: "wrd", wrd$
 
-	comment: "Select language"
+	comment: "Name for the output tier used for canonical pronunciation"
+	sentence: "can", can$
+
+	comment: "Name for the output tier used for log likelyhood values"
+	sentence: "llh", llh$
+
+	comment: "Select language."
+	comment: "dut : Dutch"
+	comment: "eng : English"
+	comment: "spa : Spanish"
+	comment: "tze : Tzeltal"
+	comment: "exp : HIGHLY EXPERIMENTAL spanish"
 	optionMenu: "lan", lan
 		option: "dut"
 		option: "eng"
 		option: "spa"
 		option: "tze"
+		option: "exp"
 
 	comment: "Select a dictionary when pressing apply"
 	boolean: "dic", 0
@@ -83,37 +101,36 @@ beginPause: "Set the variables"
 
 	comment: "Set the length of the added length to the annotations"
 	real: "thr", thr
+endPause: "Apply", 1
 
+beginPause: "Advanced options"
 	comment: "Developer/debug options"
 	sentence: "log", log$
 
 	comment: "Select sox executable location when pressing apply"
 	boolean: "sox", 0
-	if soxex$ <> "sox"
+	if soxex$ <> soxexecutablename$
 		sentence: "soxex", soxex$
 	endif
 
 	comment: "Select HVite executable location when pressing apply"
 	boolean: "hvite", 0
-	if hviteex$ <> "HVite"
+	if hviteex$ <> hviteexecutablename$
 		sentence: "hviteex", hviteex$
 	endif
 	
 	comment: "Select HCopy executable location when pressing apply"
 	boolean: "hcopy", 0
-	if hcopyex$ <> "HCopy"
+	if hcopyex$ <> hcopyexecutablename$
 		sentence: "hcopyex", hcopyex$
 	endif
 
 	comment: "Select python executable location when pressing apply"
 	boolean: "python", 0
-	if pythonex$ <> "python"
+	if pythonex$ <> pythonexecutablename$
 		sentence: "pythonex", pythonex$
 	endif
 endPause: "Apply", 1
-
-# Process the special options and optionally ask for filepaths
-lgc$ = if lgc then "a" else "w" fi
 
 # Ask for the dictionary
 if dic
@@ -150,65 +167,18 @@ messagepy$ = if windows then "C:\Python27\" else "/usr/bin" fi
 messagehtk$ = if windows then
 ... "where you unzipped the file pointed out in README.html" else
 ... "where you downloaded or compiled the executables" fi
-# Ask for the sox executable
-if sox
-	beginPause: "Instructions"
-		comment: "Please point me to the sox executable."
-		comment: "When sox is in your 'pathstring$' you can cancel this."
-		comment: "It can usually be found in 'messagesox$'"
-	clicked = endPause: "Cancel", "Continue", 2, 1
-	if clicked = 2
-		soxex$ = chooseReadFile$("Point me to the sox executable")
-	endif
-endif
-if soxex$ = ""
-	soxex$ = "sox"
-endif
 
-# Ask for the HVite executable
-if hvite
-	beginPause: "Instructions"
-		comment: "Please point me to the HVite executable."
-		comment: "When HVite is in your 'pathstring$' you can cancel this."
-		comment: "It can be found 'messagehtk$'"
-	clicked = endPause: "Cancel", "Continue", 2, 1
-	if clicked = 2
-		hviteex$ = chooseReadFile$("Point me to the HVite executable")
-	endif
-endif
-if hviteex$ = ""
-	hviteex$ = "HVite"
-endif
+@getBinary: messagesox$, pathstring$, soxexecutablename$, sox
+soxex$ = if getBinary.ex$ <> "" then getBinary.ex$ else soxex$ fi
 
-# Ask for the HCopy executable
-if hcopy
-	beginPause: "Instructions"
-		comment: "Please point me to the HCopy executable."
-		comment: "When HCopy is in your 'pathstring$' you can cancel this."
-		comment: "It can be found 'messagehtk$'"
-	clicked = endPause: "Cancel", "Continue", 2, 1
-	if clicked = 2
-		hcopyex$ = chooseReadFile$("Point me to the HCopy executable")
-	endif
-endif
-if hcopyex$ = ""
-	hcopyex$ = "HCopy"
-endif
+@getBinary: messagehtk$, pathstring$, hviteexecutablename$, hvite
+hviteex$ = if getBinary.ex$ <> "" then getBinary.ex$ else hviteex$ fi
 
-# Ask for the python executable
-if python
-	beginPause: "Instructions"
-		comment: "Please point me to the python executable."
-		comment: "When python is in your 'pathstring$' you can cancel this."
-		comment: "It can be found 'messagepy$'"
-	clicked = endPause: "Cancel", "Continue", 2, 1
-	if clicked = 2
-		pythonex$ = chooseReadFile$("Point me to the python executable")
-	endif
-endif
-if pythonex$ = ""
-	pythonex$ = if windows then "python.exe" else "python" fi
-endif
+@getBinary: messagehtk$, pathstring$, hcopyexecutablename$, hcopy
+hcopyex$ = if getBinary.ex$ <> "" then getBinary.ex$ else hcopyex$ fi
+
+@getBinary: messagepy$, pathstring$, pythonexecutablename$, python
+pythonex$ = if getBinary.ex$ <> "" then getBinary.ex$ else pythonex$ fi
 
 # Delete the original settings file and write the new one
 deleteFile("settings")
@@ -218,7 +188,9 @@ writeFileLine("settings",
 ..."HVB: ", hviteex$, newline$,
 ..."LAN: ", lan$, newline$,
 ..."LOG: ", log$, newline$,
+..."LLH: ", llh$, newline$,
 ..."NEW: ", new$, newline$,
+..."CAN: ", can$, newline$,
 ..."OUT: ", "praat_temp_out", newline$,
 ..."RUL: ", ruleset$, newline$,
 ..."SOX: ", soxex$, newline$,

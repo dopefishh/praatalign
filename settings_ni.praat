@@ -2,6 +2,8 @@
 form Set the variables
 	sentence new align
 	sentence wrd align_w
+	sentence can align_c
+	sentence llh align_l
 	sentence lan
 	sentence dic
 	sentence rul
@@ -20,7 +22,9 @@ writeFileLine("settings",
 ..."HCB: ", hcb$, newline$,
 ..."LAN: ", lan$, newline$,
 ..."LOG: ", log$, newline$,
+..."LLH: ", llh$, newline$,
 ..."NEW: ", new$, newline$,
+..."CAN: ", can$, newline$,
 ..."OUT: ", "praat_temp_out", newline$,
 ..."RUL: ", rul$, newline$,
 ..."SOX: ", sox$, newline$,
