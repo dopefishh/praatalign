@@ -12,7 +12,7 @@ import logging
 
 def force(phonetizer, utterance, starttime, endtime, wavefile,
           soxbinary, hvitebinary, hcopybinary, parameterdir,
-          basename, hdr=True, code='w'):
+          basename, hdr=True, code='w', experimental=False):
     """Wrapper for the _force function that writes the status to a file for
     feedback via praat module.
 
@@ -25,7 +25,7 @@ def force(phonetizer, utterance, starttime, endtime, wavefile,
     status = _force(
         phonetizer, utterance, starttime, endtime, wavefile,
         soxbinary, hvitebinary, hcopybinary, parameterdir,
-        basename, hdr, code)
+        basename, hdr, code, experimental)
     with open('{}.status'.format(basename), 'w') as f:
         f.write(status)
     return status == 'done'
@@ -33,7 +33,7 @@ def force(phonetizer, utterance, starttime, endtime, wavefile,
 
 def _force(phonetizer, utterance, starttime, duration, wavefile,
            soxbinary, hvitebinary, hcopybinary, parameterdir,
-           basename, hdr, code):
+           basename, hdr, code, experimental):
     """
     Force aligns the given utterance, all parameters are passed by kwarg
     """
@@ -48,7 +48,7 @@ def _force(phonetizer, utterance, starttime, duration, wavefile,
     logging.info('Utterance phonetized spawned')
 
     # Create the graph file
-    dawg = phonetizer.todawg(pron)
+    dawg = phonetizer.todawg(pron, experimental=experimental)
     with open('{}.slf'.format(basename), 'w') as f:
         f.write(phonetizer.toslf(*dawg))
     with open('{}.dot'.format(basename), 'w') as f:
@@ -59,14 +59,21 @@ def _force(phonetizer, utterance, starttime, duration, wavefile,
     cwd = os.getcwd()
 
     # Run the sound processing
-    soxcommand = [
-        soxbinary, wavefile,
-        '-t', 'sph',
-        '-e', 'signed-integer',
-        '-b', '16', '-c', '1',
-        '{}.nis'.format(basename),
-        'trim', starttime, duration,
-        'rate', '-s', '-a', sourcerate]
+    if experimental:
+        soxcommand = [
+            soxbinary, wavefile,
+            '-c', '1',
+            '{}.wav'.format(basename),
+            'trim', starttime, duration]
+    else:
+        soxcommand = [
+            soxbinary, wavefile,
+            '-t', 'sph',
+            '-e', 'signed-integer',
+            '-b', '16', '-c', '1',
+            '{}.nis'.format(basename),
+            'trim', starttime, duration,
+            'rate', '-s', '-a', sourcerate]
     logging.info(' '.join(soxcommand))
     proc = subprocess.Popen(soxcommand,
                             stderr=subprocess.PIPE, stdout=subprocess.PIPE)
@@ -77,31 +84,44 @@ def _force(phonetizer, utterance, starttime, duration, wavefile,
         proc.returncode, out, err))
 
     # Run the HCopy process
-    hcopycommand = [
-        hcopybinary,
-        '-T', '0',
-        '-C', os.path.join(parameterdir, 'PRECONFIGNIST'),
-        '{}.nis'.format(basename), '{}.htk'.format(basename)]
-    logging.info(' '.join(hcopycommand))
-    proc = subprocess.Popen(hcopycommand,
-                            stderr=subprocess.PIPE, stdout=subprocess.PIPE)
-    out, err = proc.communicate()
-    if proc.returncode == 127:
-        return 'mishcopy'
-    logging.info('HCopy ran({}):\n\tout: {}\n\terr: {}'.format(
-        proc.returncode, out, err))
+    if not experimental:
+        hcopycommand = [
+            hcopybinary,
+            '-T', '0',
+            '-C', os.path.join(parameterdir, 'PRECONFIGNIST'),
+            '{}.nis'.format(basename), '{}.htk'.format(basename)]
+        logging.info(' '.join(hcopycommand))
+        proc = subprocess.Popen(hcopycommand,
+                                stderr=subprocess.PIPE, stdout=subprocess.PIPE)
+        out, err = proc.communicate()
+        if proc.returncode == 127:
+            return 'mishcopy'
+        logging.info('HCopy ran({}):\n\tout: {}\n\terr: {}'.format(
+            proc.returncode, out, err))
 
     # Run the HVite actual alignment
-    hvitecommand = [
-        hvitebinary,
-        '-C', os.path.join(parameterdir, 'HVITECONF'),
-        '-w', '-X', 'slf',
-        '-H', os.path.join(parameterdir, 'MMF'),
-        '-s', '7.0',
-        '-p', '6.0',
-        os.path.join(parameterdir, 'DICT'),
-        os.path.join(parameterdir, 'MONOPHONES'),
-        '{}.htk'.format(basename)]
+    if experimental:
+        hvitecommand = [
+            hvitebinary,
+            '-C', os.path.join(parameterdir, 'HVITECONF'),
+            '-w', '-X', 'slf',
+            '-H', os.path.join(parameterdir, 'MMF'),
+            '-H', os.path.join(parameterdir, 'MACROS'),
+            '-s', '7.0', '-p', '0.0',
+            os.path.join(parameterdir, 'DICT'),
+            os.path.join(parameterdir, 'MONOPHONES'),
+            '{}.wav'.format(basename)]
+    else:
+        hvitecommand = [
+            hvitebinary,
+            '-C', os.path.join(parameterdir, 'HVITECONF'),
+            '-w', '-X', 'slf',
+            '-H', os.path.join(parameterdir, 'MMF'),
+            '-s', '7.0',
+            '-p', '6.0',
+            os.path.join(parameterdir, 'DICT'),
+            os.path.join(parameterdir, 'MONOPHONES'),
+            '{}.htk'.format(basename)]
     logging.info(' '.join(hvitecommand))
     proc = subprocess.Popen(hvitecommand,
                             stderr=subprocess.PIPE, stdout=subprocess.PIPE)
@@ -127,10 +147,10 @@ def _force(phonetizer, utterance, starttime, duration, wavefile,
                 end = float(starttime) + int(d[1]) / 1e7
 
                 # Detect word boundaries
-                if d[2] == '<':
+                if d[2] == ('<' if not experimental else 'sil'):
                     word = (end, '')
                 # If the end of a word is reached write the word to file
-                elif d[2] == '#':
+                elif d[2] == ('#' if not experimental else 'sp'):
                     fileio.write('{:f},{:f},{},w\n'.format(
                         word[0], start, word[1]))
                     fileio.write('{:f},{:f},{},c\n'.format(
@@ -166,6 +186,7 @@ if __name__ == '__main__':
 
     # Load the phonetizer
     phone = ph.getphonetizer(sett['LAN'], sett['DCT'], sett['RUL'])
+    exp = sett['LAN'] == 'exp'
     p = phone[1]
     phone = phone[0]
 
@@ -205,8 +226,9 @@ if __name__ == '__main__':
             if not force(
                     phone, utt, str(start), dur, sett['WAV'],
                     sett['SOX'], sett['HVB'], sett['HCB'], p, 'temp',
-                    hdr=hdr, code=code):
+                    hdr=hdr, code=code, experimental=exp):
                 break
     elif sys.argv[1] == 'annotation':
         force(phone, sett['UTT'], sett['STA'], sett['DUR'], sett['WAV'],
-              sett['SOX'], sett['HVB'], sett['HCB'], p, 'temp')
+              sett['SOX'], sett['HVB'], sett['HCB'], p, 'temp',
+              experimental=exp)

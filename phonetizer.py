@@ -46,7 +46,7 @@ class Phonetizer:
                             l = l.replace(target, repl)
                     self.r.append(l.strip().split('\t'))
 
-    def todawg(self, pron):
+    def todawg(self, pron, experimental=False):
         """Converts the pronunciation variants and rules to a graph
         representation.
 
@@ -57,7 +57,8 @@ class Phonetizer:
         c2 = dict(zip(c2, map(chr, range(1, len(c2)+1))))
 
         # Create all possible combinations of pronunciation variants
-        pron = ((' '.join(varnt + ['#']) for varnt in word) for word in pron)
+        pron = ((' '.join(varnt + ['#' if not experimental else 'sp'])
+                 for varnt in word) for word in pron)
         # Make strings of these variants
         pron = (' '.join(x) for x in itertools.product(*pron))
         # Create combinations of all rulesets
@@ -146,7 +147,7 @@ class Phonetizer:
         # number the appropriate character. Also convert the multichar phones
         # back to their original form.
         nodes += final_nodes
-        nnodes = {0: '<'}
+        nnodes = {0: '<'} if not experimental else {0: 'sil'}
         nedges = {}
         for fr, ch, to in edges:
             nnodes[to] = c2[ch] if ch in c2 else ch
@@ -156,7 +157,7 @@ class Phonetizer:
         # Find the last node and remember the position to connect the end of
         # the words to it
         finalnode = len(nnodes)
-        nnodes[finalnode] = '>'
+        nnodes[finalnode] = '>' if not experimental else 'sil'
         for final in final_nodes:
             if final not in nedges:
                 nedges[final] = set()
@@ -402,6 +403,7 @@ phonetizerdict = {
     'dut': (PhonetizerDictionary, 'par.dut'),
     'eng': (PhonetizerDictionary, 'par.eng'),
     'spa': (PhonetizerSpanish, 'par.spa'),
+    'exp': (PhonetizerSpanish, 'par.exp'),
     'tze': (PhonetizerTzeltal, 'par.sam')
     }
 
