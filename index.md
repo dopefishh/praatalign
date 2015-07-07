@@ -22,7 +22,7 @@ Latest plugin:
 
 ###How to cite
 
-```
+```tex
 @misc{praatalign,
 	author={Lubbers, Mart and Torreira, Francisco},
 	title={Praatalign: an interactive Praat plug-in for performing phonetic forced alignment},
