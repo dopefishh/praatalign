@@ -28,7 +28,7 @@ create an interactive, intuitive and extendable application. Text in
 \begin{figure}[H]
 	\centering
 	\includegraphics[width=\linewidth]{s2a.eps}
-	\caption{Press \texttt{Set up force alignment\ldots}}
+	\caption{Press \texttt{Set up forced alignment\ldots}}
 \end{figure}
 
 \begin{figure}[H]
@@ -232,7 +232,7 @@ sound filetypes SoX can detect from the extension.
 				result in unexpected behaviour and will generate a warning every time
 				you align something.
 			\item \texttt{lan}\\
-				Language used for the force alignment, all properly added languages
+				Language used for the forced alignment, all properly added languages
 				will appear in this drop down list. Currently only Spanish, Tzeltal,
 				Dutch and English are supported.
 			\item \texttt{dic}\\
@@ -529,6 +529,9 @@ endeditor
 		default the aligner only looks in the current \texttt{PATH} and that it
 		does not source any bashrc or profile file. To fix this you can add the
 		exact path of the executables in the settings menu.
+	\item \textbf{Log shows: }\texttt{sox FAIL trim: Position 1 is behind the
+following position.}
+		You are aligning an annotation that lies outside the wave file.
 	\item \textbf{Other errors}\\
 		When the plugin crashes without any reason you should enable logging in the
 		settings menu to see where it crashes. If the problem is not solvable

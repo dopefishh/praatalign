@@ -7,4 +7,4 @@ Add menu command... "TextGridEditor" "Interval" "Generate dictionary from tier..
 Add menu command... "TextGridEditor" "Interval" "Clean selection" "" 0 cleaninterval.praat
 Add menu command... "TextGridEditor" "Interval" "Align current interval" "" 0 alignannotation.praat
 Add menu command... "TextGridEditor" "Interval" "Align current tier" "" 0 aligntier.praat
-Add menu command... "TextGridEditor" "Interval" "Set up force alignment..." "" 0 settings.praat
+Add menu command... "TextGridEditor" "Interval" "Set up forced alignment..." "" 0 settings.praat

@@ -43,7 +43,7 @@ if fileReadable("settings")
 else
 	dictionary$ = ""
 	ruleset$ = ""
-	new$ = "align_phon"
+	new$ = "phon"
 	wrd$ = ""
 	can$ = ""
 	llh$ = ""
