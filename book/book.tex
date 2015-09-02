@@ -234,7 +234,8 @@ sound filetypes SoX can detect from the extension.
 			\item \texttt{lan}\\
 				Language used for the forced alignment, all properly added languages
 				will appear in this drop down list. Currently only Spanish, Tzeltal,
-				Dutch and English are supported.
+				Dutch and English are supported. There is also a language that can be
+				used for any language mapped onto the available SAMPA phones.
 			\item \texttt{dic}\\
 				Flag for setting a dictionary file, when you tick this box you
 				will be prompted to locate the dictionary file. When a dictionary was
@@ -414,6 +415,18 @@ praatalign format. The scripts is a Python script and should download the
 dictionary if you haven't done it yourself and will write it to a
 \texttt{dict.eng} file by default. The usage is: \texttt{python
 cmu2praatalign.py [inputfile [outputfile]]}.
+
+\subsection{Sampa}
+This setting is not really a language but allows the user to map any language
+on the available phones found in Section~\ref{sec:slsampa}.
+\begin{table}[H]
+	\caption{Sampa language properties}
+	\begin{tabular}{ll}
+		Phonetizer support & None\\
+		Ruleset support & Full\\
+		Dictionary support & Full
+	\end{tabular}
+\end{table}
 
 \subsection{Tzeltal}
 Tzeltal uses the general SAMPA models and information about the phones can be
@@ -597,13 +610,13 @@ the menus and work out of the box.
 
 \chapter{Appendices}
 \section{How to cite}
-\begin{lstlisting}[caption={Bibtex snippet}]
+\begin{lstlisting}[caption={Bibtex snippet},breaklines=true]
 @misc{praatalign,
 	author={Lubbers, Mart and Torreira, Francisco},
 	title={Praatalign: an interactive Praat plug-in for performing phonetic forced alignment},
 	howpublished={\url{https://github.com/dopefishh/praatalign}},
 	year={2013-2015},
-	note={Version 1.5}
+	note={Version 1.6}
 }
 \end{lstlisting}
 
@@ -1058,10 +1071,15 @@ SAMPA\footnote{\url{http://www.phon.ucl.ac.uk/home/sampa/spanish.htm}}.
 \section{Version history}
 \begin{longtable}{|p{0.22\linewidth}p{0.8\linewidth}|}
 	\hline
-	1.60 (2015-07-00) & \tabitem Fixed menu name from \texttt{force} to
-\texttt{forced}.
+	1.60 (2015-08-00) & \tabitem Fixed menu name from \texttt{force} to
+\texttt{forced}.\\
 		& \tabitem Fixed silence problem in experimental models.\\
 		& \tabitem Added version to setup dialog.\\
+		& \tabitem Added language for using the general sampa model without
+			phonetizer.\\
+		& \tabitem Created a better error when loading rulesets or dictionaries in
+			non supported encodings.\\
+		& \tabitem Changed the licence to MIT.\\
 	\hline
 	1.50 (2015-07-07) & \tabitem Spanish models merged in original master.\\
 		& \tabitem Procedures in different file, thus cleaner code.\\

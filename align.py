@@ -44,6 +44,7 @@ def _force(phonetizer, utterance, starttime, duration, wavefile,
 
     # Load the phonetizer
     pron = phonetizer.phonetize(utterance) or [[['<nib>']]]
+
     canonical = [''.join(p[0]) for p in pron]
     logging.info('Utterance phonetized spawned')
 
@@ -185,7 +186,13 @@ if __name__ == '__main__':
                         format='%(created)f: %(message)s')
 
     # Load the phonetizer
-    phone = ph.getphonetizer(sett['LAN'], sett['DCT'], sett['RUL'])
+    try:
+        phone = ph.getphonetizer(sett['LAN'], sett['DCT'], sett['RUL'])
+    except UnicodeError:
+        logging.info('Unicode error')
+        with open('temp.status', 'w') as f:
+            f.write('unicode')
+
     exp = sett['LAN'] == 'exp'
     p = phone[1]
     phone = phone[0]

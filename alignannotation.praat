@@ -105,6 +105,8 @@ elif returnstatus$ == "mishcopy"
 	pause HCopy couldn't be found, please set it manually in the settings window
 elif returnstatus$ == "mishvite"
 	pause HVite couldn't be found, please set it manually in the settings window
+elif returnstatus$ == "unicode"
+	pause Error parsing dictionary or ruleset. Is the encoding UTF-8?
 endif
 
 # Reset pitch, intensity and spectrum if they were unset before
