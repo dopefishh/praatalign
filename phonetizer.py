@@ -358,7 +358,7 @@ class PhonetizerDictionary(Phonetizer):
     """Dummy phonetizer for dictionary only phonetizers"""
 
     def phonetizeword(self, word):
-        word = word.lower()
+       # word = word.lower()
         if word in self.dictionary:
             return self.dictionary[word]
         else:
@@ -405,6 +405,7 @@ class PhonetizerSkeleton(Phonetizer):
 phonetizerdict = {
     'dut': (PhonetizerDictionary, 'par.dut'),
     'eng': (PhonetizerDictionary, 'par.eng'),
+    'sam': (PhonetizerDictionary, 'par.sam'),
     'spa': (PhonetizerSpanish, 'par.spa'),
     'exp': (PhonetizerSpanish, 'par.exp'),
     'tze': (PhonetizerTzeltal, 'par.sam')

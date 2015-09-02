@@ -47,20 +47,20 @@ phonetier_number = indexOfTier.number
 
 @indexOfTier: llhtier_name$
 llhtier_number = indexOfTier.number
-if llhtier_number <> -1
+if indexOfTier.inserted == 1
 	phonetier_number = phonetier_number + 1
 endif
 
 @indexOfTier: wordtier_name$
 wordtier_number = indexOfTier.number
-if wordtier_number <> -1
+if indexOfTier.inserted == 1
 	phonetier_number = phonetier_number + 1
 	llhtier_number = llhtier_number + 1
 endif
 
 @indexOfTier: cantier_name$
 cantier_number = indexOfTier.number
-if cantier_number <> -1
+if wordtier_number <> -1
 	phonetier_number = phonetier_number + 1
 	wordtier_number = wordtier_number + 1
 	llhtier_number = llhtier_number + 1

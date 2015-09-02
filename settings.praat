@@ -26,10 +26,12 @@ if fileReadable("settings")
 		lan = 2
 	elif lan$ = "spa"
 		lan = 3
-	elif lan$ = "tze"
+	elif lan$ = "sam"
 		lan = 4
-	elif lan$ = "exp"
+	elif lan$ = "tze"
 		lan = 5
+	elif lan$ = "exp"
+		lan = 6
 	else
 		lan = 3
 	endif
@@ -77,6 +79,7 @@ beginPause: "Basic options"
 	comment: "Select language."
 	comment: "dut : Dutch"
 	comment: "eng : English"
+	comment: "sam : SAMPA"
 	comment: "spa : Spanish"
 	comment: "tze : Tzeltal"
 	comment: "exp : HIGHLY EXPERIMENTAL spanish"
@@ -84,6 +87,7 @@ beginPause: "Basic options"
 		option: "dut"
 		option: "eng"
 		option: "spa"
+		option: "sam"
 		option: "tze"
 		option: "exp"
 
