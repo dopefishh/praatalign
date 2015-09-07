@@ -192,6 +192,17 @@ if __name__ == '__main__':
         logging.info('Unicode error')
         with open('temp.status', 'w') as f:
             f.write('unicode')
+        exit()
+    except IOError as e:
+        if e.filename == sett['DCT']:
+            error = 'dictnotfound'
+        elif e.filename == sett['RUL']:
+            error = 'rulnotfound'
+        else:
+            error = 'generalio'
+        with open('temp.status', 'w') as f:
+            f.write(error)
+        exit()
 
     exp = sett['LAN'] == 'exp'
     p = phone[1]

@@ -107,6 +107,12 @@ elif returnstatus$ == "mishvite"
 	pause HVite couldn't be found, please set it manually in the settings window
 elif returnstatus$ == "unicode"
 	pause Error parsing dictionary or ruleset. Is the encoding UTF-8?
+elif returnstatus$ == "dictnotfound"
+	pause Dictionary file not accessible, does it still exist?
+elif returnstatus$ == "rulnotfound"
+	pause Ruleset file not accessible, does it still exist?
+elif returnstatus$ == "generalio"
+	pause Unknown IO error
 endif
 
 # Reset pitch, intensity and spectrum if they were unset before
