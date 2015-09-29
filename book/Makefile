@@ -1,5 +1,5 @@
 SHELL:=/bin/bash
-VERSION:=1.5
+VERSION:=1.6a
 IMGS:=$(basename $(shell ls img/*.xz))
 LATEX:=latex
 
