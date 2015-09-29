@@ -358,12 +358,20 @@ class PhonetizerDictionary(Phonetizer):
     """Dummy phonetizer for dictionary only phonetizers"""
 
     def phonetizeword(self, word):
-       # word = word.lower()
         if word in self.dictionary:
             return self.dictionary[word]
         else:
             return None
 
+class PhonetizerDictionaryEnglish(Phonetizer):
+    """Dummy phonetizer for dictionary only phonetizers"""
+
+    def phonetizeword(self, word):
+        word = word.lower()
+        if word in self.dictionary:
+            return self.dictionary[word]
+        else:
+            return None
 
 class PhonetizerLoopback(Phonetizer):
     """Dummy phonetizer that uses direct loopback to generate phonetic
@@ -404,7 +412,7 @@ class PhonetizerSkeleton(Phonetizer):
 
 phonetizerdict = {
     'dut': (PhonetizerDictionary, 'par.dut'),
-    'eng': (PhonetizerDictionary, 'par.eng'),
+    'eng': (PhonetizerDictionaryEnglish, 'par.eng'),
     'sam': (PhonetizerDictionary, 'par.sam'),
     'spa': (PhonetizerSpanish, 'par.spa'),
     'exp': (PhonetizerSpanish, 'par.exp'),

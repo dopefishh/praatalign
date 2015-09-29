@@ -45,7 +45,7 @@ tdict = {
     'W': 'w',
     'Y': 'j',
     'Z': 'z',
-    'ZH': 'ʒ'
+    'ZH': '3'
     }
 
 if len(sys.argv) <= 1:
