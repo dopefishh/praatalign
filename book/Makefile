@@ -16,6 +16,7 @@ all: book.pdf
 %.dvi: %.tex %.fmt $(IMGS)
 	$(LATEX) $<
 	$(LATEX) $<
+	$(LATEX) $<
 
 %.eps: %.eps.xz
 	xz -kd $<
