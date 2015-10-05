@@ -40,7 +40,7 @@ def _force(phonetizer, utterance, starttime, duration, wavefile,
     logging.info('Starting to align: {}'.format(code))
 
     # Open the preconfig and extract the sourcerate
-    sourcerate = str(1e7/625)
+    sourcerate = str(1e7/226) if experimental else str(1e7/625)
 
     # Load the phonetizer
     pron = phonetizer.phonetize(utterance) or [[['<nib>']]]
@@ -65,7 +65,8 @@ def _force(phonetizer, utterance, starttime, duration, wavefile,
             soxbinary, wavefile,
             '-c', '1',
             '{}.wav'.format(basename),
-            'trim', starttime, duration]
+            'trim', starttime, duration,
+            'rate', '-s', '-a', sourcerate]
     else:
         soxcommand = [
             soxbinary, wavefile,
@@ -85,20 +86,20 @@ def _force(phonetizer, utterance, starttime, duration, wavefile,
         proc.returncode, out, err))
 
     # Run the HCopy process
-    if not experimental:
-        hcopycommand = [
-            hcopybinary,
-            '-T', '0',
-            '-C', os.path.join(parameterdir, 'PRECONFIGNIST'),
-            '{}.nis'.format(basename), '{}.htk'.format(basename)]
-        logging.info(' '.join(hcopycommand))
-        proc = subprocess.Popen(hcopycommand,
-                                stderr=subprocess.PIPE, stdout=subprocess.PIPE)
-        out, err = proc.communicate()
-        if proc.returncode == 127:
-            return 'mishcopy'
-        logging.info('HCopy ran({}):\n\tout: {}\n\terr: {}'.format(
-            proc.returncode, out, err))
+    #if not experimental:
+    hcopycommand = [
+        hcopybinary,
+        '-T', '0',
+        '-C', os.path.join(parameterdir, 'PRECONFIGNIST'),
+        '{}.nis'.format(basename), '{}.htk'.format(basename)]
+    logging.info(' '.join(hcopycommand))
+    proc = subprocess.Popen(hcopycommand,
+                            stderr=subprocess.PIPE, stdout=subprocess.PIPE)
+    out, err = proc.communicate()
+    if proc.returncode == 127:
+        return 'mishcopy'
+    logging.info('HCopy ran({}):\n\tout: {}\n\terr: {}'.format(
+        proc.returncode, out, err))
 
     # Run the HVite actual alignment
     if experimental:

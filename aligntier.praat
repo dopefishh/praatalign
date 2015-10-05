@@ -48,22 +48,22 @@ phonetier_number = indexOfTier.number
 @indexOfTier: llhtier_name$
 llhtier_number = indexOfTier.number
 if indexOfTier.inserted == 1
-	phonetier_number = phonetier_number + 1
+	phonetier_number = if phonetier_number = -1 then -1 else phonetier_number + 1 fi
 endif
 
 @indexOfTier: wordtier_name$
 wordtier_number = indexOfTier.number
 if indexOfTier.inserted == 1
-	phonetier_number = phonetier_number + 1
-	llhtier_number = llhtier_number + 1
+	phonetier_number = if phonetier_number = -1 then -1 else phonetier_number + 1 fi
+	llhtier_number = if llhtier_number = -1 then -1 else llhtier_number + 1 fi
 endif
 
 @indexOfTier: cantier_name$
 cantier_number = indexOfTier.number
-if wordtier_number <> -1
-	phonetier_number = phonetier_number + 1
-	wordtier_number = wordtier_number + 1
-	llhtier_number = llhtier_number + 1
+if indexOfTier.inserted == 1
+	phonetier_number = if phonetier_number = -1 then -1 else phonetier_number + 1 fi
+	llhtier_number = if llhtier_number = -1 then -1 else llhtier_number + 1 fi
+	wordtier_number = if wordtier_number = -1 then -1 else wordtier_number + 1 fi
 endif
 
 # Do the actual alignment
