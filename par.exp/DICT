@@ -1,3 +1,5 @@
+< <
+> >
 a a
 b b
 d d
@@ -12,7 +14,7 @@ k k
 l l
 m m
 n n
-nib nib
+<nib> <nib>
 o o
 p p
 r r
