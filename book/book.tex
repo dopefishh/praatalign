@@ -9,10 +9,10 @@
 Praatalign is a plug-in for Praat that can be used to do forced phonetic
 alignment on speech signals and in particular free speech. Praatalign combines
 the powerful HTK toolkit with the interactivity and modularity of Praat to
-create an interactive, intuitive and extendable application. Text in
+create an interactive, intuitive and extendible application. Text in
 \texttt{monospace} means that the word is a command, variable or value.
 
-\section{Example workflow}
+\section{Example work flow}
 \begin{figure}[H]
 	\centering
 	\includegraphics[width=0.5\linewidth]{s1.eps}
@@ -67,7 +67,7 @@ an error because of a reduction from \texttt{cuidado} to \texttt{cuida}.}
 	\centering
 	\includegraphics[width=\linewidth]{s8.eps}
 	\caption{We fix the annotation error with the reduction to
-\texttt{cuida(do)}, using tructation specified in the Spanish phonetizer. Then
+\texttt{cuida(do)}, using truncation specified in the Spanish phonetizer. Then
 we run the alignment again and the results are much better. If this is a common
 truncation we could add a pronunciation variant or if it is really general we
 could create a ruleset file}
@@ -539,14 +539,28 @@ endeditor
 		throwing exceptions. When words are not phonetized it means that it is not
 		in the dictionary nor phonetizable. To fix this you can edit the phonetizer
 		or add the word to the dictionary.
-	\item \textbf{SoX, HCopy or HVite not found}\\
+	\item Pop-up stating: \textbf{SoX, HCopy or HVite not found}\\
 		When this message pops up it means that the aligner does not have access to
 		a \texttt{sox}, \texttt{HCopy} or \texttt{HVite} executable. Note that by
 		default the aligner only looks in the current \texttt{PATH} and that it
 		does not source any bashrc or profile file. To fix this you can add the
 		exact path of the executables in the settings menu.
-	\item \textbf{Log shows: }\texttt{sox FAIL trim: Position 1 is behind the
-following position.}
+	\item Pop-up stating: \textbf{Error parsing dictionary or ruleset. Is the
+		encoding UTF-8?}\\
+		Make sure the dictionary and ruleset are in UTF-8 and use unix style
+		newlines(\texttt{\textbackslash n}).
+	\item Pop-up stating: \textbf{Dictionary file not accessible, does it still
+		exist?}\\
+		IO error when opening the dictionary. Check the file, permissions or
+		existence.
+	\item Pop-up stating: \textbf{Ruleset file not accessible, does it still
+		exist?}\\
+		IO error when opening the ruleset. Check the file, permissions or
+		existence.
+	\item Pop-up stating: \textbf{Unknown IO error}\\
+		Some IO error occurred of an unknown type. Please check the logfile.
+	\item Log stating: \texttt{sox FAIL trim: Position 1 is behind the
+		following position.}
 		You are aligning an annotation that lies outside the wave file.
 	\item \textbf{Other errors}\\
 		When the plugin crashes without any reason you should enable logging in the
@@ -1077,9 +1091,12 @@ SAMPA\footnote{\url{http://www.phon.ucl.ac.uk/home/sampa/spanish.htm}}.
 \section{Version history}
 \begin{longtable}{|p{0.22\linewidth}p{0.8\linewidth}|}
 	\hline
-	1.7 (2015-00-00) & \tabitem More robuust tier creation.\\
+	1.7 (2015-10-08) & \tabitem More robuust tier creation.\\
 		& \tabitem Some typos fixed in the manual.\\
 		& \tabitem updated the bibtex snippet.\\
+		&	\tabitem Better tier alignment when the tier is empty.\\
+		&	\tabitem Corrected some spelling errors.\\
+		&	\tabitem Tidied the makefile for the book.\\
 	\hline
 	1.6a (2015-09-29) & \tabitem Fixed the dictionary generator for English.\\
 		& \tabitem Correctly added websites to the authors of the models.\\

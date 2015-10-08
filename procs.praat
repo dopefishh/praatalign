@@ -123,44 +123,46 @@ endproc
 
 procedure insertTableTextGrid: .tablefile$, .obj$, .phon$, .wrd$, .can$, .llh$,
 ... .phonn, .wrdn, .cann, .llhn
-	Read Table from comma-separated file: .tablefile$
-	.number_rows = Get number of rows
-	# Put the results in the textgrid
-	for .i to .number_rows
-		#Extract the values
+	nocheck Read Table from comma-separated file: .tablefile$
+	if extractWord$(selected$(), "") == "Table"
+		.number_rows = Get number of rows
+		# Put the results in the textgrid
+		for .i to .number_rows
+			#Extract the values
+			selectObject: "Table praat_temp_out"
+			.current_start$ = Get value: .i, "start"
+			.current_start = number(.current_start$)
+			.current_end$ = Get value: .i, "end"
+			.current_end = number(.current_end$)
+			.current_value$ = Get value: .i, "label"
+			.current_type$ = Get value: .i, "type"
+			selectObject: .obj$
+		
+			if .current_type$ = "p" and .phon$ <> ""
+				nocheck Insert boundary: .phonn, .current_start
+				nocheck Insert boundary: .phonn, .current_end
+				.intnum = Get interval at time: .phonn, .current_start+0.0001
+				nocheck Set interval text: .phonn, .intnum, .current_value$
+			elif .current_type$ = "w" and .wrd$ <> ""
+				nocheck Insert boundary: .wrdn, .current_start
+				nocheck Insert boundary: .wrdn, .current_end
+				.intnum = Get interval at time: .wrdn, .current_start+0.0001
+				nocheck Set interval text: .wrdn, .intnum, .current_value$
+			elif .current_type$ = "c" and .can$ <> ""
+				nocheck Insert boundary: .cann, .current_start
+				nocheck Insert boundary: .cann, .current_end
+				.intnum = Get interval at time: .cann, .current_start+0.0001
+				nocheck Set interval text: .cann, .intnum, .current_value$
+			elif .current_type$ = "l" and .llh$ <> ""
+				nocheck Insert boundary: .llhn, .current_start
+				nocheck Insert boundary: .llhn, .current_end
+				.intnum = Get interval at time: .llhn, .current_start+0.0001
+				nocheck Set interval text: .llhn, .intnum, .current_value$
+			endif
+		endfor
+		
+		# Remove temporary table file
 		selectObject: "Table praat_temp_out"
-		.current_start$ = Get value: .i, "start"
-		.current_start = number(.current_start$)
-		.current_end$ = Get value: .i, "end"
-		.current_end = number(.current_end$)
-		.current_value$ = Get value: .i, "label"
-		.current_type$ = Get value: .i, "type"
-		selectObject: .obj$
-	
-		if .current_type$ = "p" and .phon$ <> ""
-			nocheck Insert boundary: .phonn, .current_start
-			nocheck Insert boundary: .phonn, .current_end
-			.intnum = Get interval at time: .phonn, .current_start+0.0001
-			nocheck Set interval text: .phonn, .intnum, .current_value$
-		elif .current_type$ = "w" and .wrd$ <> ""
-			nocheck Insert boundary: .wrdn, .current_start
-			nocheck Insert boundary: .wrdn, .current_end
-			.intnum = Get interval at time: .wrdn, .current_start+0.0001
-			nocheck Set interval text: .wrdn, .intnum, .current_value$
-		elif .current_type$ = "c" and .can$ <> ""
-			nocheck Insert boundary: .cann, .current_start
-			nocheck Insert boundary: .cann, .current_end
-			.intnum = Get interval at time: .cann, .current_start+0.0001
-			nocheck Set interval text: .cann, .intnum, .current_value$
-		elif .current_type$ = "l" and .llh$ <> ""
-			nocheck Insert boundary: .llhn, .current_start
-			nocheck Insert boundary: .llhn, .current_end
-			.intnum = Get interval at time: .llhn, .current_start+0.0001
-			nocheck Set interval text: .llhn, .intnum, .current_value$
-		endif
-	endfor
-	
-	# Remove temporary table file
-	selectObject: "Table praat_temp_out"
-	Remove
+		Remove
+	endif
 endproc

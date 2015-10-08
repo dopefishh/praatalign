@@ -1,5 +1,3 @@
-SHELL:=/bin/bash
-VERSION:=1.6a
 IMGS:=$(basename $(shell ls img/*.xz))
 LATEX:=latex
 
@@ -22,4 +20,4 @@ all: book.pdf
 	xz -kd $<
 
 clean:
-	$(RM) -v book.{fmt,aux,dvi,log,toc,out,pdf} $(IMGS)
+	$(RM) -v $(addprefix book,fmt aux dvi log toc out pdf) $(IMGS)

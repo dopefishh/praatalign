@@ -86,12 +86,19 @@ def _force(phonetizer, utterance, starttime, duration, wavefile,
         proc.returncode, out, err))
 
     # Run the HCopy process
-    #if not experimental:
-    hcopycommand = [
-        hcopybinary,
-        '-T', '0',
-        '-C', os.path.join(parameterdir, 'PRECONFIGNIST'),
-        '{}.nis'.format(basename), '{}.htk'.format(basename)]
+    if experimental:
+        hcopycommand = [
+            hcopybinary,
+            '-T', '0',
+            '-C', os.path.join(parameterdir, 'PRECONFIGNIST'),
+            '{}.wav'.format(basename), '{}.htk'.format(basename)]
+    else:
+        hcopycommand = [
+            hcopybinary,
+            '-T', '0',
+            '-C', os.path.join(parameterdir, 'PRECONFIGNIST'),
+            '{}.nis'.format(basename), '{}.htk'.format(basename)]
+
     logging.info(' '.join(hcopycommand))
     proc = subprocess.Popen(hcopycommand,
                             stderr=subprocess.PIPE, stdout=subprocess.PIPE)
