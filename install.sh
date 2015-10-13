@@ -30,8 +30,8 @@ scriptdir="$(cd "$(dirname "$0")" && pwd)"
 
 set -x
 mkdir -p "$dir"
-rm -r "$dir"/* || true
-cp -R "$scriptdir/"*.{py,praat} "$dir"
-cp -R "$scriptdir/"par.* "$dir"
+rm -fr "$dir"/* || true
+cp -fR "$scriptdir/"*.{py,praat} "$dir"
+cp -fR "$scriptdir/"par.* "$dir"
 set +x
 echo "Installing complete"

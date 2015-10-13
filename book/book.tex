@@ -151,15 +151,15 @@ it does not already exist):
 \chapter{Documentation}
 \section{General information}
 With the Praatalign plugin you can currently align out of the box the data
-using Spanish, Tzeltal, English or Dutch using the models from
-MAUS\footnote{\url{http://www.bas.uni-muenchen.de/Bas/BasMAUS.html}} that are
-already included in the package. Presets for Australian English, Estonian,
-German, Hungarian, Italian, New Zealand English Polish and Portuguese at
-minimal will be added in the future. When you want a language from the above
-list implemented with priority you can always contact us. If you want other
-languages you can still contact us and it might be possible using the general
-SAMPA model. Adding your own models is also possible but this is not trivial,
-you can always contact us.
+using Spanish, Tzeltal, English or Dutch using the acoustic models from
+MAUS~\footnote{\url{http://www.bas.uni-muenchen.de/Bas/BasMAUS.html}} created
+by Schiel et al.~\cite{schiel1999} that are already included in the package.
+Presets for Australian English, Estonian, German, Hungarian, Italian, New
+Zealand English Polish and Portuguese at minimal will be added in the future.
+When you want a language from the above list implemented with priority you can
+always contact us. If you want other languages you can still contact us and it
+might be possible using the general SAMPA model. Adding your own models is also
+possible but this is not trivial, you can always contact us.
 
 Dictionary, ruleset and all other files are, and should be, encoded in
 \texttt{UTF-8}. To enforce this the plug-in changes the default behaviour of
@@ -633,7 +633,7 @@ the menus and work out of the box.
 	title={Praatalign: an interactive Praat plug-in for performing phonetic forced alignment},
 	howpublished={\url{https://github.com/dopefishh/praatalign}},
 	year={2013-2015},
-	note={Version 1.7}
+	note={Version 1.7a}
 }
 \end{lstlisting}
 
@@ -1091,6 +1091,9 @@ SAMPA\footnote{\url{http://www.phon.ucl.ac.uk/home/sampa/spanish.htm}}.
 \section{Version history}
 \begin{longtable}{|p{0.22\linewidth}p{0.8\linewidth}|}
 	\hline
+	1.7a (2015-10-13) & \tabitem Fixed critical tier creation bug.\\
+	& \tabitem Added version to settings window.\\
+	\hline
 	1.7 (2015-10-08) & \tabitem More robuust tier creation.\\
 		& \tabitem Some typos fixed in the manual.\\
 		& \tabitem Updated the bibtex snippet.\\
@@ -1198,5 +1201,8 @@ interactive so that the interactive one reflects the current settings.\\
 	\hline
 	\caption{Version history}
 \end{longtable}
+
+\bibliographystyle{ieeetr}
+\bibliography{book}
 
 \end{document}

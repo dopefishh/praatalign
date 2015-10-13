@@ -42,28 +42,54 @@ endwhile
 
 # Get the index the tiers
 selectObject: textgrid_object$
+
+phonetier_number = -1
+llhtier_number = -1
+wordtier_number = -1
+cantier_number = -1
+
+if phonetier_name$ <> ""
 @indexOfTier: phonetier_name$
-phonetier_number = indexOfTier.number
+	phonetier_number = indexOfTier.number
+endif
 
+if llhtier_name$ <> ""
 @indexOfTier: llhtier_name$
-llhtier_number = indexOfTier.number
-if indexOfTier.inserted == 1
-	phonetier_number = if phonetier_number = -1 then -1 else phonetier_number + 1 fi
+	llhtier_number = indexOfTier.number
+	if indexOfTier.inserted == 1
+		if phonetier_name$ <> ""
+			phonetier_number = phonetier_number + 1
+		endif
+	endif
 endif
 
+if wordtier_name$ <> ""
 @indexOfTier: wordtier_name$
-wordtier_number = indexOfTier.number
-if indexOfTier.inserted == 1
-	phonetier_number = if phonetier_number = -1 then -1 else phonetier_number + 1 fi
-	llhtier_number = if llhtier_number = -1 then -1 else llhtier_number + 1 fi
+	wordtier_number = indexOfTier.number
+	if indexOfTier.inserted == 1
+		if phonetier_name$ <> ""
+			phonetier_number = phonetier_number + 1
+		endif
+		if llhtier_name$ <> ""
+			llhtier_number = llhtier_number + 1
+		endif
+	endif
 endif
 
+if cantier_name$ <> ""
 @indexOfTier: cantier_name$
-cantier_number = indexOfTier.number
-if indexOfTier.inserted == 1
-	phonetier_number = if phonetier_number = -1 then -1 else phonetier_number + 1 fi
-	llhtier_number = if llhtier_number = -1 then -1 else llhtier_number + 1 fi
-	wordtier_number = if wordtier_number = -1 then -1 else wordtier_number + 1 fi
+	cantier_number = indexOfTier.number
+	if indexOfTier.inserted == 1
+		if phonetier_name$ <> ""
+			phonetier_number = phonetier_number + 1
+		endif
+		if llhtier_name$ <> ""
+			llhtier_number = llhtier_number + 1
+		endif
+		if wordtier_name$ <> ""
+			wordtier_number = wordtier_number + 1
+		endif
+	endif
 endif
 
 # Do the actual alignment

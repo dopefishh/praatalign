@@ -64,6 +64,7 @@ endif
 
 # Spawn the option window for the user
 beginPause: "Basic options"
+	comment: "Praatalign version 1.7a"
 	comment: "Name for the output tier(may already exist)"
 	sentence: "new", new$
 	
