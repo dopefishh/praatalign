@@ -13,10 +13,20 @@ procedure loadSettings:
 endproc
 
 procedure loadFileInfo:
-	longsound_info$ = LongSound info
-	longsound_file$ = extractLine$(longsound_info$, "File name: ")
-	longsound_object$ = "LongSound " + extractLine$(longsound_info$, "Object name: ")
-	longsound_duration = extractNumber(longsound_info$, "Duration: ")
+# Try longsound first
+	nocheck longsound_info$ = LongSound info
+	if variableExists("longsound_info")
+		sound_file$ = extractLine$(longsound_info$, "File name: ")
+		sound_object$ = "LongSound " + extractLine$(longsound_info$, "Object name: ")
+		sound_duration = extractNumber(longsound_info$, "Duration: ")
+	else
+		sound_info$ = Sound info
+		sound_object$ = "Sound " + extractLine$(sound_info$, "Object name: ")
+		sound_duration = extractNumber(sound_info$, "   Total duration: ")
+		Select: 0, sound_duration
+		Save selected sound as WAV file: "longsound_sound.wav"
+		sound_file$ = "longsound_sound.wav"
+	endif
 
 	textgrid_info$ = TextGrid info
 	textgrid_object$ = "TextGrid " + extractLine$(textgrid_info$, "Object name: ")

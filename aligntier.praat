@@ -3,8 +3,8 @@ include procs.praat
 	# pythonex$, boundary_margin
 	@loadSettings:
 
-	# Load editor and longsound info: longsound_file$, longsound_object$,
-	# textgrid_object$, selected_tier, longsound_duration, pitch_on,
+	# Load editor and longsound info: sound_file$, sound_object$,
+	# textgrid_object$, selected_tier, sound_duration, pitch_on,
 	# intensity_on, spectrum_on, formant_on, pulses_on
 	@loadFileInfo:
 
@@ -24,7 +24,7 @@ Remove
 
 # Write the tier specific settings
 writeFileLine("isettings",
-..."WAV: ", longsound_file$)
+..."WAV: ", sound_file$)
 
 # Remove the tiers if they already exist
 selectObject: textgrid_object$
@@ -107,5 +107,5 @@ endeditor
 
 # Reselect the TextGrid and re-open editor
 selectObject: textgrid_object$
-plusObject: longsound_object$
+plusObject: sound_object$
 Edit

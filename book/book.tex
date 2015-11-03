@@ -15,57 +15,57 @@ create an interactive, intuitive and extendible application. Text in
 \section{Example work flow}
 \begin{figure}[H]
 	\centering
-	\includegraphics[width=0.5\linewidth]{s1.eps}
+%	\includegraphics[width=0.5\linewidth]{s1.eps}
 	\caption{Opening and selecting a \texttt{LongSound} and a \texttt{TextGrid}}
 \end{figure}
 
 \begin{figure}[H]
 	\centering
-	\includegraphics[width=\linewidth]{s2.eps}
+%	\includegraphics[width=\linewidth]{s2.eps}
 	\caption{Press \texttt{View \& Edit}}
 \end{figure}
 
 \begin{figure}[H]
 	\centering
-	\includegraphics[width=\linewidth]{s2a.eps}
+%	\includegraphics[width=\linewidth]{s2a.eps}
 	\caption{Press \texttt{Set up forced alignment\ldots}}
 \end{figure}
 
 \begin{figure}[H]
 	\centering
-	\includegraphics[scale=0.6]{s3.eps}
+%	\includegraphics[scale=0.6]{s3.eps}
 	\caption{Edit the settings to your liking}
 \end{figure}
 
 \begin{figure}[H]
 	\centering
-	\includegraphics[scale=0.6]{s4.eps}
+%	\includegraphics[scale=0.6]{s4.eps}
 	\caption{Because of the dictionary flag a dialog spawns}
 \end{figure}
 
 \begin{figure}[H]
 	\centering
-	\includegraphics[width=\linewidth]{s5.eps}
+%	\includegraphics[width=\linewidth]{s5.eps}
 	\caption{Select the dictionary}
 \end{figure}
 
 \begin{figure}[H]
 	\centering
-	\includegraphics[width=\linewidth]{s6.eps}
+%	\includegraphics[width=\linewidth]{s6.eps}
 	\caption{Select an interval, zoom in and press
 	\texttt{Align the current interval}}
 \end{figure}
 
 \begin{figure}[H]
 	\centering
-	\includegraphics[width=\linewidth]{s7.eps}
+%	\includegraphics[width=\linewidth]{s7.eps}
 	\caption{Wait a couple of seconds and see the alignment. Note that there is
 an error because of a reduction from \texttt{cuidado} to \texttt{cuida}.}
 \end{figure}
 
 \begin{figure}[H]
 	\centering
-	\includegraphics[width=\linewidth]{s8.eps}
+%	\includegraphics[width=\linewidth]{s8.eps}
 	\caption{We fix the annotation error with the reduction to
 \texttt{cuida(do)}, using truncation specified in the Spanish phonetizer. Then
 we run the alignment again and the results are much better. If this is a common
@@ -84,67 +84,124 @@ following list of programs need to be installed.
 \begin{itemize}
 	\item \textbf{Praat}\\
 		Praat is a program that allows you to do phonetic analysis and annotations
-		with a computer and praatalign uses Praat to provide an interactive user
-		interface to the annotated sound files. Praat can be downloaded
-		here\footnote{\url{http://www.fon.hum.uva.nl/praat}}.
+		with a computer and Praatalign uses Praat to provide an interactive user
+		interface to the annotated sound files.
+		\begin{itemize}
+			\item \textbf{Windows}\\
+				You can download and install Praat with the instructions on
+				\url{http://www.fon.hum.uva.nl/praat/download_win.html}.
+			\item \textbf{Mac}\\
+				You can download and install Praat with the instructions on
+				\url{http://www.fon.hum.uva.nl/praat/download_mac.html}.
+			\item \textbf{Linux and other *NIX}\\
+				In most of the cases the standard package manager coming with the
+				Linux distribution also Praat. However this is usually an old version
+				so use with care.  You can download and install the latest Praat with
+				the instructions on
+				\url{http://www.fon.hum.uva.nl/praat/download_linux.html}.
+		\end{itemize}
 	\item \textbf{Python}\\
 		Python is used to interpret the scripts that run the core of the aligner.
-		Python, in this case Python 2, can be downloaded
-		here\footnote{\url{https://www.python.org/download/}}. Be sure to download
-		the Python 2 version as the Python 3 version is not supported. The scripts
-		are tested on Python $2.7.x$ older versions may not work correctly.
+		The script uses specifically Python 2. Python 3 is not supported. All
+		scripts are tested with Python $2.7.x$, older version might work.
+		\begin{itemize}
+			\item \textbf{Windows}\\
+				You can download and install from the Windows MSI installer found on
+				this page under the Latest Python 2 Release link
+				\url{https://www.python.org/downloads/windows/}.
+			\item \textbf{Mac}\\
+				Mac OS X 10.8 comes with Python $2.7$ preinstalled. If you run an
+				obscure version without Python you can download it on 
+				\url{https://www.python.org/downloads/mac-osx/}.
+			\item \textbf{Linux and other *NIX}\\
+				In almost all cases the standard package manager comes with a
+				sufficiently up to date Python version and most of the distributions
+				have Python preinstalled. If you work with an obscure system that does
+				not have a package manager or the Python version in it is obselete you
+				can download Python on \url{https://www.python.org/downloads/source/}.
+		\end{itemize}
 	\item \textbf{SoX}\\
 		For processing the sound files in a very detailed and controlled way we
 		use SoX. Although Praat also has sound processing capabilities SoX works
 		better is some situations, this is because Praat does not allow you to
-		specify certain options like sampling rate for all formats. Sox can be
-		downloaded here\footnote{\url{http://sox.sourceforge.net/}}.
+		specify certain options like sampling rate for all formats.
+		\begin{itemize}
+			\item \textbf{Windows}\\
+				You can download SoX on
+				\url{http://sourceforge.net/projects/sox/files/sox/}. Either download
+				the executable and run it or unzip the zipfile.
+			\item \textbf{Mac}\\
+				You can download SoX on
+				\url{http://sourceforge.net/projects/sox/files/sox/}. Download the
+				zipfile and drag the contects to you \texttt{Applications}. Another
+				option is to use homebrew and type \texttt{brew install sox} in a
+				terminal.
+			\item \textbf{Linux and other *NIX}\\
+				In almost all cases the standard package manager comes with a
+				sufficiently up to date SoX version. If you work with an obscure system
+				that does not have a package manager or the SoX version in it is
+				obselete it on 
+				\url{http://sourceforge.net/projects/sox/files/sox/14.4.2/}
+		\end{itemize}
 	\item \textbf{HCopy \& HVite}\\
 		HCopy and HVite are programs from the HTK toolkit and due to licencing
 		issues we can not provide the binaries in a direct way. The program is for
-		free but you are not allowed to distribute it. For Windows there is a
-		compiled binary package, for Linux and Mac you have to compile the package
-		yourself. For windows we tested the version that is available after
-		registering here\footnote{\url{%
-http://htk.eng.cam.ac.uk/ftp/software/htk-3.3-windows-binary.zip}}.
-		For Linux and Mac the latest compiled sources that work can be found
-		here\footnote{\url{http://htk.eng.cam.ac.uk/ftp/software/HTK-3.4.tar.gz}}.
-		Installing HTK is probably the hardest part of using the program, if it
-		does not work you can always contact us.
+		free but you are not allowed to distribute it.
+		\begin{itemize}
+			\item \textbf{Windows}\\
+				You can download a zip file containing precompiled Windows executables
+				on \url{http://htk.eng.cam.ac.uk/ftp/software/htk-3.3-windows-binary.zip}.
+				Just unzip them and make sure to add them to \texttt{\%PATH\%} or to
+				point Praatalign to it in the setup screen.
+			\item \textbf{Mac, Linux and other *NIX}\\
+				Installing HCopy and HVite is probably the hardest on Linux and Mac
+				since you need to compile the binaries yourself. You can find the
+				latest version on \url{http://htk.eng.cam.ac.uk/ftp/software/}.
+				Download the zipfile, extract the zipfile and go to the folder with
+				your terminal. While you can compile the entire toolkit, Praatalign is
+				only interested in HCopy and HVite. Thus the following commands
+				suffice:
+				\begin{lstlisting}[language=bash]
+$ ./configure --disable-hlmtools --disable-hslab
+$ make -j4 htktools
+				\end{lstlisting}
+				When the compilation has succeeded you can either add the binary
+				directory \texttt{HTKTools} to \texttt{\$PATH} or point Praatalign to
+				the binaries in the setup screen.
+		\end{itemize}
 \end{itemize}
 
 \section{Installation}
 \label{sec:installation}
 The installation of the plug-in is very easy but the method differs for
-\textit{*NIX} systems\footnote{The plugin is tested on Linux and Mac. Solaris,
-BSD or any other \textit{*NIX} system should also work but are untested.}
-and \textit{Windows} systems\footnote{The plugin is tested on Windows 7 and
-Windows Server 2008 via Windows Terminal Services. Other versions of windows
-should also work but are untested.}.
+different systems. \footnote{The plugin is tested on Windows 7, Windows Server
+2008 via Windows Terminal Services, Linux and Mac. Other versions or other
+operating systems might also work but are untested.}
 \subsection{Automated installation}
 Run the installation script for your system.
 \begin{itemize}
-	\item \textbf{\textit{*NIX} systems}: \texttt{install.sh}\\
+	\item \textbf{Mac, Linux or *NIX}: \texttt{install.sh}\\
 		Depending on the operating system you either have to run the script from
 		the terminal or double click it from some explorer like program. Running
-		the script from the terminal is very easy. Just start a terminal program
-		and type the full and exact path in the terminal and press enter. For
-		example on a Mac this will something like be:\\
+		the script from the terminal is very easy and preferred. Just start a
+		terminal program and type the full and exact path in the terminal and press
+		enter. For example on a Mac this will something like be:\\
 		\texttt{/Users/frobnicator/Downloads/praatalign/install.sh}.
-	\item \textbf{\textit{Windows} systems}: \texttt{install\_win.bat}\\
+	\item \textbf{Windows}: \texttt{install\_win.bat}\\
 		This installation script can be double clicked from the explorer and it
-		will install Praatalign.
+		will install Praatalign. When the installation is finished you can press
+		Enter to make the windows disappear.
 \end{itemize}
 
 \subsection{Manual installation}
 Copy the contents of the root directory to(you have to create the directory if
 it does not already exist):
 \begin{itemize}
-	\item \textbf{\textit{*NIX} systems except \textit{Mac} systems}\\
+	\item \textbf{Linux and *NIX}\\
 		\texttt{\$\{HOME\}/.praat-dir/plugin\_pralign/}.
-	\item \textbf{\textit{Windows} systems}\\
+	\item \textbf{Windows}\\
 		\texttt{\%USERPROFILE\%\textbackslash Praat\textbackslash plugin\_pralign/}
-	\item \textbf{\textit{Mac} systems}\\
+	\item \textbf{Mac}\\
 		\texttt{\$\{HOME\}/Library/Preferences/Praat Prefs/plugin\_pralign/}
 \end{itemize}
 
@@ -169,11 +226,10 @@ preferences are set to \texttt{UTF-8}.
 When the plug-in is successfully installed several menu items are added in the
 \texttt{TextGrid} editor under the \texttt{Interval} menu. The added
 functionality only works when you are editing a \texttt{TextGrid} and a
-\texttt{LongSound}. It does not work with a normal \texttt{Sound}, this is
-because \texttt{Sound} objects are loaded in memory and thus detached from the
-real sound file on disk and our plugin needs the sound file on disk. Currently
-the plugin is only tested on \texttt{WAVE} files. It should however work on all
-sound filetypes SoX can detect from the extension.
+\texttt{LongSound} or a \texttt{Sound}\footnote{Sound files are written to disk
+prior to alignment, thus \texttt{Longsound} is preferred}. Currently the plugin
+is only tested on \texttt{WAVE} files. It should however work on all sound
+filetypes SoX can detect from the extension.
 
 \section{Menu items}
 \begin{itemize}
@@ -289,6 +345,28 @@ sound filetypes SoX can detect from the extension.
 				\texttt{soxex} field.  When you want to unset a custom SoX location you
 				can just clear out the \texttt{soxex} field and leave the \texttt{sox}
 				box unticked.
+
+				\begin{itemize}
+					\item \textbf{Windows}\\
+						If you have installed sox using the MSI you can find
+						\texttt{sox.exe} in \texttt{
+						C:\textbackslash Program Files (x86)\textbackslash sox-14-4-1} or
+						\texttt{C:\textbackslash Program Files\textbackslash sox-14-4-1}.
+						If you just downloaded the zip file you can just point to the
+						location you extracted the archive and select \texttt{sox.exe}.
+					\item \textbf{Linux}\\
+						If you have installed sox using a package manager it probably
+						already is in your \texttt{\$PATH}. If this is not the case you can
+						find the location by typing in a terminal: \texttt{which sox} and
+						pointing Praatalign to that location.
+					\item \textbf{Mac}\\
+						If you dragged sox to the \texttt{Applications} you can find it
+						there and you can just point to the sox executable. If you
+						installed sox via homebrew it is probably already in
+						\texttt{\$PATH}. If this is not the case you can find the location
+						by typing in a terminal \texttt{which sox} and pointing Praatalign
+						to that location.
+				\end{itemize}
 			\item \texttt{hvite}\\
 				Flag for setting a custom HVite executable location, when you tick this
 				box you will be prompted to locate a HVite executable. When a HVite
@@ -301,6 +379,16 @@ sound filetypes SoX can detect from the extension.
 				the \texttt{hviteex} field. When you want to unset a custom HVite
 				location you can just clear out the \texttt{hviteex} field and leave
 				the \texttt{hvite} box unticked.
+
+				\begin{itemize}
+					\item \textbf{Windows}\\
+						Point to the directory where you unzipped the file
+						from HTK and select \texttt{HVite.exe}.
+					\item \textbf{Mac and Linux}\\
+						Point to the directory where you compiled the tools from HTK and
+						select \texttt{HVite}. It resides in the \texttt{HTKTools}
+						directory.
+				\end{itemize}
 			\item \texttt{hcopy}\\
 				Flag for setting a custom HCopy executable location, when you tick this
 				box you will be prompted to locate a HCopy executable. When a HCopy
@@ -313,6 +401,8 @@ sound filetypes SoX can detect from the extension.
 				the \texttt{hcopyex} field. When you want to unset a custom HCopy
 				location you can just clear out the \texttt{hcopyex} field and leave
 				the \texttt{hcopy} box unticked.
+
+				The default locations for HCopy are the same as for HVite
 			\item \texttt{python}\\
 				Flag for setting a custom python executable location, when you tick
 				this box you will be prompted to locate a python executable. When a
@@ -325,16 +415,31 @@ sound filetypes SoX can detect from the extension.
 				the \texttt{pythonex} field. When you want to unset a custom python
 				location you can just clear out the \texttt{pythonex} field and leave
 				the \texttt{python} box unticked.
+
+				\begin{itemize}
+					\item \textbf{Windows}\\
+						Python can usually be found in \texttt{C:\textbackslash Python27}.
+						From there you can select \texttt{python.exe}
+					\item \textbf{Mac and Linux}\\
+						If you have installed sox using a package manager it probably
+						already is in your \texttt{\$PATH}. If this is not the case you can
+						find the location by typing in a terminal: \texttt{which python}
+						and pointing Praatalign to that location. Note that in some systems
+						\texttt{python} symlinks to \texttt{python3}, in that case point
+						Praatalign to \texttt{python2}. If you still can not find the
+						executable you can try using the search function in the file
+						manager.
+				\end{itemize}
 		\end{itemize}
 \end{itemize}
 
 \section{Dictionary}
-To phonetize words praatalign either uses the provided phonetizer or a
+To phonetize words Praatalign either uses the provided phonetizer or a
 dictionary. Dictionaries are plain text files that contain words and one or
 more pronunciations. A dictionary file is a \texttt{UTF-8} encoded file
 containing non-empty lines separated by a newline
 character\footnote{\label{fn:n1}On Linux and Mac this is default, on Windows
-this can cause problems. When using praatalign on windows please refrain to a
+this can cause problems. When using Praatalign on windows please refrain to a
 text editor that has newline capabilities like Notepad++}. Lines starting with
 a \texttt{\#} will be ignored and can thus be used as comments. The format of a
 dictionary entry is a word followed by a tab followed by tab separated
@@ -390,79 +495,39 @@ only need a dictionary for foreign words.
 
 \subsection{Dutch}
 A detailed description of the Dutch phones can be found in
-Section~\ref{sec:sldutch}. Further specification:
-\begin{table}[H]
-	\caption{Dutch language properties}
-	\begin{tabular}{ll}
-		Phonetizer support & None\\
-		Ruleset support & Full\\
-		Dictionary support & Full
-	\end{tabular}
-\end{table}
+Section~\ref{sec:sldutch}. There is no phonetizer available
 
 \subsection{English}
 A detailed description of the English phones can be found in
-Section~\ref{sec:slenglish}
-\begin{table}[H]
-	\caption{Dutch language properties}
-	\begin{tabular}{ll}
-		Phonetizer support & None\\
-		Ruleset support & Full\\
-		Dictionary support & Full
-	\end{tabular}
-\end{table}
+Section~\ref{sec:slenglish}. There is no phonetizer available
+
 There is conversion script for the English CMU
 dictionary\footnote{\url{http://www.speech.cs.cmu.edu/cgi-bin/cmudict}} located
 in \texttt{./par.eng/cmu2praatalign.py} that converts the CMU dictionary to
-praatalign format. The scripts is a Python script and should download the
+Praatalign format. The scripts is a Python script and should download the
 dictionary if you haven't done it yourself and will write it to a
 \texttt{dict.eng} file by default. The usage is: \texttt{python
 cmu2praatalign.py [inputfile [outputfile]]}.
 
 \subsection{Sampa}
 This setting is not really a language but allows the user to map any language
-on the available phones found in Section~\ref{sec:slsampa}.
-\begin{table}[H]
-	\caption{Sampa language properties}
-	\begin{tabular}{ll}
-		Phonetizer support & None\\
-		Ruleset support & Full\\
-		Dictionary support & Full
-	\end{tabular}
-\end{table}
+on the available phones found in Section~\ref{sec:slsampa}. This means that
+there is no phonetizer available.
 
 \subsection{Tzeltal}
 Tzeltal uses the general SAMPA models and information about the phones can be
-your in Section~\ref{sec:slsampa}. Further specification:
-\begin{table}[H]
-	\caption{Tzeltal language properties}
-	\begin{tabular}{ll}
-		Phonetizer support & Full\\
-		Ruleset support & Full\\
-		Dictionary support & Full
-	\end{tabular}
-\end{table}
+your in Section~\ref{sec:slsampa}. A phonetizer is available.
 
 \subsection{Spanish}
 A detailed description of the Spanish phones can be found in
-Section~\ref{sec:slspanish}. Further specification:
-\begin{table}[H]
-	\caption{Spanish language properties}
-	\begin{tabular}{ll}
-		Phonetizer support & Full\\
-		Ruleset support & Full\\
-		Dictionary support & Full
-	\end{tabular}
-\end{table}
-
-The phonetizer for spanish automatically reduces truncated words that are
-marked with brackets. For example: \texttt{cuida(do)} is phonetized as
-\texttt{cuida}. The spanish phonetizer also clears up some non speech
-annotations. Such as \texttt{[b]} etc.
+Section~\ref{sec:slspanish}. A phonetizer is available and automatically
+reduces truncated words that are marked with brackets. For example:
+\texttt{cuida(do)} is phonetized as \texttt{cuida}. The spanish phonetizer also
+clears up some non speech annotations. Such as \texttt{[b]} etc.
 
 \section{Scriptability and batch processing}
 \subsection{Non interactive settings file creation}
-Although the praatalign script is inherently interactive it is still possible
+Although the Praatalign script is inherently interactive it is still possible
 to batch process corpora using simple praat scripts. To facilitate this
 function a file called \texttt{\$DIR/settings\_ni.praat} can be run where
 \texttt{\$DIR} is the location of the plugin files. The location of the plugin
@@ -570,8 +635,7 @@ endeditor
 		contact us directly via e-mail.
 \end{itemize}
 
-
-\chapter{Extending praatalign}
+\chapter{Extending Praatalign}
 \section{Introduction}
 Extending the aligner with new languages should be very easy for languages that
 can be mapped on the current SAMPA model or on any other existing model(maus
@@ -633,7 +697,7 @@ the menus and work out of the box.
 	title={Praatalign: an interactive Praat plug-in for performing phonetic forced alignment},
 	howpublished={\url{https://github.com/dopefishh/praatalign}},
 	year={2013-2015},
-	note={Version 1.7a}
+	note={Version 1.8}
 }
 \end{lstlisting}
 
@@ -1090,6 +1154,10 @@ SAMPA\footnote{\url{http://www.phon.ucl.ac.uk/home/sampa/spanish.htm}}.
 \newpage
 \section{Version history}
 \begin{longtable}{|p{0.22\linewidth}p{0.8\linewidth}|}
+	\hline
+	1.8 (2015-11-03) & \tabitem Added support for \texttt{Sound}.\\
+		& \tabitem Changed email address of author.\\
+		& \tabitem Elaborated the installation instructions.\\
 	\hline
 	1.7a (2015-10-13) & \tabitem Fixed critical tier creation bug.\\
 	& \tabitem Added version to settings window.\\

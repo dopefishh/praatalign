@@ -1,47 +1,50 @@
 include procs.praat
-	# Settings loads: phonetier_name$, wordtier_name$, cantier_name$, tmpfile$,
-	# pythonex$, boundary_margin, llhtier_name$
-	@loadSettings: 
-
-	# Load editor and longsound info: longsound_file$, longsound_object$,
-	# textgrid_object$, selected_tier, longsound_duration, pitch_on,
-	# intensity_on, spectrum_on, formant_on, pulses_on
-	@loadFileInfo:
-
-	statusfile$ = "temp.status"
-
 # Get current selection
 	selection_start = Get starting point of interval
 	selection_end = Get end point of interval
 	utterance$ = Get label of interval
 
+	# Settings loads: phonetier_name$, wordtier_name$, cantier_name$, tmpfile$,
+	# pythonex$, boundary_margin, llhtier_name$
+	@loadSettings: 
+
+	# Load editor and longsound info: sound_file$, sound_object$,
+	# textgrid_object$, selected_tier, sound_duration, pitch_on,
+	# intensity_on, spectrum_on, formant_on, pulses_on
+	@loadFileInfo:
+
+	statusfile$ = "temp.status"
+
 # Unshow pitch, intensity and spectrum if they are enabled
 	@toggleGUIValues:
 
+# restore the selection as it might be crappy due to sound selection
+	Select: selection_start, selection_end
+
 # Check if the previous or next interval are empty
-    Select previous interval
-    interval_label$ = Get label of interval
-    if interval_label$ = ""
-      margin_before = boundary_margin
-    else
-      margin_before = 0
-    endif
-    Select next interval
-    Select next interval
-    interval_label$ = Get label of interval
-    if interval_label$ = ""
-      margin_after = boundary_margin
-    else
-      margin_after = 0
-    endif
-    Select previous interval
-    Zoom to selection
-    Zoom out
+	Select previous interval
+	interval_label$ = Get label of interval
+	if interval_label$ = ""
+		margin_before = boundary_margin
+	else
+		margin_before = 0
+	endif
+	Select next interval
+	Select next interval
+	interval_label$ = Get label of interval
+	if interval_label$ = ""
+		margin_after = boundary_margin
+	else
+		margin_after = 0
+	endif
+	Select previous interval
+	Zoom to selection
+	Zoom out
 endeditor
 
 # Calculate the true start and end times with respect to the extended bounds
 selection_start = max(selection_start - margin_before, 0)
-selection_end = min(selection_end + margin_after, longsound_duration)
+selection_end = min(selection_end + margin_after, sound_duration)
 selection_duration = selection_end - selection_start
 
 # Get the index the tiers
@@ -115,7 +118,7 @@ writeFileLine("isettings",
 ..."STA: ", selection_start, newline$,
 ..."DUR: ", selection_duration, newline$,
 ..."UTT: ", utterance$, newline$,
-..."WAV: ", longsound_file$)
+..."WAV: ", sound_file$)
 
 # Do the actual alignment
 system 'pythonex$' align.py annotation
