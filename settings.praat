@@ -20,18 +20,28 @@ if fileReadable("settings")
 	can$ = extractLine$(settingsData$, "CAN: ")
 	llh$ = extractLine$(settingsData$, "LLH: ")
 	lan$ = extractLine$(settingsData$, "LAN: ")
-	if lan$ = "dut"
+	if lan$ = "spanish"
 		lan = 1
-	elif lan$ = "eng"
+	elif lan$ = "tzeltal"
 		lan = 2
-	elif lan$ = "spa"
+	elif lan$ = "universal"
 		lan = 3
-	elif lan$ = "sam"
+	elif lan$ = "none"
 		lan = 4
-	elif lan$ = "tze"
-		lan = 5
 	else
-		lan = 3
+		lan = 1
+	endif
+	model$ = extractLine$(settingsData$, "MOD: ")
+	if model$ = "spanish"
+		model = 1
+	elif model$ = "dutch"
+		model = 2
+	elif model$ = "english"
+		model = 3
+	elif model$ = "sampa"
+		model = 4
+	else
+		model = 1
 	endif
 	log$ = extractLine$(settingsData$, "LOG: ")
 	soxex$ = extractLine$(settingsData$, "SOX: ")
@@ -47,7 +57,8 @@ else
 	wrd$ = ""
 	can$ = ""
 	llh$ = ""
-	lan = 3
+	lan = 1
+	model = 1
 	if windows
 		log$ = "nul"
 	else
@@ -76,17 +87,18 @@ beginPause: "Basic options"
 	sentence: "llh", llh$
 
 	comment: "Select model"
-	comment: "dut : Dutch"
-	comment: "eng : English"
-	comment: "sam : SAMPA"
-	comment: "spa : Spanish"
-	comment: "tze : Tzeltal"
+	optionMenu: "model", model
+		option: "spanish"
+		option: "dutch"
+		option: "english"
+		option: "sampa"
+
+	comment: "Select phonetizer"
 	optionMenu: "lan", lan
-		option: "dut"
-		option: "eng"
-		option: "spa"
-		option: "sam"
-		option: "tze"
+		option: "spanish"
+		option: "tzeltal"
+		option: "universal"
+		option: "none"
 
 	comment: "Select a dictionary when pressing apply"
 	boolean: "dic", 0
@@ -191,6 +203,7 @@ writeFileLine("settings",
 ..."HCB: ", hcopyex$, newline$,
 ..."HVB: ", hviteex$, newline$,
 ..."LAN: ", lan$, newline$,
+..."MOD: ", model$, newline$,
 ..."LOG: ", log$, newline$,
 ..."LLH: ", llh$, newline$,
 ..."NEW: ", new$, newline$,

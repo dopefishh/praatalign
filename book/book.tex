@@ -510,6 +510,13 @@ dictionary if you haven't done it yourself and will write it to a
 \texttt{dict.eng} file by default. The usage is: \texttt{python
 cmu2praatalign.py [inputfile [outputfile]]}.
 
+\subsection{Spanish}
+A detailed description of the Spanish phones can be found in
+Section~\ref{sec:slspanish}. A phonetizer is available and automatically
+reduces truncated words that are marked with brackets. For example:
+\texttt{cuida(do)} is phonetized as \texttt{cuida}. The spanish phonetizer also
+clears up some non speech annotations. Such as \texttt{[b]} etc.
+
 \subsection{Sampa}
 This setting is not really a language but allows the user to map any language
 on the available phones found in Section~\ref{sec:slsampa}. This means that
@@ -518,13 +525,6 @@ there is no phonetizer available.
 \subsection{Tzeltal}
 Tzeltal uses the general SAMPA models and information about the phones can be
 your in Section~\ref{sec:slsampa}. A phonetizer is available.
-
-\subsection{Spanish}
-A detailed description of the Spanish phones can be found in
-Section~\ref{sec:slspanish}. A phonetizer is available and automatically
-reduces truncated words that are marked with brackets. For example:
-\texttt{cuida(do)} is phonetized as \texttt{cuida}. The spanish phonetizer also
-clears up some non speech annotations. Such as \texttt{[b]} etc.
 
 \section{Scriptability and batch processing}
 \subsection{Non interactive settings file creation}

@@ -46,7 +46,7 @@ class Phonetizer:
                             l = l.replace(target, repl)
                     self.r.append(l.strip().split('\t'))
 
-    def todawg(self, pron, experimental=False):
+    def todawg(self, pron):
         """Converts the pronunciation variants and rules to a graph
         representation.
 
@@ -150,7 +150,7 @@ class Phonetizer:
         # number the appropriate character. Also convert the multichar phones
         # back to their original form.
         nodes += final_nodes
-        nnodes = {0: '<'} if not experimental else {0: 'sil'}
+        nnodes = {0: '<'}
         nedges = {}
         for fr, ch, to in edges:
             nnodes[to] = c2[ch] if ch in c2 else ch
@@ -160,7 +160,7 @@ class Phonetizer:
         # Find the last node and remember the position to connect the end of
         # the words to it
         finalnode = len(nnodes)
-        nnodes[finalnode] = '>' if not experimental else 'sil'
+        nnodes[finalnode] = '>'
         for final in final_nodes:
             if final not in nedges:
                 nedges[final] = set()
@@ -363,23 +363,10 @@ class PhonetizerDictionary(Phonetizer):
         else:
             return None
 
-class PhonetizerDictionaryEnglish(Phonetizer):
-    """Dummy phonetizer for dictionary only phonetizers"""
-
-    def phonetizeword(self, word):
-        word = word.lower()
-        if word in self.dictionary:
-            return self.dictionary[word]
-        else:
-            return None
-
 class PhonetizerLoopback(Phonetizer):
     """Dummy phonetizer that uses direct loopback to generate phonetic
     transcription, therefore allowing the user to use his own phonetic
     transcription"""
-
-    def __init__(self, *args, **kwargs):
-        Phonetizer.__init__(self, *args, **kwargs)
 
     def phonetize(self, utterance):
         """Phonetizes one utterance
@@ -387,6 +374,38 @@ class PhonetizerLoopback(Phonetizer):
         utterance -- The utterance to phonetize
         """
         return [[[a]] for a in utterance.split(' ')]
+
+class PhonetizerUniversal(Phonetizer):
+    """Universal phonetizer that uses a po dictionary"""
+    
+    def __init__(self, *args, **kwargs):
+        Phonetizer.__init__(self, *args, **kwargs)
+        self.rules = []
+        with open('phon.txt', 'r') as f:
+            for line in f:
+                line = line.strip().split('\t')
+                if line:
+                    self.rules.append((line[0], line[1].split(' ')))
+
+    def phonetizeword(self, word):
+        """Returns a list of phones generated from the utterance and should
+        return None when unable to phonetize
+
+        word -- the word to phonetize
+        """
+        if word in self.dictionary:
+            return self.dictionary[word]
+        else:
+            i = 0
+            phones = []
+            while i<=len(word):
+                replaces = [t for t in self.rules if word[i:].startswith(t[0])]
+                if replaces:
+                    phones += replaces[0][1]
+                    i += len(replaces[0][0])
+                else:
+                    i += 1
+        return None if not phones else [phones]
 
 
 class PhonetizerSkeleton(Phonetizer):
@@ -411,18 +430,16 @@ class PhonetizerSkeleton(Phonetizer):
         pass
 
 phonetizerdict = {
-    'dut': (PhonetizerDictionary, 'par.dut'),
-    'eng': (PhonetizerDictionaryEnglish, 'par.eng'),
-    'sam': (PhonetizerDictionary, 'par.sam'),
-    'spa': (PhonetizerSpanish, 'par.spa'),
-    'exp': (PhonetizerSpanish, 'par.exp'),
-    'tze': (PhonetizerTzeltal, 'par.sam')
+    'none': PhonetizerDictionary,
+    'universal': PhonetizerUniversal,
+    'spanish': PhonetizerSpanish,
+    'tzeltal': PhonetizerTzeltal
     }
 
 
 def getphonetizer(lang, dictpath=None, ruleset=None):
     """
-    Gives a phonetizer by language code
+    Gives a phonetizer by code
 
     lang - language code, has to be present in phonetizerdict
     dictpath - optional dictionary file
@@ -431,4 +448,4 @@ def getphonetizer(lang, dictpath=None, ruleset=None):
     dictpath = None if dictpath == "None" else dictpath
     ruleset = None if ruleset == "None" else ruleset
     phonetizer = phonetizerdict[lang]
-    return (phonetizer[0](dictpath, ruleset), phonetizer[1])
+    return phonetizer[0](dictpath, ruleset)

@@ -33,7 +33,7 @@ def force(phonetizer, utterance, starttime, endtime, wavefile,
 
 def _force(phonetizer, utterance, starttime, duration, wavefile,
            soxbinary, hvitebinary, hcopybinary, parameterdir,
-           basename, hdr, code, experimental):
+           basename, hdr, code):
     """
     Force aligns the given utterance, all parameters are passed by kwarg
     """
@@ -49,7 +49,7 @@ def _force(phonetizer, utterance, starttime, duration, wavefile,
     logging.info('Utterance phonetized spawned')
 
     # Create the graph file
-    dawg = phonetizer.todawg(pron, experimental=experimental)
+    dawg = phonetizer.todawg(pron)
     with open('{}.slf'.format(basename), 'w') as f:
         f.write(phonetizer.toslf(*dawg))
     with open('{}.dot'.format(basename), 'w') as f:
@@ -60,22 +60,14 @@ def _force(phonetizer, utterance, starttime, duration, wavefile,
     cwd = os.getcwd()
 
     # Run the sound processing
-    if experimental:
-        soxcommand = [
-            soxbinary, wavefile,
-            '-c', '1',
-            '{}.wav'.format(basename),
-            'trim', starttime, duration,
-            'rate', '-s', '-a', sourcerate]
-    else:
-        soxcommand = [
-            soxbinary, wavefile,
-            '-t', 'sph',
-            '-e', 'signed-integer',
-            '-b', '16', '-c', '1',
-            '{}.nis'.format(basename),
-            'trim', starttime, duration,
-            'rate', '-s', '-a', sourcerate]
+    soxcommand = [
+        soxbinary, wavefile,
+        '-t', 'sph',
+        '-e', 'signed-integer',
+        '-b', '16', '-c', '1',
+        '{}.nis'.format(basename),
+        'trim', starttime, duration,
+        'rate', '-s', '-a', sourcerate]
     logging.info(' '.join(soxcommand))
     proc = subprocess.Popen(soxcommand,
                             stderr=subprocess.PIPE, stdout=subprocess.PIPE)
@@ -86,18 +78,11 @@ def _force(phonetizer, utterance, starttime, duration, wavefile,
         proc.returncode, out, err))
 
     # Run the HCopy process
-    if experimental:
-        hcopycommand = [
-            hcopybinary,
-            '-T', '0',
-            '-C', os.path.join(parameterdir, 'PRECONFIGNIST'),
-            '{}.wav'.format(basename), '{}.htk'.format(basename)]
-    else:
-        hcopycommand = [
-            hcopybinary,
-            '-T', '0',
-            '-C', os.path.join(parameterdir, 'PRECONFIGNIST'),
-            '{}.nis'.format(basename), '{}.htk'.format(basename)]
+    hcopycommand = [
+        hcopybinary,
+        '-T', '0',
+        '-C', os.path.join(parameterdir, 'PRECONFIGNIST'),
+        '{}.nis'.format(basename), '{}.htk'.format(basename)]
 
     logging.info(' '.join(hcopycommand))
     proc = subprocess.Popen(hcopycommand,
@@ -109,28 +94,16 @@ def _force(phonetizer, utterance, starttime, duration, wavefile,
         proc.returncode, out, err))
 
     # Run the HVite actual alignment
-    if experimental:
-        hvitecommand = [
-            hvitebinary,
-            '-C', os.path.join(parameterdir, 'HVITECONF'),
-            '-w', '-X', 'slf',
-            '-H', os.path.join(parameterdir, 'MMF'),
-            '-H', os.path.join(parameterdir, 'MACROS'),
-            '-s', '7.0', '-p', '0.0',
-            os.path.join(parameterdir, 'DICT'),
-            os.path.join(parameterdir, 'MONOPHONES'),
-            '{}.wav'.format(basename)]
-    else:
-        hvitecommand = [
-            hvitebinary,
-            '-C', os.path.join(parameterdir, 'HVITECONF'),
-            '-w', '-X', 'slf',
-            '-H', os.path.join(parameterdir, 'MMF'),
-            '-s', '7.0',
-            '-p', '6.0',
-            os.path.join(parameterdir, 'DICT'),
-            os.path.join(parameterdir, 'MONOPHONES'),
-            '{}.htk'.format(basename)]
+    hvitecommand = [
+        hvitebinary,
+        '-C', os.path.join(parameterdir, 'HVITECONF'),
+        '-w', '-X', 'slf',
+        '-H', os.path.join(parameterdir, 'MMF'),
+        '-s', '7.0',
+        '-p', '6.0',
+        os.path.join(parameterdir, 'DICT'),
+        os.path.join(parameterdir, 'MONOPHONES'),
+        '{}.htk'.format(basename)]
     logging.info(' '.join(hvitecommand))
     proc = subprocess.Popen(hvitecommand,
                             stderr=subprocess.PIPE, stdout=subprocess.PIPE)
@@ -212,9 +185,7 @@ if __name__ == '__main__':
             f.write(error)
         exit()
 
-    exp = sett['LAN'] == 'exp'
-    p = phone[1]
-    phone = phone[0]
+    p = 'par.{}'.format(sett['MOD'])
 
     if sys.argv[1] == 'tier':
         # Read the data
@@ -252,9 +223,8 @@ if __name__ == '__main__':
             if not force(
                     phone, utt, str(start), dur, sett['WAV'],
                     sett['SOX'], sett['HVB'], sett['HCB'], p, 'temp',
-                    hdr=hdr, code=code, experimental=exp):
+                    hdr=hdr, code=code):
                 break
     elif sys.argv[1] == 'annotation':
         force(phone, sett['UTT'], sett['STA'], sett['DUR'], sett['WAV'],
-              sett['SOX'], sett['HVB'], sett['HCB'], p, 'temp',
-              experimental=exp)
+              sett['SOX'], sett['HVB'], sett['HCB'], p, 'temp')
