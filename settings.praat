@@ -30,8 +30,6 @@ if fileReadable("settings")
 		lan = 4
 	elif lan$ = "tze"
 		lan = 5
-	elif lan$ = "exp"
-		lan = 6
 	else
 		lan = 3
 	endif
@@ -64,7 +62,7 @@ endif
 
 # Spawn the option window for the user
 beginPause: "Basic options"
-	comment: "Praatalign version 1.7a"
+	comment: "Praatalign version 1.8"
 	comment: "Name for the output tier(may already exist)"
 	sentence: "new", new$
 	
@@ -77,20 +75,18 @@ beginPause: "Basic options"
 	comment: "Name for the output tier used for log likelyhood values"
 	sentence: "llh", llh$
 
-	comment: "Select language."
+	comment: "Select model"
 	comment: "dut : Dutch"
 	comment: "eng : English"
 	comment: "sam : SAMPA"
 	comment: "spa : Spanish"
 	comment: "tze : Tzeltal"
-	comment: "exp : HIGHLY EXPERIMENTAL spanish"
 	optionMenu: "lan", lan
 		option: "dut"
 		option: "eng"
 		option: "spa"
 		option: "sam"
 		option: "tze"
-		option: "exp"
 
 	comment: "Select a dictionary when pressing apply"
 	boolean: "dic", 0
@@ -150,6 +146,9 @@ if dic
 endif
 if dictionary$ = ""
 	dictionary$ = "None"
+endif
+if (dictionary$ = "None" or not dic) and lan <> 3 and lan <> 5
+	pause You need a dictionary for the chosen language as it doesn't have a phonetizer
 endif
 
 # Ask for the ruleset
