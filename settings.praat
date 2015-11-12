@@ -159,9 +159,6 @@ endif
 if dictionary$ = ""
 	dictionary$ = "None"
 endif
-if (dictionary$ = "None" or not dic) and lan <> 3 and lan <> 5
-	pause You need a dictionary for the chosen language as it doesn't have a phonetizer
-endif
 
 # Ask for the ruleset
 if rul

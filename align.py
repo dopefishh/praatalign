@@ -12,7 +12,7 @@ import logging
 
 def force(phonetizer, utterance, starttime, endtime, wavefile,
           soxbinary, hvitebinary, hcopybinary, parameterdir,
-          basename, hdr=True, code='w', experimental=False):
+          basename, hdr=True, code='w'):
     """Wrapper for the _force function that writes the status to a file for
     feedback via praat module.
 
@@ -25,7 +25,7 @@ def force(phonetizer, utterance, starttime, endtime, wavefile,
     status = _force(
         phonetizer, utterance, starttime, endtime, wavefile,
         soxbinary, hvitebinary, hcopybinary, parameterdir,
-        basename, hdr, code, experimental)
+        basename, hdr, code)
     with open('{}.status'.format(basename), 'w') as f:
         f.write(status)
     return status == 'done'
@@ -40,7 +40,7 @@ def _force(phonetizer, utterance, starttime, duration, wavefile,
     logging.info('Starting to align: {}'.format(code))
 
     # Open the preconfig and extract the sourcerate
-    sourcerate = str(1e7/226) if experimental else str(1e7/625)
+    sourcerate = str(1e7/625)
 
     # Load the phonetizer
     pron = phonetizer.phonetize(utterance) or [[['<nib>']]]
@@ -129,10 +129,10 @@ def _force(phonetizer, utterance, starttime, duration, wavefile,
                 end = float(starttime) + int(d[1]) / 1e7
 
                 # Detect word boundaries
-                if d[2] == ('<' if not experimental else 'sil'):
+                if d[2] == '<':
                     word = (end, '')
                 # If the end of a word is reached write the word to file
-                elif d[2] == ('#' if not experimental else 'sp'):
+                elif d[2] == '#':
                     fileio.write('{:f},{:f},{},w\n'.format(
                         word[0], start, word[1]))
                     fileio.write('{:f},{:f},{},c\n'.format(

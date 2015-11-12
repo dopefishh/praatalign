@@ -54,12 +54,10 @@ class Phonetizer:
         """
         # Make a translation for all multi character phones
         c2 = [ch for wd in pron for var in wd for ch in var if len(ch) > 1]
-        if experimental:
-            c2.append('sp')
         c2 = dict(zip(c2, map(chr, range(1, len(c2)+1))))
 
         # Create all possible combinations of pronunciation variants
-        pron = ((' '.join(varnt + ['#' if not experimental else 'sp'])
+        pron = ((' '.join(varnt + ['#'])
                  for varnt in word) for word in pron)
 
         # Make strings of these variants
@@ -447,5 +445,4 @@ def getphonetizer(lang, dictpath=None, ruleset=None):
     """
     dictpath = None if dictpath == "None" else dictpath
     ruleset = None if ruleset == "None" else ruleset
-    phonetizer = phonetizerdict[lang]
-    return phonetizer[0](dictpath, ruleset)
+    return phonetizerdict[lang](dictpath, ruleset)
