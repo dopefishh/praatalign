@@ -80,7 +80,7 @@ pronunciation rules.
 \chapter{Installation}
 \section{Preparation}
 The installation of the program is very straightforward, however installing the
-dependencies might not be on some systems.  Some programs are not included in
+dependencies might not be on some systems. Some programs are not included in
 the package due to licencing and environment compatibility but they do need to
 be installed in order for the plug-in to work properly. All programs Praatalign
 depends on are free and open source. The following list of programs need to be
@@ -100,7 +100,7 @@ installed with their installation instructions.
 			\item \textbf{Linux and other *NIX}\\
 				In most of the cases the standard package manager coming with the
 				Linux distribution also Praat. However this is usually an old version
-				so use with care.  You can download and install the latest Praat with
+				so use with care. You can download and install the latest Praat with
 				the instructions on
 				\url{http://www.fon.hum.uva.nl/praat/download_linux.html}.
 		\end{itemize}
@@ -213,20 +213,18 @@ it does not already exist):
 \chapter{Documentation}
 \section{General information}
 With the Praatalign plugin you can currently align out of the box the data
-using Spanish, Tzeltal, English or Dutch using the acoustic models from
+using Spanish, English, Dutch or SAMPA acoustic models from
 MAUS~\footnote{\url{http://www.bas.uni-muenchen.de/Bas/BasMAUS.html}} created
-by Schiel et al.~\cite{schiel1999} that are already included in the package.
+by Schiel et al.~\cite{schiel1999}. These models are already included in the
+package. Other models from MAUS can be easily added and will be in the future.
+If you like to have a language added please contact us.
 Presets for Australian English, Estonian, German, Hungarian, Italian, New
-Zealand English Polish and Portuguese at minimal will be added in the future.
-When you want a language from the above list implemented with priority you can
-always contact us. If you want other languages you can still contact us and it
-might be possible using the general SAMPA model. Adding your own models is also
-possible but this is not trivial, you can always contact us.
+Zealand English Polish and Portuguese are available at minimum.
 
-Dictionary, ruleset and all other files are, and should be, encoded in
-\texttt{UTF-8}. To enforce this the plug-in changes the default behaviour of
-Praat every time Praat loads to make sure Praats reading and writing
-preferences are set to \texttt{UTF-8}.
+Dictionary, ruleset, universal phonetizer all other files are, and should be,
+encoded in \texttt{UTF-8}. To enforce this the plug-in changes the default
+behaviour of Praat every time Praat loads to make sure Praats reading and
+writing preferences are set to \texttt{UTF-8}.
 
 When the plug-in is successfully installed several menu items are added in the
 \texttt{TextGrid} editor under the \texttt{Interval} menu. The added
@@ -237,204 +235,229 @@ is only tested on \texttt{WAVE} files. It should however work on all sound
 filetypes SoX can detect from the extension.
 
 \section{Menu items}
+Almost all menu items will fail when there is no settings file present. The
+settings file has to be created by running \texttt{Set up forced
+alignment\ldots} interactively or by running \texttt{settings\_ni.praat} in a
+script.
+
+\subsection{\texttt{Generate dictionary from tier}}
+This functions allows the user to generate a dictionary containing all the
+missing or unphonetizable words from the currently selected tier using the
+current settings the plugin is initialized with. The plugin will prompt you
+after pressing the button for a location for the dictionary file. When this
+process is done the user can add the pronunciations after every entry that
+is found in the skeleton dictionary. Note that there is no sanitation
+applied on the words. This means that if the phonetizer removes punctuation
+it can still be present in the dictionary.
+
+\subsection{\texttt{Clean selection}}
+This function is a helper function to clean up old or wrong alignment. When the
+function runs all annotation data within the selection within the selected tier
+will be removed. 
+
+\emph{Note that this is not necessary to do before an alignment because this
+function runs by default before any alignment.}
+
+\subsection{\texttt{Align current interval}}
+This function aligns the current selected interval on the current selected
+tier. When selecting a small interval it should not take much time at all. When
+you select an interval from an output tier(phone, word, canonical or log) the
+function will prompt you to make sure this is what you want to do. This
+functions first clears out the annotations on the output tiers.
+
+\subsection{\texttt{Align current tier}}
+This function aligns the entire selected tier. Aligning an entire tier can take
+some time, especially when you have a lot of pronunciation variants. This
+functions first clears out the annotations on the output tiers.
+
+\subsection{\texttt{Set up forced alignment\ldots}}
+This functions spawns two option menus that will create the necessary settings
+file. When you finish the forms a settings file is written to disk.
+
+\subsubsection{Basic options}	
+The first form contains all the basic settings needed for alignment. It also
+shows the version of the plugin on the first line. The following options can be
+entered. All settings are analogous to the names of the settings in the
+\texttt{settings\_ni.praat} script.
 \begin{itemize}
-	\item \texttt{Generate dictionary from tier}\\
-		This functions allows the user to generate a dictionary containing all the
-		missing or unphonetizable words from the currently selected tier using the
-		current settings the plugin is initialized with. The plugin will prompt you
-		after pressing the button for a location for the dictionary file. When this
-		process is done the user can add the pronunciations after every entry that
-		is found in the skeleton dictionary. Note that there is no sanitation
-		applied on the words. This means that if the phonetizer removes punctuation
-		it can still be present in the dictionary.
+	\item \texttt{new}: %
+		Name of the output tier storing the phone level alignment
 
-		For this function to work \texttt{Set up forced alignment\ldots} has to run
-		at least once.
-	\item \texttt{Clean selection}\\
-		This function is a helper function to clean up old or wrong alignment. When
-		the function runs all annotation data within the selection within the
-		selected tier will be removed. Note that this is not necessary to do before
-		an alignment because this function runs by default before the alignment of
-		an interval.
-	\item \texttt{Align current interval}\\
-		This function aligns the current selected interval on the current selected
-		tier. When selecting a small interval it should not take much time at all.
-		Be careful that you do not try to align an output tier from a previous
-		alignment(word or phone level). When this happens you will be prompted to
-		make sure you mean to align an output tier.
+		In this option you specify the name of the tier where the phone level
+		alignment is stored, this can be either an existing tier or a non existing
+		tier. If the tier does not exist it will be created upon doing the first
+		alignment. When you leave this field empty no phone level tier will be
+		created.
+	\item \texttt{wrd}: %
+		Name of the output tier storing the word level alignment
 
-		For this function to work \texttt{Set up forced alignment\ldots} has to run
-		at least once.
-	\item \texttt{Align current tier}\\
-		This function aligns the entire selected tier. Note that this can take
-		quite a long time for long data. When you do not have a lot of
-		pronunciation variants it still can take about $30$ minutes for an hour
-		long conversation. This function will clear the tier entirely before
-		aligning.
+		In this option you specify the name of the tier where the word level
+		alignment is stored, this can be either an existing tier or a non existing
+		tier. If the tier does not exist it will be created upon doing the first
+		alignment. When you leave this field empty no word level tier will be
+		created.
+	\item \texttt{can}: %
+		Name of the output tier storing the canonical pronunciation
 
-		For this function to work \texttt{Set up forced alignment\ldots} has to run
-		at least once.
-	\item \texttt{Set up forced alignment\ldots}\\
-		When you run this function two option menus are spawned that will generate
-		the necessary settings files. For almost all functions this functions has
-		to run at least once before they can run. When you close the form a
-		settings file is written to disk.
+		In this option you specify the name of the tier where the canonical
+		pronunciation of every word is stored, this can be either an existing tier
+		or a non existing tier. If the tier does not exist it will be created upon
+		doing the first alignment. When you leave this field empty no canonical
+		pronunciation tier will be created.
+	\item \texttt{llh}: %
+		Name of the output tier storing the log likelihood
 
-		\textbf{Basic options}	
+		In this option you specify the name of the tier where the log likelihood of
+		every phone is stored , this can be either an existing tier or a non
+		existing tier. If the tier does not exist it will be created upon doing the
+		first alignment. When you leave this field empty no log likelihood tier
+		will be created.
+	\item \texttt{model}: %
+		Select model
+
+		In this option you specify which acoustic model to use. More info about the
+		models can be found in Section~\ref{sec:models}.
+	\item \texttt{lan}: %
+		Select model
+
+		In this option you specify which phonetizer to use. More info about the
+		models can be found in Section~\ref{sec:phonetizers}.
+
+		\emph{Note that if you select the universal phonetizer you will be prompted
+		to select the universal phonetizer file.}
+	\item \texttt{dic}, \texttt{dictionary}: %
+		Select a dictionary file
+
+		In this option you can specify a dictionary file. When you tick the box you
+		will be prompted to select a dictionary file. When a dictionary is already
+		selected the \texttt{dictionary} option is added which contains the path to
+		the file. When you want to switch to using no dictionary you can clear that
+		box and leave the \texttt{dic} box unticked.
+	\item \texttt{rul}, \texttt{ruleset}: %
+		Select a ruleset file
+
+		In this option you can specify a ruleset file. When you tick the box you
+		will be prompted to select a ruleset file. When a dictionary is already
+		selected the \texttt{ruleset} option is added which contains the path to
+		the file. When you want to switch to using no ruleset you can clear that
+		box and leave the \texttt{rul} box unticked.
+	\item \texttt{thr}: %
+		Set the size to add to the annotations
+
+		In this option you can specify an extra margin used for every annotation.
+		When the annotations are placed to close to the real sound the initial
+		pause can clobber up the beginning of speech and that can reduce the
+		performance. Setting the \texttt{thr} value to $0.1$ will for example increase
+		all boundaries from annotations with $100$ms. Note that this does not
+		change the original annotation and it will only increase the widen the
+		annotation when there is room to do so, meaning that it will not create
+		overlap with other annotations.
+\end{itemize}
+
+\subsubsection{Advanced options}	
+The second form contains all the more advanced settings needed for alignment.
+It shouldn't be necessary to change these options regularly. All settings are
+analogous to the names of the settings in the \texttt{settings\_ni.praat}
+script.
+
+\begin{itemize}
+	\item \texttt{log}: %
+		Set a location for the logfile
+
+		In this option you can specify a location to write a debug log to. When you
+		want to switch to not using a logfile you can redirect the log to either
+		\texttt{/dev/null} on Linux, Mac and other *NIX systems and \texttt{nul} on
+		Windows.
+	\item \texttt{sox}: %
+		Set a SoX executable
+
+		In this option you can specify a SoX executable. When you tick the box you
+		will be prompted to select a SoX executable. When a SoX executable is
+		already selected the \texttt{soxex} option is added which contains the path
+		to the executable. When you want to switch to using the SoX executable in
+		\texttt{PATH} you can clear that box leave the \texttt{sox} box unticked.
+
 		\begin{itemize}
-			\item \texttt{new}\\
-				Name of the tier where the phone level alignment is stored, this can be
-				either an existing tier or a non existing tier. If the tier does not
-				exist it will be created upon doing the first alignment. If the tier
-				does exist the annotations that overlap with the alignment will be
-				removed.
-			\item \texttt{wrd}\\
-				Name of the tier that stores the word level alignment, this can be
-				again either an existing tier or a non existing tier with the same
-				consequences as for the \texttt{new} value. In theory this tier can be
-				the same tier as the \texttt{new} tier, however this can and will
-				result in unexpected behaviour and will generate a warning every time
-				you align something.
-			\item \texttt{lan}\\
-				Language used for the forced alignment, all properly added languages
-				will appear in this drop down list. Currently only Spanish, Tzeltal,
-				Dutch and English are supported. There is also a language that can be
-				used for any language mapped onto the available SAMPA phones.
-			\item \texttt{dic}\\
-				Flag for setting a dictionary file, when you tick this box you
-				will be prompted to locate the dictionary file. When a dictionary was
-				previously set an extra variable is shown named \texttt{dictionary}
-				containing the path to the current dictionary. When you want to change
-				the dictionary you can either tick the \texttt{dic} box or change the
-				path in the \texttt{dictionary} field. To unset a dictionary you can
-				just clear out the \texttt{dictionary} field and leave the \texttt{dic}
-				box unticked.
-			\item \texttt{rul}\\
-				Flag for setting a ruleset file, when you tick this box you will be
-				prompted to locate the ruleset file. When a ruleset file was
-				previously set an extra variable is shown named \texttt{ruleset}
-				containing the path to the current ruleset file. When you want to
-				change the ruleset file you can either tick the \texttt{rul} box or
-				change the path in the \texttt{ruleset} field. To unset a ruleset file
-				you can just clear out the \texttt{ruleset} field and leave the
-				\texttt{rul} box unticked.
-			\item \texttt{thr}\\
-				Extra margin used for every annotation, when the annotations are placed
-				to close to the real sound the initial pause can clobber up the
-				beginning of speech and that can reduce the aligners performance.
-				Setting the \texttt{thr} value to $0.1$ will for example increase all
-				boundaries from annotations with $100$ms. Note that this does not
-				change the original annotation and it will only increase the widen the
-				annotation when there is room to do so, meaning that it will not create
-				overlap with other annotations.
+			\item \textbf{Windows}\\
+				If you have installed sox using the MSI you can find \texttt{sox.exe}
+				in \texttt{
+				C:\textbackslash Program Files (x86)\textbackslash sox-14-4-1} or
+				\texttt{C:\textbackslash Program Files\textbackslash sox-14-4-1}.
+				If you just downloaded the zip file you can just point to the location
+				you extracted the archive and select \texttt{sox.exe}.
+			\item \textbf{Mac}\\
+				If you dragged sox to the \texttt{Applications} you can find it there
+				and you can just point to the sox executable. If you installed sox via
+				homebrew it is probably already in \texttt{\$PATH}. If this is not the
+				case you can find the location by typing in a terminal \texttt{which
+				sox} and pointing Praatalign to that location.
+			\item \textbf{Linux and other *NIX}\\
+				If you have installed sox using a package manager it probably already
+				is in your \texttt{\$PATH}. If this is not the case you can find the
+				location by typing in a terminal: \texttt{which sox} and pointing
+				Praatalign to location.
 		\end{itemize}
+	\item \texttt{hvite}: %
+		Set a HVite executable
 
-		\textbf{Advanced options}
+		In this option you can specify a HVite executable. When you tick the box you
+		will be prompted to select a HVite executable. When a HVite executable is
+		already selected the \texttt{hviteex} option is added which contains the
+		path to the executable. When you want to switch to using the HVite
+		executable in \texttt{PATH} you can clear that box leave the \texttt{hvite}
+		box unticked.
+
 		\begin{itemize}
-			\item \texttt{log}\\
-				Location of the log output, when an annotation is aligned a log is
-				produced that contains detailed output of all the subcommands and can
-				be used for debugging purposes. You can either put a file path in here
-				that will become the log file or if you want to discard the log you can
-				put \texttt{/dev/null} there on Linux or Mac and \texttt{nul} on
-				Windows.
-			\item \texttt{sox}\\
-				Flag for setting a custom SoX executable location, when you tick this
-				box you will be prompted to locate a SoX executable. When a SoX
-				executable is already present in one of the locations in
-				\texttt{\$PATH} on Linux or mac or \texttt{\%PATH\%} on Windows you do
-				not have to set a custom location. When a custom location has been
-				previously set an extra variable named \texttt{soxex} is shown that
-				contains the current custom SoX location. When you want to change this
-				you can either tick the \texttt{sox} box or change the path in the
-				\texttt{soxex} field.  When you want to unset a custom SoX location you
-				can just clear out the \texttt{soxex} field and leave the \texttt{sox}
-				box unticked.
+			\item \textbf{Windows}\\
+				Point to the directory where you unzipped the file
+				from HTK and select \texttt{HVite.exe}.
+			\item \textbf{Mac, Linux, and other *NIX}\\
+				Point to the directory where you compiled the tools from HTK and
+				select \texttt{HVite}. It resides in the \texttt{HTKTools}
+				directory.
+		\end{itemize}
+	\item \texttt{hcopy}: %
+		Set a HCopy executable
 
-				\begin{itemize}
-					\item \textbf{Windows}\\
-						If you have installed sox using the MSI you can find
-						\texttt{sox.exe} in \texttt{
-						C:\textbackslash Program Files (x86)\textbackslash sox-14-4-1} or
-						\texttt{C:\textbackslash Program Files\textbackslash sox-14-4-1}.
-						If you just downloaded the zip file you can just point to the
-						location you extracted the archive and select \texttt{sox.exe}.
-					\item \textbf{Linux}\\
-						If you have installed sox using a package manager it probably
-						already is in your \texttt{\$PATH}. If this is not the case you can
-						find the location by typing in a terminal: \texttt{which sox} and
-						pointing Praatalign to that location.
-					\item \textbf{Mac}\\
-						If you dragged sox to the \texttt{Applications} you can find it
-						there and you can just point to the sox executable. If you
-						installed sox via homebrew it is probably already in
-						\texttt{\$PATH}. If this is not the case you can find the location
-						by typing in a terminal \texttt{which sox} and pointing Praatalign
-						to that location.
-				\end{itemize}
-			\item \texttt{hvite}\\
-				Flag for setting a custom HVite executable location, when you tick this
-				box you will be prompted to locate a HVite executable. When a HVite
-				executable is already present in one of the locations in
-				\texttt{\$PATH} on Linux or mac or \texttt{\%PATH\%} on Windows you do
-				not have to set a custom location. When a custom location has been
-				previously set an extra variable named \texttt{hviteex} is shown that
-				contains the current custom HVite location. When you want to change
-				this you can either tick the \texttt{hvite} box or change the path in
-				the \texttt{hviteex} field. When you want to unset a custom HVite
-				location you can just clear out the \texttt{hviteex} field and leave
-				the \texttt{hvite} box unticked.
+		In this option you can specify a HCopy executable. When you tick the box you
+		will be prompted to select a HCopy executable. When a HCopy executable is
+		already selected the \texttt{hcopyex} option is added which contains the
+		path to the executable. When you want to switch to using the HCopy
+		executable in \texttt{PATH} you can clear that box leave the \texttt{hcopy}
+		box unticked.
 
-				\begin{itemize}
-					\item \textbf{Windows}\\
-						Point to the directory where you unzipped the file
-						from HTK and select \texttt{HVite.exe}.
-					\item \textbf{Mac and Linux}\\
-						Point to the directory where you compiled the tools from HTK and
-						select \texttt{HVite}. It resides in the \texttt{HTKTools}
-						directory.
-				\end{itemize}
-			\item \texttt{hcopy}\\
-				Flag for setting a custom HCopy executable location, when you tick this
-				box you will be prompted to locate a HCopy executable. When a HCopy
-				executable is already present in one of the locations in
-				\texttt{\$PATH} on Linux or mac or \texttt{\%PATH\%} on Windows you do
-				not have to set a custom location. When a custom location has been
-				previously set an extra variable named \texttt{hcopyex} is shown that
-				contains the current custom HCopy location. When you want to change
-				this you can either tick the \texttt{hcopy} box or change the path in
-				the \texttt{hcopyex} field. When you want to unset a custom HCopy
-				location you can just clear out the \texttt{hcopyex} field and leave
-				the \texttt{hcopy} box unticked.
+		\begin{itemize}
+			\item \textbf{Windows}\\
+				Point to the directory where you unzipped the file
+				from HTK and select \texttt{HCopy.exe}.
+			\item \textbf{Mac, Linux, and other *NIX}\\
+				Point to the directory where you compiled the tools from HTK and
+				select \texttt{HCopy}. It resides in the \texttt{HTKTools}
+				directory.
+		\end{itemize}
+	\item \texttt{python}: %
+		Set a Python executable
 
-				The default locations for HCopy are the same as for HVite
-			\item \texttt{python}\\
-				Flag for setting a custom python executable location, when you tick
-				this box you will be prompted to locate a python executable. When a
-				python executable is already present in one of the locations in
-				\texttt{\$PATH} on Linux or mac or \texttt{\%PATH\%} on Windows you do
-				not have to set a custom location. When a custom location has been
-				previously set an extra variable named \texttt{pythonex} is shown that
-				contains the current custom python location. When you want to change
-				this you can either tick the \texttt{python} box or change the path in
-				the \texttt{pythonex} field. When you want to unset a custom python
-				location you can just clear out the \texttt{pythonex} field and leave
-				the \texttt{python} box unticked.
+		In this option you can specify a Python executable. When you tick the box
+		you will be prompted to select a Python executable. When a Python
+		executable is already selected the \texttt{pythonex} option is added which
+		contains the path to the executable. When you want to switch to using the
+		Python executable in \texttt{PATH} you can clear that box leave the
+		\texttt{python} box unticked.
 
-				\begin{itemize}
-					\item \textbf{Windows}\\
-						Python can usually be found in \texttt{C:\textbackslash Python27}.
-						From there you can select \texttt{python.exe}
-					\item \textbf{Mac and Linux}\\
-						If you have installed sox using a package manager it probably
-						already is in your \texttt{\$PATH}. If this is not the case you can
-						find the location by typing in a terminal: \texttt{which python}
-						and pointing Praatalign to that location. Note that in some systems
-						\texttt{python} symlinks to \texttt{python3}, in that case point
-						Praatalign to \texttt{python2}. If you still can not find the
-						executable you can try using the search function in the file
-						manager.
-				\end{itemize}
+		\begin{itemize}
+			\item \textbf{Windows}\\
+				Python can usually be found in \texttt{C:\textbackslash Python27}.
+				From there you can select \texttt{python.exe}
+			\item \textbf{Mac, Linux, and other *NIX}\\
+				If you have installed sox using a package manager it probably
+				already is in your \texttt{\$PATH}. If this is not the case you can
+				find the location by typing in a terminal: \texttt{which python}
+				and pointing Praatalign to that location. Note that in some systems
+				\texttt{python} symlinks to \texttt{python3}, in that case point
+				Praatalign to \texttt{python2}. If you still can not find the
+				executable you can try using the search function in the file
+				manager.
 		\end{itemize}
 \end{itemize}
 
@@ -442,14 +465,13 @@ filetypes SoX can detect from the extension.
 To phonetize words Praatalign either uses the provided phonetizer or a
 dictionary. Dictionaries are plain text files that contain words and one or
 more pronunciations. A dictionary file is a \texttt{UTF-8} encoded file
-containing non-empty lines separated by a newline
-character\footnote{\label{fn:n1}On Linux and Mac this is default, on Windows
-this can cause problems. When using Praatalign on windows please refrain to a
-text editor that has newline capabilities like Notepad++}. Lines starting with
-a \texttt{\#} will be ignored and can thus be used as comments. The format of a
-dictionary entry is a word followed by a tab followed by tab separated
-pronunciations. An example dictionary can be found in
-Listing~\ref{lst:exampledictionary}
+containing non-empty lines separated by a newline character\footnote{On Mac,
+Linux, and *NIX this is default, on Windows this can cause problems. When using
+Praatalign on windows please refrain to a text editor that has newline
+capabilities like Notepad++}. Lines starting with a \texttt{\#} will be ignored
+and can thus be used as comments. The format of a dictionary entry is a word
+followed by a tab followed by tab separated pronunciations. An example
+dictionary can be found in Listing~\ref{lst:exampledictionary}
 
 \begin{lstlisting}[caption={Example dictionary},label={lst:exampledictionary}]
 # This is comment
@@ -465,10 +487,10 @@ Besides generating pronunciation by using the dictionary and phonetization you
 can also use rulesets to define pronunciation variants. Ruleset make you able
 to define general rules applied over all words(phonetized words and dictionary
 words). In this way you can easily define for example deletion rules.
-A Ruleset file is a \texttt{UTF-8} encoded
-file containing non-empty lines separated by a newline character. Lines
-starting with a \texttt{\#} will be ignored and can thus be used as comments.
-There are two ways of defining rules for a ruleset.
+A ruleset file is a \texttt{UTF-8} encoded file containing non-empty lines
+separated by a newline character. Lines starting with a \texttt{\#} will be
+ignored and can thus be used as comments. There are two ways of defining rules
+for a ruleset.
 \begin{itemize}
 	\item \textbf{Simple}\\
 		Simple rules are just find and replace queries. The first column is the
@@ -483,7 +505,7 @@ There are two ways of defining rules for a ruleset.
 		<TAB>([aouie] \#?) d ([aouie])<TAB>\textbackslash 1 \textbackslash 2}.
 		Internally we use the \texttt{re.sub} function from the Python \texttt{re}
 		library\footnote{\url{https://docs.python.org/2/library/re.html}}. Besides
-		that there are some extra options:
+		that there are some extra shortcuts and options:
 		\begin{itemize}
 			\item \texttt{\textbackslash v} for vowels(\texttt{[aoeiu]})
 			\item \texttt{\textbackslash c} for consonants(%
@@ -492,43 +514,26 @@ There are two ways of defining rules for a ruleset.
 		\end{itemize}
 \end{itemize}
 
-\section{Supported languages information}
-Different languages have different possibilities within the possibilities of
-phonetizing and dictionaries. Some languages are impossible to phonetize and
-thus need a complete dictionaries. Some languages can be fully phonetized and
-only need a dictionary for foreign words.
 
-\subsection{Dutch}
-A detailed description of the Dutch phones can be found in
-Section~\ref{sec:sldutch}. There is no phonetizer available
-
-\subsection{English}
-A detailed description of the English phones can be found in
-Section~\ref{sec:slenglish}. There is no phonetizer available
-
-There is conversion script for the English CMU
-dictionary\footnote{\url{http://www.speech.cs.cmu.edu/cgi-bin/cmudict}} located
-in \texttt{./par.eng/cmu2praatalign.py} that converts the CMU dictionary to
-Praatalign format. The scripts is a Python script and should download the
-dictionary if you haven't done it yourself and will write it to a
-\texttt{dict.eng} file by default. The usage is: \texttt{python
-cmu2praatalign.py [inputfile [outputfile]]}.
-
+\section{Phonetizers}\label{sec:phonetizers}
 \subsection{Spanish}
-A detailed description of the Spanish phones can be found in
-Section~\ref{sec:slspanish}. A phonetizer is available and automatically
-reduces truncated words that are marked with brackets. For example:
-\texttt{cuida(do)} is phonetized as \texttt{cuida}. The spanish phonetizer also
-clears up some non speech annotations. Such as \texttt{[b]} etc.
-
-\subsection{Sampa}
-This setting is not really a language but allows the user to map any language
-on the available phones found in Section~\ref{sec:slsampa}. This means that
-there is no phonetizer available.
+The Spanish phonetizer is designed only to work with the spanish models. It
+removes a lot of non speech annotated symbols and does some tricks to get
+exceptions well phonetized. It can be seen as an example of writing an advanced
+phonetizer in Python.
 
 \subsection{Tzeltal}
-Tzeltal uses the general SAMPA models and information about the phones can be
-your in Section~\ref{sec:slsampa}. A phonetizer is available.
+The Tzeltal phonetizer is an example of how to use the SAMPA models to align a
+new language. Thus it only works for the SAMPA models. It removes some non
+speech annotated symbols and does an almost literal character to character
+translation.
+
+\subsection{Universal}
+
+
+\subsection{None}
+The None phonetizer is a dummy phonetizer that does nothing. This means that
+every word should be available in the dictionary.
 
 \section{Scriptability and batch processing}
 \subsection{Non interactive settings file creation}
@@ -709,460 +714,617 @@ the menus and work out of the box.
 \section{Licence}
 \lstinputlisting{../LICENCE}
 
-\newpage
-\section{Dutch phone specification}
-\label{sec:sldutch}
-Mapping with SAMPA
-alphabet\footnote{\url{http://www.phon.ucl.ac.uk/home/sampa/dutch.htm}}
+\section{Acoustic model phone specifications}\label{sec:models}
+\subsection{Spanish}
+\label{sec:phspanish}
+The Spanish mapping is an exact mapping with the spanish SAMPA
+phoneset\footnote{\url{http://www.phon.ucl.ac.uk/home/sampa/spanish.htm}}.
 
-\paragraph{Consonants}
-\subparagraph{Plosives}\strut\\
-\begin{tabular}{llll}
-	Praatalign & SAMPA & Word & Praatalign Transcription\\
+\begin{longtable}{l|l|l|l}
+	& Symbol & Word & Transcription\\
 	\hline
-		p & p & pak & p A k\\
-		b & b & bak & b A k\\
-		t & t & tak & t A k\\
-		d & d & dak & d A k\\
-		k & k & kap & k A p\\
-		g & g & goal & g o: l
-\end{tabular}
-
-\subparagraph{Fricatives}\strut\\
-\begin{tabular}{llll}
-	Praatalign & SAMPA & Word & Praatalign Transcription\\
+	\multirow{6}{*}{Plosives} &
+	p & padre & p a D r e\\
+  & b & vino & b i n o\\
+  & t & tomo & t o m o\\
+  & d & donde & d o n d e\\
+  & k & casa & k a s a\\
+  & g & gata & g a t a\\
 	\hline
-	f & f & fel & f E l\\
-	v & v & vel & v E l\\
-	s & s & sein & s E i n\\
-	z & z & zijn & z E i n\\
-	x & x & toch & t o x\\
-	G & G & goed & G u t\\
-	h & h & hand & h A n t\\
-	Z & Z & bagage & b A g a: Z @\\
-	S & S & show & S o: u
-\end{tabular}
-
-\subparagraph{Sonorants}\strut\\
-\begin{tabular}{llll}
-	Praatalign & SAMPA & Word & Praatalign Transcription\\
+	\multirow{2}{*}{Affricatives} &
+	tS & mucho & m u tS o\\
+	& jj & hielo & jj e l o\\
 	\hline
-	m & m & met & m E t\\
-	n & n & net & n E t\\
-	N & N & bang & b A N\\
-	l & l & land & l A n t\\
-	r & r & rand & r A n t\\
-	w & w & wit & w I t\\
-	j & j & ja & j a:
-\end{tabular}
-
-\paragraph{Vowels}
-\subparagraph{Checked}\strut\\
-\begin{tabular}{llll}
-	Praatalign & SAMPA & Word & Praatalign Transcription\\
-	\hline
-	I & I & pit & p I t\\
-	E & E & pet & p E t\\
-	A & A & pat & p A t\\
-	O & O & pot & p O t\\
-	Y & Y & put & p Y t\\
-	@ & @ & gemakkelijk & G @ m A k @ l @ k
-\end{tabular}
-
-\subparagraph{Free}\strut\\
-\begin{tabular}{llll}
-	Praatalign & SAMPA & Word & Praatalign Transcription\\
-	\hline
-	i & i & vier & v i r\\
-	y & y & vuur & v y r\\
-	u & u & voer & v u r\\
-	a: & a: & naam & n a: m\\
-	e: & e: & veer & v e: r\\
-	P2: & 2: & deur & d P2: r\\
-	o: & o: & voor & v o: r\\
-	EI & Ei & fijn & f EI n\\
-	P9y & 9y & huis & h P9y s\\
-	Au & Au & goud & x Au t
-\end{tabular}
-
-\subparagraph{Diphthongs}\strut\\
-\begin{tabular}{llll}
-	Praatalign & SAMPA & Word & Praatalign Transcription\\
-	\hline
-	a:i & a:i & draai & d r a: i\\
-	o:i & o:i & mooi & m o: i\\
-	ui & ui & roeiboot & r ui b o: t\\
-	iu & iu & nieuw & n iu\\
-	yu & yu & duw & d yu\\
-	e:u & e:u & sneeuw & s n e: u
-\end{tabular}
-
-\subparagraph{Marginals}\strut\\
-\begin{tabular}{llll}
-	Praatalign & SAMPA & Word & Praatalign Transcription\\
-	\hline
-	E: & E: & cr\'eme & k r E: m\\
-	P9: & 9: & freule & f r P9: l @\\
-	O: & O: & roze & r O: z @
-\end{tabular}
-
-\newpage
-\section{English phone specification}
-\label{sec:slenglish}
-\begin{longtable}{llp{0.3\textwidth}ll}
-	Praatalign & SAMPA & Phonetics & Examples & ISO639-3\\
-	\hline
-	\textless usb\textgreater & & human noise, garbage & & xxx\\
-	\textless nib\textgreater & & noise, non-human & & xxx\\
-	\textless p:\textgreater & & silence interval & & xxx\\
-	a\textasciitilde & a\textasciitilde & nasalized central open vowel & vent & fra\\
-	E\textasciitilde & E\textasciitilde & nasalized lengthened front half open unrounded vowel & & deu\\
-	o\textasciitilde & o\textasciitilde & nasalized back half closed rounded vowel & bon & fra\\
-	3: & 3: & lengthened front half open unrounded vowel & furs & eng\\
-	i: & i: & lengthened front closed unrounded vowel & mieten & deu\\
-	6: & 6: & lengthened central neutral unrounded vowel & & aus\\
-	\}: & \}: & lengthened central closed rounded vowel & pool & aus\\
-	e: & e: & lengthened front half closed unrounded vowel & mehr & deu\\
-	o: & o: & lengthened back half closed rounded vowel & Sohle & deu\\
-	u: & u: & lengthened back closed rounded vowel & Hut & deu\\
-	A: & A: & lengthened back open unrounded vowel & stars & eng\\
-	O: & O: & lengthened back half open rounded vowel & cause & eng\\
-	@\} & @\} & diphthong & & eng\\
-	Ae & Ae & diphthong & & aus\\
-	\{I & \{I & diphthong & & aus\\
-	\{O & \{O & diphthong & & aus\\
-	oI & oI & diphthong & & aus\\
-	eI & eI & diphthong & raise & eng\\
-	aI & aI & diphthong & Bein & deu\\
-	OI & OI & diphthong & noise & eng\\
-	@U & @U & diphthong & nose & eng\\
-	aU & aU & diphthong & Haus & deu\\
-	I@ & I@ & diphthong & dears & eng\\
-	e@ & e@ & diphthong & stairs & eng\\
-	U@ & U@ & diphthong & cures & eng\\
-	tS & tS & voiceless postalveolar affricate & English chair & xxx\\
-	dZ & dZ & voiced postalveolar affricate & English gin & xxx\\
-	e & e & front half closed unrounded vowel & US English bear & xxx\\
-	\{ & \{ & front open unrounded vowel & English cat & xxx\\
-	Q & Q & back open rounded vowel & British English not, cough & xxx\\
-	O & O & back half open rounded vowel & British English law & xxx\\
-	V & V & back half open unrounded vowel & RP and US English run & xxx\\
-	U & U & back closed rounded vowel somewhat more centralised and relaxed & English put, Buddhist & xxx\\
-	@ & @ & central neutral unrounded vowel & English about, winner & xxx\\
-	i & i & front closed unrounded vowel & English see & xxx\\
-	u & u & back closed rounded vowel & English soon & xxx\\
-	o & o & back half closed rounded vowel & US English sore & xxx\\
-	E & E & front half open unrounded vowel & English bed & xxx\\
-	6 & 6 & central neutral unrounded vowel & German besser & xxx\\
-	p & p & voiceless bilabial plosive & English pen & xxx\\
-	b & b & voiced bilabial plosive & English but & xxx\\
-	t & t & voiceless alveolar plosive & English two & xxx\\
-	d & d & voiced alveolar plosive & English do & xxx\\
-	k & k & voiceless velar plosive & English skill & xxx\\
-	g & g & voiced velar plosive & English go & xxx\\
-	f & f & voiceless labiodental fricative & English fool & xxx\\
-	v & v & voiced labiodental fricative & English voice & xxx\\
-	T & T & voiceless dental fricative & English thing & xxx\\
-	D & D & voiced dental fricative & English this & xxx\\
-	s & s & voiceless alveolar fricative & English see & xxx\\
-	z & z & voiced alveolar fricative & English zoo & xxx\\
-	S & S & voiceless postalveolar fricative & English she & xxx\\
-	Z & Z & voiced postalveolar fricative & English pleasure & xxx\\
-	h & h & voiceless glottal fricative & English ham & xxx\\
-	m & m & bilabial nasal & English man & xxx\\
-	n & n & alveolar nasal & English no & xxx\\
-	N & N & velar nasal & English ring & xxx\\
-	r & r & alveolar trill & Spanish perro & xxx\\
-	l & l & alveolar lateral approximant & English left & xxx\\
-	w & w & labial-velar approximant & English we & xxx\\
-	j & j & palatal approximant & English yes & xxx\\
-	I & I & front closed unrounded vowel, but somewhat more centralised and relaxed, in Polish: mid closed unrounded & English city & xxx\\
-	? & ? & glottal stop & German Verein & xxx\\
-	x & x & voiceless velar fricative & Scots loch & xxx\\
-	C & C & voiceless palatal fricative & German Ich & xxx\\
-	W & W & voiceless labial-velar fricative & & xxx\\
-	\textless & & recording initial silence & & xxx\\
-	\textgreater & & recording trailing silence & & xxx\\
-	\# & & inter-word silence & & xxx\\
-\end{longtable}
-
-\newpage
-\section{SAMPA phone specification}
-\label{sec:slsampa}
-\begin{longtable}{llp{0.6\textwidth}ll}
-%\caption{SAMPA phone specification table}
-	Praatalign & SAMPA & Phonetics & Example & ISO6393-9\\
-	\hline
-	i: & i: & lengthened front closed unrounded vowel & mieten & deu\\
-	ii & ii & lengthened front closed unrounded vowel & riisu & ekk\\
-	e: & e: & lengthened front half closed unrounded vowel & mehr & deu\\
-	ee & ee & lengthened front half closed unrounded vowel & keere & ekk\\
-	E: & E: & lengthened front half open unrounded vowel & Mär & deu\\
-	y: & y: & lengthened front closed rounded vowel & Tür & deu\\
-	2: & 2: & lengthened front half closed rounded vowel & Höhle & deu\\
-	a: & a: & lengthened central open vowel & Haar & deu\\
-	u: & u: & lengthened back closed rounded vowel & Hut & deu\\
-	o: & o: & lengthened back half closed rounded vowel & Sohle & deu\\
-	3: & 3: & lengthened front half open unrounded vowel & furs & eng\\
-	A: & A: & lengthened back open unrounded vowel & stars & eng\\
-	O: & O: & lengthened back half open rounded vowel & cause & eng\\
-	6: & 6: & lengthened central neutral unrounded vowel & & aus\\
-	\}: & \}: & lengthened central closed rounded vowel & pool & aus\\
-	9: & 9: & lengthened front half open rounded vowel & & nld\\
-	\{\{ & \{\{ & lengthened front open unrounded vowel & kääru & ekk\\
-	yy & yy & lengthened front closed rounded vowel & müüri & ekk\\
-	22 & 22 & lengthened front half closed rounded vowel & nööri & ekk\\
-	uu & uu & lengthened back closed rounded vowel & kuuri & ekk\\
-	oo & oo & lengthened back half closed rounded vowel & poori & ekk\\
-	77 & 77 & back half closed unrounded vowel & sõõre & ekk\\
-	AA & AA & lengthened back open unrounded vowel & vaaru & ekk\\
-	aU & aU & diphthong & Haus & deu\\
-	aI & aI & diphthong & Bein & deu\\
-	ai & ai & diphthong & & ita\\
-	a:i & a:i & diphthong & & nld\\
-	Ae & Ae & diphthong & & aus\\
-	Au & Au & diphthong & & nld\\
-	OY & OY & diphthong & heulen & deu\\
-	eI & eI & diphthong & raise & eng\\
-	e@ & e@ & diphthong & stairs & eng\\
-	ei & ei & diphthong & & ita\\
-	e:i & e:i & diphthong & & nld\\
-	eU & eU & diphthong & & por\\
-	EI & EI & diphthong & raise & eng\\
-	Ei & Ei & diphthong & & ita\\
-	\{I & \{I & diphthong & & aus\\
-	\{O & \{O & diphthong & & aus\\
-	I@ & I@ & diphthong & dears & eng\\
-	Ii: & Ii: & diphthong & accede & aus\\
-	i:@ & i:@ & diphthong & memorial & nze\\
-	io & io & diphthong & & ita\\
-	iu & iu & diphthong & & nld\\
-	ja & ja & diphthong & & ita\\
-	jo & jo & diphthong & & ita\\
-	ju & ju & diphthong & & ita\\
-	oI & oI & diphthong & & aus\\
-	oi & oi & diphthong & & ita\\
-	o:i & o:i & diphthong & & nld\\
-	oU & oU & diphthong & & por\\
-	oE & oE & diphthong & & ita\\
-	OI & OI & diphthong & noise & eng\\
-	Oi & Oi & diphthong & & ita\\
-	ue & ue & diphthong & & ita\\
-	ui & ui & diphthong & & nld\\
-	U@ & U@ & diphthong & cures & eng\\
-	wa & wa & diphthong & & ita\\
-	we & we & diphthong & & ita\\
-	wi & wi & diphthong & & ita\\
-	wO & wO & diphthong & & ita\\
-	yu & yu & diphthong & & nld\\
-	@U & @U & diphthong & nose & eng\\
-	@\} & @\} & diphthong & & eng\\
-	9y & 9y & diphthong & & nld\\
-	QI & QI & diphthong & abide & aus\\
-	U\} & U\} & diphthong & abuse & aus\\
-	VU & VU & diphthong & acetone & aus\\
-	Vi & Vi & diphthong & abased & aus\\
-	\{o & \{o & diphthong & accounts & aus\\
-	2i & 2i & diphthong & & ekk\\
-	2i: & 2i: & diphthong & & ekk\\
-	7o: & 7o: & diphthong & & ekk\\
-	7u: & 7u: & diphthong & & ekk\\
-	7u & 7u & diphthong & & ekk\\
-	Ai & Ai & diphthong & & ekk\\
-	Ai: & Ai: & diphthong & & ekk\\
-	Ao: & Ao: & diphthong & & ekk\\
-	Au: & Au: & diphthong & & ekk\\
-	Ae: & Ae: & diphthong & & ekk\\
-	ei: & ei: & diphthong & & ekk\\
-	e:u & e:u & diphthong & & nld\\
-	i\textasciitilde & i\textasciitilde & nasalized front closed unrounded vowel & & xxx\\
-	e\textasciitilde & e\textasciitilde & nasalized front half closed unrounded vowel & vin & fra\\
-	a\textasciitilde & a\textasciitilde & nasalized central open vowel & vent & fra\\
-	o\textasciitilde & o\textasciitilde & nasalized back half closed rounded vowel & bon & fra\\
-	9\textasciitilde & 9\textasciitilde & nasalized front half open rounded vowel & neuv & fra\\
-	E\textasciitilde & E\textasciitilde & nasalized lengthened front half open unrounded vowel & & deu\\
-	O\textasciitilde & O\textasciitilde & nasalized back half open rounded vowel & & deu\\
-	u\textasciitilde & u\textasciitilde & nasalized back closed rounded vowel & & xxx\\
-	a:\textasciitilde & a:\textasciitilde & nasalized lengthened central open vowel & & deu\\
-	E:\textasciitilde & E:\textasciitilde & nasalized lengthened front half open unrounded vowel & & deu\\
-	o:\textasciitilde & o:\textasciitilde & nasalized lengthened back half closed rounded vowel & & deu\\
-	O:\textasciitilde & O\textasciitilde & nasalized lengthened back half open rounded vowel & & nld\\
-	ts\_j & ts' & palatalized voiceless alveolar affricate & c'ma & pol\\
-	dz\_j & dz' & palatalized voiced alveolar affricate & dz'wig & pol\\
-	s\_j & s' & palatalized voiceless alveolar fricative & syk & pol\\
-	z\_j & z' & palatalized voiced alveolar fricative & zbir & pol\\
-	n\_j & n' & palatalized alveolar nasal & kon' & pol\\
-	l\_j & l' & palatalized alveolar lateral approximant & pali & ekk\\
-	t\_j & t' & palatalized voiceless alveolar plosive & padi & ekk\\
-	d\_j & d' & voiced alveolar plosive English & gyár & hun\\
-	g\_j & g' & palatalized voiced velar plosive & Gienek & pol\\
-	x\_j & x' & palatalized voiceless velar fricative & hiacynt & pol\\
-	k\_j & k' & palatalized voiceless velar plosive & kierowca & pol\\
-	p\_j & p' & palatalized voiceless bilabial plosive & piasek & pol\\
-	tt\_j & t't & palatalized long voiceless alveolar plosive & pati & ekk\\
-	ss\_j & s's & palatalized long voiceless alveolar fricative & kassi & ekk\\
-	nn\_j & n'n & palatalized long alveolar nasal & panni & ekk\\
-	ll\_j & l'l & palatalized alveolar lateral approximant & palli & ekk\\
-	p\_h & p\_h & aspirated voiceless bilabial plosive & & spa\\
-	t\_h & t\_h & aspirated voiceless alveolar plosive & & spa\\
-	k\_h & k\_h & aspirated voiceless velar plosive & & spa\\
-	tt & tt & geminate of t & fatto & ita\\
-	pp & pp & geminate of p & & ita\\
-	kk & kk & geminate of k & & ita\\
-	dd & dd & geminate of d & & ita\\
-	gg & gg & geminate of g & & ita\\
-	bb & bb & geminate of b & & ita\\
-	ttS & ttS & geminate of tS & & ita\\
-	tts & tts & geminate of ts & & ita\\
-	ddZ & ddZ & geminate of dZ & & ita\\
-	ddz & ddz & geminate of dz & zona & ita\\
-	vv & vv & geminate of v & & ita\\
-	ss & ss & geminate of s & & ita\\
-	SS & SS & geminate of S & & ita\\
-	rr & rr & geminate of r & & ita\\
-	nn & n & geminate of n & & ita\\
-	mm & mm & geminate of m & & ita\\
-	LL & LL & geminate of L & & ita\\
-	ll & ll & geminate of l & & ita\\
-	JJ & JJ & geminate of J & & ita\\
-	jj & jj & geminate of j & & ekk\\
-	ff & ff & geminate of f & & ita\\
-	hh & hh & geminate of h & & ekk\\
-	ttS\_cl & & closure of ttS & & ita\\
-	ttS\_rl & & release of ttS & & ita\\
-	tts\_cl & & closure of tts & & ita\\
-	tts\_rl & & release of tts & & ita\\
-	ddZ\_cl & & closure of ddZ & & ita\\
-	ddZ\_rl & & release of ddZ & & ita\\
-	ddz\_cl & & closure of ddz & zona & ita\\
-	ddz\_rl & & release of ddz & zona & ita\\
-	tS\_cl & & closure of tS & & ita\\
-	tS\_rl & & release of tS & & ita\\
-	ts\_cl & & closure of ts & & ita\\
-	ts\_rl & & release of ts & & ita\\
-	dZ\_cl & & closure of dZ & & ita\\
-	dZ\_rl & & release of dZ & & ita\\
-	dz\_cl & & closure of dz & & ita\\
-	dz\_rl & & release of dz & & ita\\
-	tt\_rl & & release of tt & & ita\\
-	tt\_cl & & closure of tt & & ita\\
-	pp\_cl & & closure of pp & & ita\\
-	pp\_rl & & release of pp & & ita\\
-	kk\_cl & & closure of kk & & ita\\
-	kk\_rl & & release of kk & & ita\\
-	dd\_cl & & release of dd & & ita\\
-	dd\_rl & & release of dd & & ita\\
-	gg\_cl & & release of gg & & ita\\
-	gg\_rl & & release of gg & & ita\\
-	bb\_cl & & release of bb & & ita\\
-	bb\_rl & & release of bb & & ita\\
-	t\_cl & & closure of t & & ita\\
-	t\_rl & & release of t & & ita\\
-	p\_cl & & closure of p & & ita\\
-	p\_rl & & release of p & & ita\\
-	k\_cl & & closure of k & & ita\\
-	k\_rl & & release of k & & ita\\
-	g\_cl & & closure of g & & ita\\
-	g\_rl & & release of g & & ita\\
-	d\_cl & & closure of d & & ita\\
-	d\_rl & & release of d & & ita\\
-	b\_cl & & closure of b & & ita\\
-	b\_rl & & release of b & & ita\\
-	\textless & & recording initial silence & & xxx\\
-	\textgreater & & recording trailing silence & & xxx\\
-	\# & & inter-word silence & & xxx\\
-	\textless nib\textgreater & & noise, non-human & & xxx\\
-	\textless p:\textgreater & & silence interval & & xxx\\
-	\textless usb\textgreater & & human noise, garbage & & xxx\\
-\end{longtable}
-
-\newpage
-\section{Spanish phone specification}
-\label{sec:slspanish}
-The spanish mapping is an exact mapping with
-SAMPA\footnote{\url{http://www.phon.ucl.ac.uk/home/sampa/spanish.htm}}.
-
-\paragraph{Consonants}
-\subparagraph{Plosives}\strut\\
-\begin{tabular}{lll}
-	Symbol & Word & Transcription\\
-	\hline
- p & padre & p a D r e\\
- b & vino & b i n o\\
- t & tomo & t o m o\\
- d & donde & d o n d e\\
- k & casa & k a s a\\
- g & gata & g a t a
-\end{tabular}
-
-\subparagraph{Affricatives}\strut\\
-\begin{tabular}{lll}
-	Symbol & Word & Transcription\\
-	\hline
-	tS & mucho & m u tSo \\
-	jj & hielo & jj e l o
-\end{tabular}
-
-\subparagraph{Fricatives}\strut\\
-\begin{tabular}{lll}
-	Symbol & Word & Transcription\\
-	\hline
+	\multirow{7}{*}{Fricatives} &
 	f & fácil & f a T i l\\
-	B & cabra & k a B r a\\
-	T & cinco & T i n k o\\
-	D & nada & n a D a\\
-	s & sala & s a l a \\
-	x & mujer & m u x e r\\
-	G & luego & l w e G o
-\end{tabular}
-
-\subparagraph{Nasals}\strut\\
-\begin{tabular}{lll}
-	Symbol & Word & Transcription\\
+	& B & cabra & k a B r a\\
+	& T & cinco & T i n k o\\
+	& D & nada & n a D a\\
+	& s & sala & s a l a \\
+	& x & mujer & m u x e r\\
+	& G & luego & l w e G o\\
 	\hline
+	\multirow{3}{*}{Nasals} &
 	m & mismo & m i s m o\\
-	n & nunca & n u n k a\\
-	J & año & a J o
-\end{tabular}
-
-\subparagraph{Liquids}\strut\\
-\begin{tabular}{lll}
-	Symbol & Word & Transcription\\
+	& n & nunca & n u n k a\\
+	& J & año & a J o\\
 	\hline
+	\multirow{4}{*}{Liquids} & 
 	l & lejos & l e x o s\\
-	L & caballo & k a b a L o\\
-	r & puro & p u r o\\
-	rr & torre & t o rr e
-\end{tabular}
-
-\subparagraph{Semivowels}\strut\\
-\begin{tabular}{lll}
-	Symbol & Word & Transcription\\
+	& L & caballo & k a b a L o\\
+	& r & puro & p u r o\\
+	& rr & torre & t o rr e\\
 	\hline
+	\multirow{4}{*}{Semivowels} &
 	j & rei & rr e j\\
-	 & pie & p j e\\
-	w & deuda & d e w D a\\
-	 & muy & m w i
-\end{tabular}
-
-\paragraph{Vowels}\strut\\
-\begin{tabular}{lll}
-	Symbol & Word & Transcription\\
+	&  & pie & p j e\\
+	& w & deuda & d e w D a\\
+	&  & muy & m w i\\
 	\hline
+	\multirow{5}{*}{Vowels} &
 	i & pico & p i k o\\
-	e & pero & p e r o\\
-	a & valle & b a L e\\
-	o & toro & t o r o\\
-	u & duro & d u r o
-\end{tabular}
+	& e & pero & p e r o\\
+	& a & valle & b a L e\\
+	& o & toro & t o r o\\
+	& u & duro & d u r o\\
+	\hline
+	\multirow{4}{*}{Special} &
+	\textless  & word initial silence & \\
+	& \textgreater  & word final silence & \\
+	& \# & inter word silence & \\
+	& \textless nib\textgreater  & non speech sound & \\
+	\hline
+	\caption{Spanish phone specification}
+\end{longtable}
+
+\subsection{Dutch}
+The Dutch mapping is an almost\footnote{Derivations are marked in bold} exact
+mapping with the dutch SAMPA phoneset\footnote{\url{
+http://www.phon.ucl.ac.uk/home/sampa/dutch.htm}}
+
+\begin{longtable}{l|l|l|l}
+	& Praatalign & Word & Transcription\\
+	\hline
+	\multirow{6}{*}{Plosives} &
+	p & pak & p A k\\
+	& b & bak & b A k\\
+	& t & tak & t A k\\
+	& d & dak & d A k\\
+	& k & kap & k A p\\
+	& g & goal & g o: l\\
+	\hline
+	\multirow{9}{*}{Fricatives} &
+	f & fel & f E l\\
+	& v & vel & v E l\\
+	& s & sein & s E i n\\
+	& z & zijn & z E i n\\
+	& x & toch & t o x\\
+	& G & goed & G u t\\
+	& h & hand & h A n t\\
+	& Z & bagage & b A g a: Z @\\
+	& S & show & S o: u\\
+	\hline
+	\multirow{7}{*}{Sonorants} &
+	m & met & m E t\\
+	& n & net & n E t\\
+	& N & bang & b A N\\
+	& l & land & l A n t\\
+	& r & rand & r A n t\\
+	& w & wit & w I t\\
+	& j & ja & j a:\\
+	\hline
+	\multirow{6}{*}{Checked vowels} &
+	I & pit & p I t\\
+	& E & pet & p E t\\
+	& A & pat & p A t\\
+	& O & pot & p O t\\
+	& Y & put & p Y t\\
+	& @ & gemakkelijk & G @ m A k @ l @ k\\
+	\hline
+	\multirow{10}{*}{Free vowels} &
+	i & vier & v i r\\
+	& y & vuur & v y r\\
+	& u & voer & v u r\\
+	& a: & naam & n a: m\\
+	& e: & veer & v e: r\\
+	& \textbf{P2:} & deur & d P2: r\\
+	& o: & voor & v o: r\\
+	& EI & fijn & f EI n\\
+	& \textbf{P9y} &huis & h P9y s\\
+	& Au & goud & x Au t\\
+	\hline
+	\multirow{6}{*}{Dipthongs} &
+	a:i & draai & d r a: i\\
+	& o:i &mooi & m o: i\\
+	& ui & roeiboot & r ui b o: t\\
+	& iu & nieuw & n iu\\
+	& yu & duw & d yu\\
+	& e:u & sneeuw & s n e: u\\
+	\hline
+	\multirow{3}{*}{Marginal vowels} &
+	E: & cr\'eme & k r E: m\\
+	& \textbf{P9:} & freule & f r P9: l @\\
+	& O: & roze & r O: z @\\
+	\hline
+	\multirow{4}{*}{Special} &
+	\textless & word initial silence & \\
+	& \textgreater & word final silence & \\
+	& \# & inter word silence & \\
+	& \textless nib\textgreater & non speech sound & \\
+	\hline
+	\caption{Dutch phone specification}
+\end{longtable}
+
+\subsection{English}
+The English mapping is an exact\footnote{Derivations are marked in bold} exact
+mapping with the english SAMPA phoneset\footnote{\url{
+https://www.phon.ucl.ac.uk/home/sampa/english.htm}} with some borrowed phones.
+
+Also there is conversion script for the English CMU
+dictionary\footnote{\url{http://www.speech.cs.cmu.edu/cgi-bin/cmudict}} located
+in \texttt{./par.eng/cmu2praatalign.py} that converts the CMU dictionary to
+Praatalign format. The scripts is a Python script and should download the
+dictionary if you haven't done it yourself and will write it to a
+\texttt{dict.eng} file by default. The usage is: \texttt{python
+cmu2praatalign.py [inputfile [outputfile]]}.
+
+\begin{longtable}{l|l|p{.3\linewidth}|l}
+	& Symbol & Word & Transcription\\
+	\hline
+	\multirow{6}{*}{Plosives} &
+	  p & pen &\\
+	& b & but &\\
+	& t & two &\\
+	& d & do &\\
+	& k & skill &\\
+	& g & go &\\
+	\hline
+	\multirow{2}{*}{Affricatives} &
+	tS & chair &\\
+	& dZ & gin &\\
+	\hline
+	\multirow{9}{*}{Fricatives} &
+		f & fool &\\
+	& v & voice &\\
+	& T & thing &\\
+	& D & this &\\
+	& s & sin &\\
+	& z & zoo &\\
+	& S & she &\\
+	& Z & pleasure &\\
+	& h & ham &\\
+	\hline
+	\multirow{3}{*}{Nasals} &
+	m & man &\\
+	& n & no &\\
+	& N & ring &\\
+	\hline
+	\multirow{2}{*}{Liquids} &
+	r & perro &\\
+	& l & left &\\
+	\hline
+	\multirow{2}{*}{Sonorant glides} &
+	w & we &\\
+	& j & yes &\\
+	\hline
+	\multirow{6}{*}{Checked vowels} &
+	I & English city &\\
+	& e & bear &\\
+	& \{ & cat &\\
+	& Q & cough &\\
+	& V & run &\\
+	& U & put &\\
+	\hline
+	\multirow{1}{*}{Short vowels} &
+	@ & about &\\
+	\hline
+	\multirow{13}{*}{Free vowels} &
+	i: & ease &\\
+	& eI & raise &\\
+	& aI & rise &\\
+	& OI & noise &\\
+	& u: & lose &\\
+	& @U & nose &\\
+	& aU & rouse &\\
+	& 3: & furs &\\
+	& A: & stars &\\
+	& O: & cause &\\
+	& I@ & dears &\\
+	& e@ & stairs &\\
+	& U@ & cures &\\
+	\hline
+	\multirow{3}{*}{Special} &
+	\textless & word initial silence & \\
+	& \textgreater & word final silence & \\
+	& \# & inter word silence & \\
+	& \textless nib\textgreater & non speech sound & \\
+	\hline\hline
+	\multirow{22}{*}{Borrowed phones} & Symbol & description &
+		example(language)\\
+	\hline
+	& a\textasciitilde & 
+		nasalized central open vowel & vent(fra)\\
+	& E\textasciitilde & 
+		nasalized lengthened front half open unrounded vowel & (deu)\\
+	& o\textasciitilde & 
+		nasalized back half closed rounded vowel & bon(fra)\\
+	& 6: & lengthened central neutral unrounded vowel & (aus)\\
+	& \}: & lengthened central closed rounded vowel & pool(aus)\\
+	& e: & lengthened front half closed unrounded vowel & mehr(deu)\\
+	& o: & lengthened back half closed rounded vowel & Sohle(deu)\\
+	& @\} & diphthong &\\
+	& Ae & diphthong & (aus)\\
+	& \{I & diphthong & (aus)\\
+	& \{O & diphthong & (aus)\\
+	& oI & diphthong & (aus)\\
+	& O & back half open rounded vowel & law(brit)\\
+	& i & front closed unrounded vowel & see\\
+	& u & back closed rounded vowel & soon\\
+	& o & back half closed rounded vowel & sore(us)\\
+	& E & front half open unrounded vowel & bed\\
+	& 6 & central neutral unrounded vowel & besser(deu)\\
+	& ? & glottal stop & Verein(ger)\\
+	& x & voiceless velar fricative & loch(scot)\\
+	& C & voiceless palatal fricative & Ich(ger)\\
+	& W & voiceless labial-velar fricative &\\
+	\hline
+	\caption{English phone specification}
+\end{longtable}
+
+\subsection{SAMPA}
+\begin{longtable}{l|l|l|l|l|l|l}
+	Symbol & description & examples & type & place\\
+	\hline
+i	& front closed unrounded vowel	& English see, Spanish sí, French vite, German mi.e.ten, Italian visto	& xxx	& vowel	& front	& i.kat\\
+I	& front closed unrounded vowel, but somewhat more centralised and relaxed, in Polish: mid closed unrounded	& English city, German mit	& xxx	& vowel	& front	& I.deu\\
+1	& close central unrounded vowel	& Russian мыс	& xxx	& vowel	& central	& I.deu\\
+e	& front half closed unrounded vowel	& US English bear, Spanish él, French année, German mehr, Italian rete, Catalan més	& xxx	& vowel	& front	& e.kat\\
+E	& front half open unrounded vowel	& English bed, French même, German Herr, Männer, Italian ferro, Catalan mes, Spanish perro	& xxx	& vowel	& front	& E.deu\\
+\{	& front open unrounded vowel	& English cat	& xxx	& vowel	& front	& \{.ekk\\
+y	& front closed rounded vowel	& French du, German Tür	& xxx	& vowel	& front	& y.ekk\\
+2	& front half closed rounded vowel	& French deux (hence '2'), German Höhle	& xxx	& vowel	& front	& P2.ekk\\
+9	& front half open rounded vowel	& French neuf (hence '9'), German Hölle	& xxx	& vowel	& front	& P9.deu\\
+@	& central neutral unrounded vowel	& English about, winner,German bitte	& xxx	& vowel	& central	& @.ekk\\
+6	& central neutral unrounded vowel	& German besser	& xxx	& vowel	& central	& 	& P6.deu\\
+3	& front half open unrounded vowel, but somewhat more centralised and relaxed	& English bird,nurse	& xxx	& vowel	& central	& P3:.aus\\
+a	& central open vowel	& Spanish da, barra, French bateau,lac, German Haar, Italian pazzo	& xxx	& vowel	& front	& a.kat\\
+\}	& central closed rounded vowel	& Scottish English pool, Swedish sju	& xxx	& vowel	& central	& \}:.aus\\
+8	& central neutral rounded vowel	& Swedish kust	& xxx	& vowel	& central	& U.deu\\
+&	& front open rounded vowel	& American English that	& xxx	& vowel	& front	& \{.aus\\
+M	& back closed unrounded vowel	& Japanese fuji, Vietnamese ư Korean 으	& xxx	& vowel	& back	& U.deu\\
+7	& back half closed unrounded vowel	& Vietnamese ơ Korean 어	& xxx	& vowel	& back	& P7.ekk\\
+V	& back half open unrounded vowel	& RP and US English run,enough,strut	& xxx	& vowel	& back	& V.aus\\
+A	& back open unrounded vowel	& English arm, US English law, standard French âme	& xxx	& vowel	& back	& A.ekk\\
+u	& back closed rounded vowel	& English soon, Spanish tú, French goût, German Hut, Mutter, Italian azzurro,tutto	& xxx	& vowel	& back	& u.kat\\
+U	& back closed rounded vowel somewhat more centralised and relaxed	& English put, Buddhist	& xxx	& vowel	& back	& U.deu\\
+o	& back half closed rounded vowel	& US English sore, Scottish English boat, Spanish yo, French beau, German Sohle, Italian dove, Catalan ona	& xxx	& vowel	& back	& o.kat\\
+O	& back half open rounded vowel	& British English law, caught, Italian cosa, Catalan dona, Spanish ojo, German Wort	& xxx	& vowel	& back	& O.deu\\
+Q	& back open rounded vowel	& British English not, cough	& xxx	& vowel	& back	& Q.aus\\
+Y	& lax [y]	& German hübsch	& xxx	& vowel	& front	& Y.deu\\
+p	& voiceless bilabial plosive	& English pen	& xxx	& plosive	& bilabial	& p.kat\\
+b	& voiced bilabial plosive	& English but	& xxx	& plosive	& bilabial	& b.kat\\
+t	& voiceless alveolar plosive	& English two, Spanish toma	& xxx	& plosive	& alveolar	& t.kat\\
+d	& voiced alveolar plosive	& English do, Italian cade	& xxx	& plosive	& alveolar	& d.kat\\
+ts	& voiceless alveolar affricate	& Italian calza, German zeit	& xxx	& affricate	& alveolar	& ts.kat\\
+dz	& voiced alveolar affricate	& Italian zona	& xxx	& affricate	& alveolar	& dz.kat\\
+tS	& voiceless postalveolar affricate	& English chair, , Spanish mucho	& xxx	& affricate	& post-alveolar	& tS.kat\\
+dZ	& voiced postalveolar affricate	& English gin, Italian giorno	& xxx	& affricate	& post-alveolar	& dZ.aus\\
+pf	& voiceless labial affricate	& German Pferd	& xxx	& affricate	& bilabial	& f.deu\\
+c	& voiceless palatal plosive	& Hungarian tyúk 'hen'	& xxx	& plosive	& palatal	& c.hun\\
+k	& voiceless velar plosive	& English skill	& xxx	& plosive	& velar	& k.kat\\
+g	& voiced velar plosive	& English go	& xxx	& plosive	& velar	& g.kat\\
+q	& voiceless uvular plosive	& Arabic qof	& xxx	& plosive	& uvular	& k.deu\\
+B	& voiced bilabial fricative	& Catalan roba 'clothes'	& xxx	& fricative	& bilabial	& v.deu\\
+f	& voiceless labiodental fricative	& English fool, Spanish and Italian falso	& xxx	& fricative	& labio-dental	& f.ekk\\
+v	& voiced labiodental fricative	& English voice, German Welt	& xxx	& fricative	& labio-dental	& v.kat\\
+T	& voiceless dental fricative	& English thing, Castilian Spanish caza	& xxx	& fricative	& dental	& T.ekk\\
+D	& voiced dental fricative	& English this	& xxx	& fricative	& dental	& 	& D.aus\\
+s	& voiceless alveolar fricative	& English see, Spanish sí	& xxx	& fricative	& alveolar	& s.kat\\
+z	& voiced alveolar fricative	& English zoo, German See	& xxx	& fricative	& alveolar	& z.kat\\
+S	& voiceless postalveolar fricative	& English she, French chemin	& xxx	& fricative	& post-alveolar	& S.kat\\
+Z	& voiced postalveolar fricative	& French jour, English pleasure	& xxx	& fricative	& post-alveolar	& Z.deu\\
+C	& voiceless palatal fricative	& German Ich	& xxx	& fricative	& palatal	& C.deu\\
+x	& voiceless velar fricative	& Scots loch, Castilian Spanish ajo	& xxx	& fricative	& velar	& x.kat\\
+G	& voiced velar fricative	& Greek γάλα	& xxx	& fricative	& velar	& G.kat\\
+h	& voiceless glottal fricative	& English ham, German Hand	& xxx	& fricative	& glottal	& h.ekk\\
+m	& bilabial nasal	& English man	& xxx	& nasal	& bilabial	& m.kat\\
+F	& labiodental nasal	& Spanish infierno, Hungarian kámfor	& xxx	& nasal	& labio-dental	& n.deu\\
+n	& alveolar nasal	& English, Spanish and Italian no	& xxx	& nasal	& alveolar	& n.kat\\
+J	& palatal nasal	& Spanish año, French oignon	& xxx	& nasal	& palatal	& J.hun\\
+N	& velar nasal	& English ring, Italian bianco, Tagalog ngayón	& xxx	& nasal	& velar	& N.ekk\\
+l	& alveolar lateral approximant	& English left, Spanish largo	& xxx	& lateral-approximant	& alveolar	& l.kat\\
+L	& palatal lateral approximant	& Italian aglio, Catalan colla,	& xxx	& lateral-approximant	& palatal	& LL.ita\\
+5	& velarized dental lateral	& English meal Catalan alga	& xxx	& lateral-approximant	& dental-velar	& l.deu\\
+4	& alveolar tap	& Spanish pero, American English muddy	& use	& tap	& alveolar	& P4.use\\
+r	& alveolar trill	& Spanish perro	& xxx	& trill	& alveolar	& r.kat\\
+R	& uvular trill	& German Reich	& xxx	& trill	& uvular	& R.ekk\\
+P	& labiodental approximant	& Dutch Waar	& xxx	& approximant	& labio-dental	& v.deu\\
+w	& labial-velar approximant	& English we, French oui	& xxx	& approximant	& labio-velar	& w.ekk\\
+H	& labial-palatal approximant	& French huit	& xxx	& approximant	& labio-palatal	& v.deu\\
+j	& palatal approximant	& English yes, French yeux	& xxx	& approximant	& palatal	& j.ekk\\
+?	& glottal stop	& German Verein, Danish stød	& xxx	& plosive	& glottal	& ?.ekk\\
+W	& voiceless labial-velar fricative	& 	& xxx	& fricative	& labio-velar	& W.aus\\
+D:	& lengthened voiced dental fricative	& 	& fin	& fricative	& dental	& D.use\\
+T:	& lengthened voiceless dental fricative	& 	& fin	& fricative	& dental	& T.use\\
+i:	& lengthened front closed unrounded vowel	& mieten	& deu	& vowel	& front	& i:.deu\\
+ii	& lengthened front closed unrounded vowel in quantity II	& riisu	& ekk	& vowel	& front	& ii.ekk\\
+ii:	& lengthened front closed unrounded vowel in quantity III	& 	& ekk	& vowel	& front	& ii:.ekk\\
+e:	& lengthened front half closed unrounded vowel	& mehr	& deu	& vowel	& front	& e:.deu\\
+ee	& lengthened front half closed unrounded vowel in quantity II	& keere	& ekk	& vowel	& front	& ee.ekk\\
+ee:	& lengthened front half closed unrounded vowel in quantity III	& 	& ekk	& vowel	& front	& ee:.ekk\\
+E:	& lengthened front half open unrounded vowel	& Mär	& deu	& vowel	& front	& E:.deu\\
+y:	& lengthened front closed rounded vowel	& Tür	& deu	& vowel	& front	& y:.deu\\
+Y:	& lengthened lax [y]	& (Swiss German)	& deu	& vowel	& front	& Y.deu\\
+2:	& lengthened front half closed rounded vowel	& Höhle	& deu	& vowel	& front	& P2:.deu\\
+a:	& lengthened central open vowel	& Haar	& deu	& vowel	& central	& a:.deu\\
+u:	& lengthened back closed rounded vowel	& Hut	& deu	& vowel	& back	& u:.deu\\
+o:	& lengthened back half closed rounded vowel	& Sohle	& deu	& vowel	& back	& o:.deu\\
+3:	& lengthened front half open unrounded vowel	& furs	& aus	& vowel	& front	& P3:.aus\\
+A:	& lengthened back open unrounded vowel	& stars	& aus	& vowel	& back	& A:.aus\\
+O:	& lengthened back half open rounded vowel	& cause	& aus	& vowel	& back	& O:.aus\\
+6:	& lengthened central neutral unrounded vowel	& 	& aus	& vowel	& central	& P6:.aus\\
+\}:	& lengthened central closed rounded vowel	& pool	& aus	& vowel	& central	& \}:.aus\\
+Q:	& lengthened open back rounded	& (Swiss German)	& aus	& vowel	& back	& Q.aus\\
+9:	& lengthened front half open rounded vowel	& 	& nld	& vowel	& front	& P9.deu\\
+\{\{	& lengthened front open unrounded vowel in quantity II	& kääru	& ekk	& vowel	& front	& \{\{.ekk\\
+\{:	& lengthened front open unrounded vowel in quantity II	& kääru	& ekk	& vowel	& front	& \{.ekk\\
+\{\{:	& lengthened front open unrounded vowel in quantity III	& 	& ekk	& vowel	& front	& \{\{:.ekk\\
+yy	& lengthened front closed rounded vowel (quantitiy II)	& müüri	& ekk	& vowel	& front	& yy.ekk\\
+yy:	& lengthened front closed rounded vowel (quantitiy III)	& 	& ekk	& vowel	& front	& yy:.ekk\\
+22	& lengthened front half closed rounded vowel	& nööri	& ekk	& vowel	& front	& P2P2.ekk\\
+22:	& lengthened front half closed rounded vowel in quantity III	& 	& ekk	& vowel	& front	& P2P2:.ekk\\
+uu	& lengthened back closed rounded vowel	& kuuri	& ekk	& vowel	& back	& uu.ekk\\
+uu:	& lengthened back closed rounded vowel in quantity III	& 	& ekk	& vowel	& back	& uu:.ekk\\
+oo	& lengthened back half closed rounded vowel	& poori	& ekk	& vowel	& back	& oo.ekk\\
+oo:	& lengthened back half closed rounded vowel in quantity III	& 	& ekk	& vowel	& back	& oo:.ekk\\
+77	& back half closed unrounded vowel in quantity II	& sõõre	& ekk	& vowel	& back	& P7P7.ekk\\
+7:	& back half closed unrounded vowel in quantity II	& sõõre	& ekk	& vowel	& back	& P7P7.ekk\\
+77:	& back half closed unrounded vowel in quantity III	& 	& ekk	& vowel	& back	& P7P7.ekk\\
+AA	& lengthened back open unrounded vowel in quantity II	& vaaru	& ekk	& vowel	& back	& AA.ekk\\
+AA:	& lengthened back open unrounded vowel in quantity III	& 	& ekk	& vowel	& back	& AA:.ekk\\
+aU	& diphthong	& Haus	& deu	& diphthong	& front\textgreaterback	& aU.deu\\
+aI	& diphthong	& Bein	& deu	& diphthong	& front	& aI.deu\\
+ai	& diphthong	& 	& ita	& diphthong	& front	& ai.ita\\
+a:i	& diphthong	& 	& nld	& diphthong	& front	& ai.ita\\
+Ae	& diphthong	& 	& aus	& diphthong	& back\textgreaterfront	& Ae.aus\\
+Au	& diphthong	& 	& nld	& diphthong	& back	& aU.deu\\
+OY	& diphthong	& heulen	& deu	& diphthong	& back\textgreaterfront	& OY.deu\\
+eI	& diphthong	& raise	& aus	& diphthong	& front	& eI.aus\\
+e@	& diphthong	& stairs	& aus	& diphthong	& front\textgreatercentral	& e@.aus\\
+ei	& diphthong	& 	& ita	& diphthong	& front	& ei.ita\\
+e:i	& diphthong	& 	& nld	& diphthong	& front	& ei.ita\\
+eU	& diphthong	& 	& por	& diphthong	& front\textgreaterback	& OY.deu\\
+EI	& diphthong	& raise	& eng	& diphthong	& front	& eI.aus\\
+Ei	& diphthong	& 	& ita	& diphthong	& front	& Ei.ita\\
+\{I	& diphthong	& 	& aus	& diphthong	& front	& \{I.aus\\
+\{O	& diphthong	& 	& aus	& diphthong	& front\textgreaterback	& \{O.aus\\
+I@	& diphthong	& dears	& aus	& diphthong	& front\textgreatercentral	& I@.aus\\
+Ii:	& diphthong	& accede	& aus	& diphthong	& front	& i:.aus\\
+I:	& lengthened front closed unrounded vowel	& (Swiss German)	& deu	& vowel	& front	& I.deu\\
+i:@	& diphthong	& memorial	& nze	& diphthong	& central\textgreaterfront	& I@.aus\\
+io	& diphthong	& 	& ita	& diphthong	& front\textgreaterback	& io.ita\\
+iu	& diphthong	& 	& nld	& diphthong	& front\textgreaterback	& ju.ita\\
+ja	& diphthong	& 	& ita	& diphthong	& front	& ja.ita\\
+jo	& diphthong	& 	& ita	& diphthong	& front\textgreaterback	& jo.ita\\
+ju	& diphthong	& 	& ita	& diphthong	& front\textgreaterback	& ju.ita\\
+oI	& diphthong	& 	& aus	& diphthong	& back\textgreaterfront	& oI.aus\\
+oi	& diphthong	& 	& ita	& diphthong	& back\textgreaterfront	& oi.ita\\
+o:i	& diphthong	& 	& nld	& diphthong	& back\textgreaterfront	& oi.ita\\
+oU	& diphthong	& 	& por	& diphthong	& back	& @U.aus\\
+oE	& diphthong	& 	& ita	& diphthong	& back\textgreaterfront	& oE.ita\\
+OI	& diphthong	& noise	& aus	& diphthong	& back\textgreaterfront	& OI.aus\\
+Oi	& diphthong	& 	& ita	& diphthong	& back\textgreaterfront	& Oi.ita\\
+ue	& diphthong	& 	& ita	& diphthong	& back\textgreaterfront	& ue.ita\\
+ui	& diphthong	& 	& nld	& diphthong	& back\textgreaterfront	& oi.ita\\
+U@	& diphthong	& cures	& aus	& diphthong	& back\textgreatercentral	& U@.aus\\
+U:	& lenthened back closed rounded vowel somewhat more centralised and relaxed	& (Swiss German)	& deu	& vowel	& back	& U.deu\\
+wa	& diphthong	& 	& ita	& diphthong	& front	& wa.ita\\
+we	& diphthong	& 	& ita	& diphthong	& front	& we.ita\\
+wi	& diphthong	& 	& ita	& diphthong	& front	& wi.ita\\
+wO	& diphthong	& 	& ita	& diphthong	& back	& wO.ita\\
+yu	& diphthong	& 	& nld	& diphthong	& front\textgreaterback	& ju.ita\\
+@U	& diphthong	& nose	& aus	& diphthong	& central\textgreaterback	& @U.aus\\
+@\}	& diphthong	& 	& aus	& diphthong	& central	& @\}.aus\\
+@@	& geminate of schwa in quantity II	& 	& ekk	& vowel	& central	& @.ekk\\
+@:	& geminate of schwa in quantity II	& 	& ekk	& vowel	& central	& @.ekk\\
+@@:	& geminate of schwa in quantity III	& 	& ekk	& vowel	& central	& @.ekk\\
+9y	& diphthong	& 	& nld	& diphthong	& back\textgreaterfront	& OI.aus\\
+QI	& diphthong	& abide	& aus	& diphthong	& central\textgreaterfront	& OI.aus\\
+U\}	& diphthong	& abuse	& aus	& diphthong	& central\textgreaterback	& u:.aus\\
+VU	& diphtong	& acetone	& aus	& diphthong	& central\textgreaterback	& @U.aus\\
+Vi	& diphthong	& abased	& aus	& diphthong	& central\textgreaterfront	& aI.aus\\
+\{o	& diphthong	& accounts	& aus	& diphthong	& front\textgreaterback	& \{O.aus\\
+2i	& diphthong	& 	& ekk	& diphthong	& back\textgreaterfront	& oi.ita\\
+2i:	& diphthong	& 	& ekk	& diphthong	& back\textgreaterfront	& oi.ita\\
+7o:	& diphthong	& 	& ekk	& diphthong	& back	& @U.aus\\
+7u:	& diphthong	& 	& ekk	& diphthong	& back	& @U.aus\\
+7u	& diphthong	& 	& ekk	& diphthong	& back	& @U.aus\\
+Ai	& diphthong	& 	& ekk	& diphthong	& back\textgreaterfront	& aI.deu\\
+Ai:	& diphthong	& 	& ekk	& diphthong	& back\textgreaterfront	& ai.ita\\
+Ao:	& diphthong	& 	& ekk	& diphthong	& back	& aU.deu\\
+Au:	& diphthong	& 	& ekk	& diphthong	& back	& aU.deu\\
+Ae:	& diphthong	& 	& ekk	& diphthong	& back\textgreaterfront	& Ae.aus\\
+ei:	& diphthong	& 	& ekk	& diphthong	& front	& ei.ita\\
+e:u	& diphthong	& 	& nld	& diphthong	& front	& OY.deu\\
+i~	& nasalized front closed unrounded vowel	& 	& xxx	& vowel	& front	& i:.deu\\
+e~	& nasalized front half closed unrounded vowel	& vin	& fra	& vowel	& front	& e:.deu\\
+a~	& nasalized central open vowel	& vent	& fra	& vowel	& front	& a.deu\\
+o~	& nasalized back half closed rounded vowel	& bon	& fra	& vowel	& back	& o.deu\\
+9~	& nasalized front half open rounded vowel	& brun,neuv	& fra	& vowel	& front	& P9.deu\\
+E~	& nasalized lengthened front half open unrounded vowel	& 	& deu	& vowel	& front	& E:.deu\\
+O~	& nasalized back half open rounded vowel	& 	& deu	& vowel	& back	& O.deu\\
+u~	& nasalized back closed rounded vowel	& 	& xxx	& vowel	& back	& u:.deu\\
+a:~	& nasalized lengthened central open vowel	& 	& deu	& vowel	& central	& a:.deu\\
+E:~	& nasalized lengthened front half open unrounded vowel	& 	& deu	& vowel	& front	& E:.deu\\
+o:~	& nasalized lengthened back half closed rounded vowel	& 	& deu	& vowel	& back	& o:.deu\\
+O:~	& nasalized lengthened back half open rounded vowel	& 	& nld	& vowel	& back	& O.deu\\
+ts\_j	& palatalized voiceless alveolar affricate	& c'ma	& pol	& affricate	& post-alveolar	& ts.hun\\
+dz\_j	& palatalized voiced alveolar affricate	& dz'wig	& pol	& affricate	& alveolar	& dz.hun\\
+s\_j	& palatalized voiceless alveolar fricative	& syk	& pol	& fricative	& alveolar	& s\_j.ekk\\
+s\_js	& palatalized voiceless alveolar fricative in quantity II	& kassi	& ekk	& fricative	& alveolar	& s\_js.ekk\\
+s\_j:s	& palatalized voiceless alveolar fricative in quantity III	& 	& ekk	& fricative	& alveolar	& s\_js.ekk\\
+z\_j	& palatalized voiced alveolar fricative	& zbir	& pol	& fricative	& alveolar	& z.deu\\
+n\_j	& palatalized alveolar nasal	& kon'	& pol	& nasal	& alveolar	& n\_j.ekk\\
+n\_jn	& palatalized alveolar nasal in quantity II	& panni	& ekk	& nasal	& alveolar	& n\_jn.ekk\\
+n\_j:n	& palatalized alveolar nasal in quantity III	& 	& ekk	& nasal	& alveolar	& n\_jn.ekk\\
+l\_j	& palatalized alveolar lateral approximant	& pali	& ekk	& lateral-approximant	& alveolar	& l\_j.ekk\\
+l\_jl	& palatalized alveolar lateral approximant in quantity II	& palli	& ekk	& lateral-approximant	& alveolar	& l\_jl.ekk\\
+l\_j:l	& palatalized alveolar lateral approximant in quantity III	& 	& ekk	& lateral-approximant	& alveolar	& l\_jl.ekk\\
+t\_j	& palatalized voiceless alveolar plosive	& padi	& ekk	& plosive	& alveolar	& t\_j.ekk\\
+t\_jt	& palatalized voiceless alveolar plosive in quantity II	& pati	& ekk	& plosive	& alveolar	& t\_jt.ekk\\
+t\_j:t	& palatalized voiceless alveolar plosive in quantity III	& 	& ekk	& plosive	& alveolar	& t\_jt.ekk\\
+d\_j	& palatalized voiced alveolar plosive	& gyár	& hun	& plosive	& alveolar	& d\_j.hun\\
+dd\_j	& geminate of d'	& egy	& hun	& plosive	& alveolar	& d.hun\\
+g\_j	& palatalized voiced velar plosive	& Gienek	& pol	& plosive	& velar	& g.hun\\
+x\_j	& palatalized voiceless velar fricative	& hiacynt	& pol	& fricative	& velar	& x.deu\\
+k\_j	& palatalized voiceless velar plosive	& kierowca	& pol	& plosive	& velar	& k.deu\\
+p\_j	& palatalized voiceless bilabial plosive	& piasek	& pol	& plosive	& bilabial	& p.deu\\
+xx\_j	& geminate of x'	& 	& hun	& fricative	& velar	& x.hun\\
+p\_h	& aspirated voiceless bilabial plosive	& 	& spa	& plosive	& bilabial	& p.deu\\
+t\_h	& aspirated voiceless alveolar plosive	& 	& spa	& plosive	& alveolar	& t.deu\\
+k\_h	& aspirated voiceless velar plosive	& 	& spa	& plosive	& velar	& k.deu\\
+tt	& geminate of t	& fatto	& ita	& fricative	& bilabial	& tt.ekk\\
+t:	& lengthened t	& että	& fin	& plosive	& alveolar	& tt.ekk\\
+t:t	& geminate of t in quantity III	& 	& ekk	& plosive	& alveolar	& t:t.ekk\\
+pp	& geminate of p	& 	& ita	& plosive	& bilabial	& pp.ekk\\
+p:	& lengthened p	& 	& fin	& plosive	& bilabial	& pp.ekk\\
+p:p	& geminate of p in quantity III	& 	& ekk	& plosive	& bilabial	& pp.ekk\\
+kk	& geminate of k	& 	& ita	& plosive	& velar	& kk.ekk\\
+k:	& lengthened k	& takkinsa	& fin	& plosive	& velar	& kk.ekk\\
+k:k	& geminate of k in quantity III	& 	& ekk	& plosive	& velar	& k:k.ekk\\
+dd	& geminate of d	& 	& ita	& plosive	& alveolar	& d.deu\\
+gg	& geminate of g	& 	& ita	& plosive	& velar	& g.deu\\
+g:	& lengthened g	& 	& fin	& plosive	& velar	& g.hun\\
+bb	& geminate of b	& 	& ita	& plosive	& bilabial	& b.deu\\
+b:	& lengthened b	& 	& fin	& plosive	& bilabial	& b.deu\\
+ttS	& geminate of tS	& 	& ita	& affricate	& post-alveolar	& tS.aus\\
+tts	& geminate of ts	& 	& ita	& affricate	& alveolar	& ts.hun\\
+ddZ	& geminate of dZ	& 	& ita	& affricate	& post-alveolar	& dZ.aus\\
+ddz	& geminate of dz	& zona	& ita	& affricate	& alveolar	& dz.hun\\
+vv	& geminate of v	& 	& ita	& fricative	& labio-dental	& v.deu\\
+v:	& lengthened v	& 	& fin	& fricative	& labio-dental	& v.hun\\
+v:v	& geminate of v in quantity III	& 	& ekk	& fricative	& labio-dental	& v.ekk\\
+ss	& geminate of s	& 	& ita	& fricative	& alveolar	& ss.ekk\\
+s:	& lengthened s	& 	& fin	& fricative	& alveolar	& ss.ita\\
+s:s	& geminate of s in quantity III	& 	& ekk	& fricative	& alveolar	& s:s.ekk\\
+zz	& geminate of z	& 	& hun	& fricative	& alveolar	& z.hun\\
+SS	& geminate of S	& 	& ita	& fricative	& post-alveolar	& SS.ita\\
+S:	& lengthened S	& 	& fin	& fricative	& post-alveolar	& SS.ita\\
+S:S	& geminate of S in quantity III	& 	& ekk	& fricative	& post-alveolar	& SS.ita\\
+ZZ	& geminate of Z	& 	& hun	& fricative	& post-alveolar	& Z.hun\\
+xx	& geminate of x	& 	& hun	& fricative	& velar	& x.hun\\
+rr	& geminate of r	& 	& ita	& trill	& alveolar	& rr.ekk\\
+r:	& lengthened r	& 	& fin	& trill	& alveolar	& rr.ekk\\
+r:r	& geminate of r in quantity III	& 	& ekk	& trill	& alveolar	& rr.ekk\\
+RR	& geminate of R in quantity II	& 	& ekk	& trill	& uvular	& R.ekk\\
+nn	& geminate of n	& 	& ita	& nasal	& alveolar	& nn.ekk\\
+n:	& lengthened n	& 	& fin	& nasal	& alveolar	& nn.ekk\\
+n:n	& geminate of n in quantity III	& 	& ekk	& nasal	& alveolar	& n:n.ekk\\
+NN	& geminate of N	& (Swiss German)	& deu	& nasal	& velar	& NN.ekk\\
+N:	& lengthened N	& 	& fin	& nasal	& velar	& NN.ekk\\
+N\_j	& palatalized velar nasal	& 	& ekk	& nasal	& velar	& N.ekk\\
+ww	& geminate of w	& (Swiss German)	& deu	& approximant	& labio-velar	& v.deu\\
+mm	& geminate of m	& 	& ita	& nasal	& bilabial	& mm.ekk\\
+m:	& lengthened m	& hommasta	& fin	& nasal	& bilabial	& mm.ekk\\
+m:m	& geminate of m in quantity III	& 	& ekk	& nasal	& bilabial	& mm.ekk\\
+FF	& geminate of F	& 	& hun	& nasal	& labio-dental	& m.hun\\
+LL	& geminate of L	& 	& ita	& lateral-approximant	& palatal	& LL.ita\\
+ll	& geminate of l	& 	& ita	& lateral-approximant	& alveolar	& ll.ekk\\
+l:	& lengthened l	& jolla	& fin	& lateral-approximant	& alveolar	& ll.ekk\\
+l:l	& geminate of l in quantity III	& 	& ekk	& approximant	& alveolar	& l:l.ekk\\
+JJ	& geminate of J	& 	& ita	& nasal	& palatal	& J.hun\\
+jj	& geminate of j	& 	& ekk	& approximant	& palatal	& j.deu\\
+j:	& lengthened j	& 	& fin	& approximant	& palatal	& j.hun\\
+j:j	& geminate of j in quantity III	& 	& ekk	& approximant	& palatal	& j.ekk\\
+ff	& geminate of f	& 	& ita	& fricative	& bilabial	& f.deu\\
+f:	& lengthened f	& 	& fin	& fricative	& bilabial	& f.hun\\
+f:f	& geminate of f in quantity III	& 	& ekk	& fricative	& bilabial	& f.ekk\\
+hh	& geminate of h	& 	& ekk	& fricative	& glottal	& hh.ekk\\
+h:	& lengthened h	& 	& fin	& fricative	& glottal	& h.hun\\
+h:h	& geminate of h in quantity III	& 	& ekk	& fricative	& glottal	& h.ekk\\
+ttS\_cl	& closure of ttS	& 	& ita	& affricate	& post-alveolar	& ttS\_cl.ita\\
+ttS\_rl	& release of ttS	& 	& ita	& affricate	& post-alveolar	& ttS\_rl.ita\\
+tts\_cl	& closure of tts	& 	& ita	& affricate	& alveolar	& ts\_cl.ita\\
+tts\_rl	& release of tts	& 	& ita	& affricate	& alveolar	& tts\_rl.ita\\
+ddZ\_cl	& closure of ddZ	& 	& ita	& affricate	& post-alveolar	& dZ\_cl.ita\\
+ddZ\_rl	& release of ddZ	& 	& ita	& affricate	& post-alveolar	& dZ\_rl.ita\\
+ddz\_cl	& closure of ddz	& zona	& ita	& affricate	& alveolar	& ts\_cl.ita\\
+ddz\_rl	& release of ddz	& zona	& ita	& affricate	& alveolar	& dz.hun\\
+tS\_cl	& closure of tS	& 	& ita	& affricate	& post-alveolar	& tS\_cl.ita\\
+tS\_rl	& release of tS	& 	& ita	& affricate	& post-alveolar	& tS\_rl.ita\\
+ts\_cl	& closure of ts	& 	& ita	& affricate	& alveolar	& ts\_cl.ita\\
+ts\_rl	& release of ts	& 	& ita	& affricate	& alveolar	& ts\_rl.ita\\
+dZ\_cl	& closure of dZ	& 	& ita	& affricate	& post-alveolar	& dZ\_cl.ita\\
+dZ\_rl	& release of dZ	& 	& ita	& affricate	& post-alveolar	& dZ\_rl.ita\\
+dz\_cl	& closure of dz	& 	& ita	& affricate	& alveolar	& ts\_cl.ita\\
+dz\_rl	& release of dz	& 	& ita	& affricate	& alveolar	& ts\_rl.ita\\
+tt\_rl	& release of tt	& 	& ita	& plosive	& alveolar	& tt\_rl.ita\\
+tt\_cl	& closure of tt	& 	& ita	& plosive	& alveolar	& tt\_cl.ita\\
+pp\_cl	& closure of pp	& 	& ita	& plosive	& bilabial	& pp\_cl.ita\\
+pp\_rl	& release of pp	& 	& ita	& plosive	& bilabial	& p\_rl.ita\\
+kk\_cl	& closure of kk	& 	& ita	& plosive	& velar	& kk\_cl.ita\\
+kk\_rl	& release of kk	& 	& ita	& plosive	& velar	& kk\_rl.ita\\
+dd\_cl	& release of dd	& 	& ita	& plosive	& alveolar	& dd\_cl.ita\\
+dd\_rl	& release of dd	& 	& ita	& plosive	& alveolar	& d\_rl.ita\\
+gg\_cl	& release of gg	& 	& ita	& plosive	& velar	& g\_cl.ita\\
+gg\_rl	& release of gg	& 	& ita	& plosive	& velar	& g\_rl.ita\\
+bb\_cl	& release of bb	& 	& ita	& plosive	& bilabial	& \textlessp:\textgreater.deu\\
+bb\_rl	& release of bb	& 	& ita	& plosive	& bilabial	& b.deu\\
+t\_cl	& closure of t	& 	& ita	& plosive	& alveolar	& t\_cl.ita\\
+t\_rl	& release of t	& 	& ita	& plosive	& alveolar	& t\_rl.ita\\
+p\_cl	& closure of p	& 	& ita	& plosive	& bilabial	& p\_cl.ita\\
+p\_rl	& release of p	& 	& ita	& plosive	& bilabial	& p\_rl.ita\\
+k\_cl	& closure of k	& 	& ita	& plosive	& velar	& k\_cl.ita\\
+k\_rl	& release of k	& 	& ita	& plosive	& velar	& k\_rl.ita\\
+g\_cl	& closure of g	& 	& ita	& plosive	& velar	& g\_cl.ita\\
+g\_rl	& release of g	& 	& ita	& plosive	& velar	& g\_rl.ita\\
+d\_cl	& closure of d	& 	& ita	& plosive	& alveolar	& d\_cl.ita\\
+d\_rl	& release of d	& 	& ita	& plosive	& alveolar	& d\_rl.ita\\
+b\_cl	& closure of b	& 	& ita	& plosive	& bilabial	& p\_cl.ita\\
+b\_rl	& release of b	& 	& ita	& plosive	& bilabial	& p\_rl.ita\\
+\textless	& recording initial silence	& 	& xxx	& silence	& silence	& \textless.deu\\
+\textgreater	& recording trailing silence	& 	& xxx	& silence	& silence	& \textgreater.deu\\
+\#	& inter-word silence	& 	& xxx	& silence	& silence	& \#.ita\\
+\textlessnib\textgreater	& noise, non-human	& 	& xxx	& noise	& noise	& \textlessnib\textgreater.deu\\
+\textlessp:\textgreater	& silence interval	& 	& xxx	& silence	& silence	& \textlessp:\textgreater.deu\\
+\textlessusb\textgreater	& human noise, garbage	& 	& xxx	& noise	& noise	& \textlessusb\textgreater.ita\\
+p\_\textgreater	& voiceless bilabial ejective	& Georgian პერანგი	& xxx	& ejective	& bilabial	& p\_\textgreater.kat\\
+t\_\textgreater	& voiceless alveolar ejective	& Georgian ზედატანი	& xxx	& ejective	& alveolar	& t\_\textgreater.kat\\
+ts\_\textgreater	& voiceless alveolar affricate ejective	& Georgian წინდები	& xxx	& ejective	& alveolar	& ts.hun\\
+ts`	& retroflex voiceless affricate	& cyk	& pol	& affricate	& retroflex	& tS.aus\\
+dz`	& retroflex voiced affricate	& dzwon	& pol	& affricate	& retroflex	& dZ.aus\\
+3`	& retroflex front half open unrounded vowel	& furs	& use	& vowel	& front	& P3`.use\\
+tS\_\textgreater	& voiceless postalveolar affricate ejective	& Georgian კუჭის	& xxx	& ejective	& post-alveolar	& tS.hun\\
+c\_\textgreater	& voiceless palatal ejective plosive	& Georgian ჭ	& xxx	& ejective	& palatal	& c.hun\\
+J-	& voiced palatal plosive	& Hungarian egy 'one'	& xxx	& plosive	& palatal	& j.deu\\
+k\_\textgreater	& voiceless velar ejective	& Georgian უკან	& xxx	& ejective	& velar	& k\_\textgreater.kat\\
+q\_\textgreater	& voiceless uvular ejective	& Georgian საავადმყოფო	& xxx	& ejective	& uvular	& q\_\textgreater.kat\\
+p-	& voiceless bilabial fricative	& Japanese fu	& xxx	& fricative	& bilabial	& p.deu\\
+s`	& retroflex voiceless fricative	& szyk	& pol	& fricative	& retroflex	& S.aus\\
+z`	& retroflex voiced fricative	& żyto	& pol	& fricative	& retroflex	& Z.aus\\
+j-	& voiced palatal fricative	& Spanish ayuda	& xxx	& fricative	& palatal	& G.kat\\
+M-	& velar approximant	& Spanish algo	& xxx	& approximant	& velar	& U.deu\\
+X-	& voiceless pharyngeal fricative	& Arabic h.â	& xxx	& fricative	& pharyngeal	& x.deu\\
+?-	& voiced pharyngeal fricative	& Arabic 'ayn	& xxx	& fricative	& pharyngeal	& x.deu\\
+h-	& voiced glottal fricative	& English	& use	& fricative	& glottal	& h-.use\\
+r-	& alveolar approximant	& English run	& xxx	& approximant	& alveolar	& r.deu\\
+N=	& syllabic velar nasal	& English walking	& use	& nasal	& velar	& N=.use\\
+n=	& syllabic alveolar nasal	& English Boston	& use	& nasal	& alveolar	& n=.use\\
+m=	& syllabic bilabial nasal	& English bottom	& use	& nasal	& bilabial	& m=.use\\
+l=	& syllabic lateral	& English bridal	& use	& lateral-approximant	& alveolar	& l=.use\\
+\end\{longtable\}
 
 \newpage
 \section{Version history}
 \begin{longtable}{|p{0.22\linewidth}p{0.8\linewidth}|}
 	\hline
-	1.8 (2015-11-03) & \tabitem Added support for \texttt{Sound}.\\
+	1.8 (2015-11-16) & \tabitem Added support for \texttt{Sound}.\\
 		& \tabitem Changed email address of author.\\
 		& \tabitem Elaborated the installation instructions.\\
+		& \tabitem Splitted up the model and phonetizer selection.\\
+		& \tabitem Cleaned up the phone specifications.\\
+		& \tabitem Added an universal phonetizer.\\
+		& \tabitem Big book update with structural changes.\\
 	\hline
 	1.7a (2015-10-13) & \tabitem Fixed critical tier creation bug.\\
 	& \tabitem Added version to settings window.\\
@@ -1192,7 +1354,7 @@ SAMPA\footnote{\url{http://www.phon.ucl.ac.uk/home/sampa/spanish.htm}}.
 		& \tabitem Reinitialized repo.\\
 		& \tabitem Faster book compilation.\\
 	\hline
-	1.40 (2015-07-01) & \tabitem  Added branch for own spanish models.\\
+	1.40 (2015-07-01) & \tabitem Added branch for own spanish models.\\
 		& \tabitem Updated book about ruleset.\\
 		& \tabitem Changed name in menu from \texttt{Setup\ldots} to 
 			\texttt{Set up\dots}.\\
