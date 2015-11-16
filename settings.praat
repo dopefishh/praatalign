@@ -145,11 +145,24 @@ beginPause: "Advanced options"
 	endif
 endPause: "Apply", 1
 
+if lan$ == "universal"
+	beginPause: "Instructions"
+		comment: "Please point me to the universal phonetizer file."
+		comment: "The format for such file can be found in the manual"
+	clicked = endPause: "Cancel", "Continue", 2, 1
+	if clicked = 2
+		phon$ = chooseReadFile$("Point me to the phonetizer file")
+	endif
+endif
+if phon$ = ""
+	pause The plugin will probably malfunction since you didn't select a file.
+endif
+
 # Ask for the dictionary
 if dic
 	beginPause: "Instructions"
 		comment: "Please point me to the dictionary file."
-		comment: "The format for such file can be found in the README.html"
+		comment: "The format for such file can be found in the manual"
 		comment: "Dictionary skeletons can be generated with Generate dictionary from tier..."
 	clicked = endPause: "Cancel", "Continue", 2, 1
 	if clicked = 2
@@ -164,7 +177,7 @@ endif
 if rul
 	beginPause: "Instructions"
 		comment: "Please point me to the ruleset file."
-		comment: "The format for such file can be found in the README.html"
+		comment: "The format for such file can be found in the manual"
 	clicked = endPause: "Cancel", "Continue", 2, 1
 	if clicked = 2
 		ruleset$ = chooseReadFile$("Point me to the ruleset file")
@@ -201,6 +214,7 @@ writeFileLine("settings",
 ..."HVB: ", hviteex$, newline$,
 ..."LAN: ", lan$, newline$,
 ..."MOD: ", model$, newline$,
+..."PHO: ", phon$, newline$,
 ..."LOG: ", log$, newline$,
 ..."LLH: ", llh$, newline$,
 ..."NEW: ", new$, newline$,

@@ -19,16 +19,18 @@ class Phonetizer:
     """Skeleton class for a phonetizer for the praat align program"""
     reps = [(r'\v', '[aoeiu]'), (r'\c', '[^aoeui]'), ('\n', '')]
 
-    def __init__(self, dictpath=None, ruleset=None):
+    def __init__(self, univ_phon=None, dictpath=None, ruleset=None):
         """Constructor with an optional dictionary
 
-        filters  -- A regular expression of things to filter out of the
-                    utterances
-        dictpath -- Path to an optional dictonary
-        ruleset  -- Path to an optional ruleset file
+        filters   -- A regular expression of things to filter out of the
+                     utterances
+        dictpath  -- Path to an optional dictonary
+        ruleset   -- Path to an optional ruleset file
+        univ_phon -- Path to an optional universal phonetizer file
         """
         self.r = []
         self.dictionary = dict()
+        self.univ_phon = []
         if dictpath is not None:
             with codecs.open(dictpath, 'r', 'utf-8') as f:
                 for l in f:
@@ -45,6 +47,12 @@ class Phonetizer:
                         for target, repl in self.reps:
                             l = l.replace(target, repl)
                     self.r.append(l.strip().split('\t'))
+        if univ_phon is not None:
+            with codecs.open(univ_phon, 'r', 'utf-8') as f:
+                for line in f:
+                    line = [l.strip() for l in line.split('\t')]
+                    if line:
+                        self.univ_phon.append((line[0], line[1].split(' ')))
 
     def todawg(self, pron):
         """Converts the pronunciation variants and rules to a graph
@@ -84,17 +92,17 @@ class Phonetizer:
                         for st, en in appc:
                             try:
                                 wordapp = '{}{}{}'.format(
-                                    wordapp[:st], 
+                                    wordapp[:st],
                                     re.sub(pat, target, wordapp[st:en]),
                                     wordapp[en:])
                             except:
                                 pass
                         all_prons.add(wordapp)
 
-        ## Replace all the multichar phones with their appropriate byte
+        # Replace all the multichar phones with their appropriate byte
         for f, t in c2.iteritems():
-            all_prons = {x.replace(f, t) for x in all_prons} 
-        all_prons = {x.replace(' ', '') for x in all_prons} 
+            all_prons = {x.replace(f, t) for x in all_prons}
+        all_prons = {x.replace(' ', '') for x in all_prons}
         c2 = {v: k for k, v in c2.iteritems()}
 
         # Add all the words to the DAWG
@@ -176,7 +184,7 @@ class Phonetizer:
     def toslf(self, nedges, nnodes):
         slf = 'N={} L={}\n'.format(
             len(nnodes), sum(len(to) for _, to in nedges.iteritems()))
-            # Write all the nodes
+        # Write all the nodes
         slf += ''.join(
             'I={} W={}\n'.format(k, v) for k, v in nnodes.iteritems())
         # Write all the edges
@@ -361,6 +369,7 @@ class PhonetizerDictionary(Phonetizer):
         else:
             return None
 
+
 class PhonetizerLoopback(Phonetizer):
     """Dummy phonetizer that uses direct loopback to generate phonetic
     transcription, therefore allowing the user to use his own phonetic
@@ -373,17 +382,9 @@ class PhonetizerLoopback(Phonetizer):
         """
         return [[[a]] for a in utterance.split(' ')]
 
+
 class PhonetizerUniversal(Phonetizer):
     """Universal phonetizer that uses a po dictionary"""
-    
-    def __init__(self, *args, **kwargs):
-        Phonetizer.__init__(self, *args, **kwargs)
-        self.rules = []
-        with open('phon.txt', 'r') as f:
-            for line in f:
-                line = line.strip().split('\t')
-                if line:
-                    self.rules.append((line[0], line[1].split(' ')))
 
     def phonetizeword(self, word):
         """Returns a list of phones generated from the utterance and should
@@ -396,8 +397,9 @@ class PhonetizerUniversal(Phonetizer):
         else:
             i = 0
             phones = []
-            while i<=len(word):
-                replaces = [t for t in self.rules if word[i:].startswith(t[0])]
+            while i <= len(word):
+                replaces = [t for t in self.univ_phon if
+                            word[i:].startswith(t[0])]
                 if replaces:
                     phones += replaces[0][1]
                     i += len(replaces[0][0])
@@ -435,14 +437,16 @@ phonetizerdict = {
     }
 
 
-def getphonetizer(lang, dictpath=None, ruleset=None):
+def getphonetizer(lang, univ_phon=None, dictpath=None, ruleset=None):
     """
     Gives a phonetizer by code
 
     lang - language code, has to be present in phonetizerdict
-    dictpath - optional dictionary file
-    ruleset  - optional ruleset file
+    dictpath  - optional dictionary file
+    ruleset   - optional ruleset file
+    univ_phon - optional universal phonetizer file
     """
     dictpath = None if dictpath == "None" else dictpath
     ruleset = None if ruleset == "None" else ruleset
-    return phonetizerdict[lang](dictpath, ruleset)
+    univ_phon = None if univ_phon == "None" else univ_phon
+    return phonetizerdict[lang](univ_phon, dictpath, ruleset)

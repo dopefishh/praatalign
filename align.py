@@ -168,7 +168,8 @@ if __name__ == '__main__':
 
     # Load the phonetizer
     try:
-        phone = ph.getphonetizer(sett['LAN'], sett['DCT'], sett['RUL'])
+        phone = ph.getphonetizer(
+            sett['LAN'], sett['PHO'], sett['DCT'], sett['RUL'])
     except UnicodeError:
         logging.info('Unicode error')
         with open('temp.status', 'w') as f:
@@ -180,6 +181,7 @@ if __name__ == '__main__':
         elif e.filename == sett['RUL']:
             error = 'rulnotfound'
         else:
+            raise e
             error = 'generalio'
         with open('temp.status', 'w') as f:
             f.write(error)

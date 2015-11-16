@@ -8,80 +8,83 @@
 \section{Introduction}
 Praatalign is a plug-in for Praat that can be used to do forced phonetic
 alignment on speech signals and in particular free speech. Praatalign combines
-the powerful HTK toolkit with the interactivity and modularity of Praat to
-create an interactive, intuitive and extendible application. Text in
-\texttt{monospace} means that the word is a command, variable or value.
+the powerful HTK toolkit and the well trained MAUS models with the
+interactivity and modularity of Praat to create an interactive, intuitive and
+extendible application. Text in \texttt{monospace} means that the word is a
+command, variable or value. Praatalign has the capability to work with
+python-programmed phonetizers, practical orthography, dictionaries and
+pronunciation rules.
 
-\section{Example work flow}
-Note that the example is made in a slightly older version of Praatalign.
-\begin{figure}[H]
-	\centering
-	\includegraphics[width=0.5\linewidth]{s1.eps}
-	\caption{Opening and selecting a \texttt{LongSound} and a \texttt{TextGrid}}
-\end{figure}
-
-\begin{figure}[H]
-	\centering
-	\includegraphics[width=\linewidth]{s2.eps}
-	\caption{Press \texttt{View \& Edit}}
-\end{figure}
-
-\begin{figure}[H]
-	\centering
-	\includegraphics[width=\linewidth]{s2a.eps}
-	\caption{Press \texttt{Set up forced alignment\ldots}}
-\end{figure}
-
-\begin{figure}[H]
-	\centering
-	\includegraphics[scale=0.6]{s3.eps}
-	\caption{Edit the settings to your liking}
-\end{figure}
-
-\begin{figure}[H]
-	\centering
-	\includegraphics[scale=0.6]{s4.eps}
-	\caption{Because of the dictionary flag a dialog spawns}
-\end{figure}
-
-\begin{figure}[H]
-	\centering
-	\includegraphics[width=\linewidth]{s5.eps}
-	\caption{Select the dictionary}
-\end{figure}
-
-\begin{figure}[H]
-	\centering
-	\includegraphics[width=\linewidth]{s6.eps}
-	\caption{Select an interval, zoom in and press
-	\texttt{Align the current interval}}
-\end{figure}
-
-\begin{figure}[H]
-	\centering
-	\includegraphics[width=\linewidth]{s7.eps}
-	\caption{Wait a couple of seconds and see the alignment. Note that there is
-an error because of a reduction from \texttt{cuidado} to \texttt{cuida}.}
-\end{figure}
-
-\begin{figure}[H]
-	\centering
-	\includegraphics[width=\linewidth]{s8.eps}
-	\caption{We fix the annotation error with the reduction to
-\texttt{cuida(do)}, using truncation specified in the Spanish phonetizer. Then
-we run the alignment again and the results are much better. If this is a common
-truncation we could add a pronunciation variant or if it is really general we
-could create a ruleset file}
-\end{figure}
+%\section{Example work flow}
+%Note that the example is made in a slightly older version of Praatalign.
+%\begin{figure}[H]
+%	\centering
+%	\includegraphics[width=0.5\linewidth]{s1.eps}
+%	\caption{Opening and selecting a \texttt{LongSound} and a \texttt{TextGrid}}
+%\end{figure}
+%
+%\begin{figure}[H]
+%	\centering
+%	\includegraphics[width=\linewidth]{s2.eps}
+%	\caption{Press \texttt{View \& Edit}}
+%\end{figure}
+%
+%\begin{figure}[H]
+%	\centering
+%	\includegraphics[width=\linewidth]{s2a.eps}
+%	\caption{Press \texttt{Set up forced alignment\ldots}}
+%\end{figure}
+%
+%\begin{figure}[H]
+%	\centering
+%	\includegraphics[scale=0.6]{s3.eps}
+%	\caption{Edit the settings to your liking}
+%\end{figure}
+%
+%\begin{figure}[H]
+%	\centering
+%	\includegraphics[scale=0.6]{s4.eps}
+%	\caption{Because of the dictionary flag a dialog spawns}
+%\end{figure}
+%
+%\begin{figure}[H]
+%	\centering
+%	\includegraphics[width=\linewidth]{s5.eps}
+%	\caption{Select the dictionary}
+%\end{figure}
+%
+%\begin{figure}[H]
+%	\centering
+%	\includegraphics[width=\linewidth]{s6.eps}
+%	\caption{Select an interval, zoom in and press
+%	\texttt{Align the current interval}}
+%\end{figure}
+%
+%\begin{figure}[H]
+%	\centering
+%	\includegraphics[width=\linewidth]{s7.eps}
+%	\caption{Wait a couple of seconds and see the alignment. Note that there is
+%an error because of a reduction from \texttt{cuidado} to \texttt{cuida}.}
+%\end{figure}
+%
+%\begin{figure}[H]
+%	\centering
+%	\includegraphics[width=\linewidth]{s8.eps}
+%	\caption{We fix the annotation error with the reduction to
+%\texttt{cuida(do)}, using truncation specified in the Spanish phonetizer. Then
+%we run the alignment again and the results are much better. If this is a common
+%truncation we could add a pronunciation variant or if it is really general we
+%could create a ruleset file}
+%\end{figure}
 
 \chapter{Installation}
 \section{Preparation}
 The installation of the program is very straightforward, however installing the
-dependencies might not be on some systems.
-Some programs are not included in the package due to licencing and environment
-compatibility but they do need to be installed in order for the plug-in to work
-properly. All programs Praatalign depends on are free and open source. The
-following list of programs need to be installed.
+dependencies might not be on some systems.  Some programs are not included in
+the package due to licencing and environment compatibility but they do need to
+be installed in order for the plug-in to work properly. All programs Praatalign
+depends on are free and open source. The following list of programs need to be
+installed with their installation instructions.
 \begin{itemize}
 	\item \textbf{Praat}\\
 		Praat is a program that allows you to do phonetic analysis and annotations
@@ -176,8 +179,9 @@ $ make -j4 htktools
 \label{sec:installation}
 The installation of the plug-in is very easy but the method differs for
 different systems. \footnote{The plugin is tested on Windows 7, Windows Server
-2008 via Windows Terminal Services, Linux and Mac. Other versions or other
-operating systems might also work but are untested.}
+2008 via Windows Terminal Services, Windows 10, Linux and Mac. Other versions
+or other operating systems might also work but are untested.}
+
 \subsection{Automated installation}
 Run the installation script for your system.
 \begin{itemize}

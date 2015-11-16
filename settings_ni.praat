@@ -6,6 +6,7 @@ form Set the variables
 	sentence llh align_l
 	sentence lan
 	sentence model
+	sentence pho
 	sentence dic
 	sentence rul
 	real thr
@@ -23,6 +24,7 @@ writeFileLine("settings",
 ..."HCB: ", hcb$, newline$,
 ..."LAN: ", lan$, newline$,
 ..."MOD: ", model$, newline$,
+..."PHO: ", pho$, newline$,
 ..."LOG: ", log$, newline$,
 ..."LLH: ", llh$, newline$,
 ..."NEW: ", new$, newline$,
