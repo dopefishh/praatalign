@@ -5,7 +5,7 @@ RD /Q /S "%_plugindir%"
 MD "%_plugindir%"
 COPY %~dp0*.py "%_plugindir%"
 COPY %~dp0*.praat "%_plugindir%"
-FOR /D %%i IN (%~dp0par.???) DO (
+FOR /D %%i IN (%~dp0par.*) DO (
 	SET test=%%i
 	SET test=!test:~-7%!
 	MD "%_plugindir%\!test!\"

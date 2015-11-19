@@ -14,8 +14,9 @@ endproc
 
 procedure loadFileInfo:
 # Try longsound first
-	nocheck longsound_info$ = LongSound info
-	if variableExists("longsound_info")
+	longsound_info$ = ""
+	longsound_info$ = nocheck LongSound info
+	if longsound_info$ <> ""
 		sound_file$ = extractLine$(longsound_info$, "File name: ")
 		sound_object$ = "LongSound " + extractLine$(longsound_info$, "Object name: ")
 		sound_duration = extractNumber(longsound_info$, "Duration: ")

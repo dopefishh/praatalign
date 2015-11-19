@@ -1,7 +1,6 @@
-IMGS:=$(basename $(shell ls img/*.xz))
 LATEX:=latex
 
-.SECONDARY: book.fmt $(IMGS)
+.SECONDARY: book.fmt
 
 all: book.pdf
 
@@ -17,8 +16,5 @@ all: book.pdf
 	$(LATEX) $<
 	$(LATEX) $<
 
-%.eps: %.eps.xz
-	xz -kd $<
-
 clean:
-	$(RM) -v $(addprefix book.,fmt aux dvi log toc out pdf bbl blg) $(IMGS)
+	$(RM) -v $(addprefix book.,fmt aux dvi log toc out pdf bbl blg)

@@ -19,6 +19,7 @@ if fileReadable("settings")
 	wrd$ = extractLine$(settingsData$, "WRD: ")
 	can$ = extractLine$(settingsData$, "CAN: ")
 	llh$ = extractLine$(settingsData$, "LLH: ")
+	phon$ = extractLine$(settingsData$, "PHO: ")
 	lan$ = extractLine$(settingsData$, "LAN: ")
 	if lan$ = "spanish"
 		lan = 1
@@ -58,6 +59,7 @@ else
 	can$ = ""
 	llh$ = ""
 	lan = 1
+	phon$ = ""
 	model = 1
 	if windows
 		log$ = "nul"
@@ -153,9 +155,12 @@ if lan$ == "universal"
 	if clicked = 2
 		phon$ = chooseReadFile$("Point me to the phonetizer file")
 	endif
+	if phon$ = ""
+		pause The plugin will probably malfunction since you didn't select a file.
+	endif
 endif
 if phon$ = ""
-	pause The plugin will probably malfunction since you didn't select a file.
+	phon$ = "None"
 endif
 
 # Ask for the dictionary
