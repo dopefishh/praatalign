@@ -6,7 +6,8 @@ Praatalign is a plug-in for Praat that can be used to do forced phonetic
 alignment on speech signals and in particular free speech. Praatalign combines
 the powerful HTK toolkit with the interactivity and modularity of Praat to
 create an interactive, intuitive and extendable application. Currently
-Praatalign uses the acoustic models trained by Schiel et al. used in MAUS\[1,2\].
+Praatalign uses the acoustic models trained by Schiel et al. used in
+MAUS\[1,2\].
 
 ###Releases
 
@@ -21,7 +22,7 @@ Latest plugin:
 ###How to cite
 
 ```tex
-@misc{praatalign1.7a,
+@misc{praatalign1.8,
 	author={Lubbers, Mart and Torreira, Francisco},
 	title={Praatalign: an interactive Praat plug-in for performing phonetic forced alignment},
 	howpublished={\url{https://github.com/dopefishh/praatalign}},
@@ -32,7 +33,7 @@ Latest plugin:
 
 ###Authors
 
-Mart Lubbers
+Mart Lubbers (mart@martlubbers.net)
 
 Francisco Torreira(supervision)
 
