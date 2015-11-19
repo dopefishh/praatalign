@@ -699,6 +699,7 @@ the menus and work out of the box.
 The Spanish mapping is an exact mapping with the spanish SAMPA
 phoneset\footnote{\url{http://www.phon.ucl.ac.uk/home/sampa/spanish.htm}}.
 
+{\small
 \begin{longtable}{l|l|l|l}
 	& Symbol & Word & Transcription\\
 	\hline
@@ -755,12 +756,14 @@ phoneset\footnote{\url{http://www.phon.ucl.ac.uk/home/sampa/spanish.htm}}.
 	\hline
 	\caption{Spanish phone specification}
 \end{longtable}
+}
 
 \subsection{Dutch}
 The Dutch mapping is an almost\footnote{Derivations are marked in bold} exact
 mapping with the dutch SAMPA phoneset\footnote{\url{
 http://www.phon.ucl.ac.uk/home/sampa/dutch.htm}}
 
+{\small
 \begin{longtable}{l|l|l|l}
 	& Praatalign & Word & Transcription\\
 	\hline
@@ -833,6 +836,7 @@ http://www.phon.ucl.ac.uk/home/sampa/dutch.htm}}
 	\hline
 	\caption{Dutch phone specification}
 \end{longtable}
+}
 
 \subsection{English}
 The English mapping is an exact\footnote{Derivations are marked in bold} exact
@@ -847,6 +851,7 @@ dictionary if you haven't done it yourself and will write it to a
 \texttt{dict.eng} file by default. The usage is: \texttt{python
 cmu2praatalign.py [inputfile [outputfile]]}.
 
+{\small
 \begin{longtable}{l|l|p{.3\linewidth}|l}
 	& Symbol & Word & Transcription\\
 	\hline
@@ -949,10 +954,12 @@ cmu2praatalign.py [inputfile [outputfile]]}.
 	\hline
 	\caption{English phone specification}
 \end{longtable}
+}
 
 \subsection{SAMPA}
-\begin{longtable}{l|p{.3\linewidth}|p{.15\linewidth}|l|l|l|l}
-	Sym & description & examples & lang & type\\
+{\small
+\begin{longtable}{l|p{.3\linewidth}|p{.15\linewidth}|l|p{.15\linewidth}|l}
+	Sym & description & examples & lang & type & location\\
 	\hline
 	i	& front closed unrounded vowel	& English see, Spanish sí, French vite, German mi.e.ten, Italian visto	& xxx	& vowel	& front	\\
 	I	& front closed unrounded vowel, but somewhat more centralised and relaxed, in Polish: mid closed unrounded	& English city, German mit	& xxx	& vowel	& front	\\
@@ -964,7 +971,7 @@ cmu2praatalign.py [inputfile [outputfile]]}.
 	2	& front half closed rounded vowel	& French deux (hence '2'), German Höhle	& xxx	& vowel	& front	\\
 	9	& front half open rounded vowel	& French neuf (hence '9'), German Hölle	& xxx	& vowel	& front	\\
 	@	& central neutral unrounded vowel	& English about, winner,German bitte	& xxx	& vowel	& central	\\
-	6	& central neutral unrounded vowel	& German besser	& xxx	& vowel	& central	& \\
+	6	& central neutral unrounded vowel	& German besser	& xxx	& vowel	& central\\
 	3	& front half open unrounded vowel, but somewhat more centralised and relaxed	& English bird,nurse	& xxx	& vowel	& central	\\
 	a	& central open vowel	& Spanish da, barra, French bateau,lac, German Haar, Italian pazzo	& xxx	& vowel	& front	\\
 	\}	& central closed rounded vowel	& Scottish English pool, Swedish sju	& xxx	& vowel	& central	\\
@@ -997,7 +1004,7 @@ cmu2praatalign.py [inputfile [outputfile]]}.
 	f	& voiceless labiodental fricative	& English fool, Spanish and Italian falso	& xxx	& fricative	& labio-dental	\\
 	v	& voiced labiodental fricative	& English voice, German Welt	& xxx	& fricative	& labio-dental	\\
 	T	& voiceless dental fricative	& English thing, Castilian Spanish caza	& xxx	& fricative	& dental	\\
-	D	& voiced dental fricative	& English this	& xxx	& fricative	& dental	& 	\\
+	D	& voiced dental fricative	& English this	& xxx	& fricative	& dental\\
 	s	& voiceless alveolar fricative	& English see, Spanish sí	& xxx	& fricative	& alveolar	\\
 	z	& voiced alveolar fricative	& English zoo, German See	& xxx	& fricative	& alveolar	\\
 	S	& voiceless postalveolar fricative	& English she, French chemin	& xxx	& fricative	& post-alveolar	\\
@@ -1292,12 +1299,13 @@ cmu2praatalign.py [inputfile [outputfile]]}.
 	m=	& syllabic bilabial nasal	& English bottom	& use	& nasal	& bilabial	\\
 	l=	& syllabic lateral	& English bridal	& use	& lateral-approximant	& alveolar	\\
 \end{longtable}
+}
 
 \newpage
 \section{Version history}
 \begin{longtable}{|p{0.22\linewidth}p{0.8\linewidth}|}
 	\hline
-	1.8 (2015-11-16) & \tabitem Added support for \texttt{Sound}.\\
+	1.8 (2015-11-19) & \tabitem Added support for \texttt{Sound}.\\
 		& \tabitem Changed email address of author.\\
 		& \tabitem Elaborated the installation instructions.\\
 		& \tabitem Splitted up the model and phonetizer selection.\\

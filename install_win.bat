@@ -5,11 +5,13 @@ RD /Q /S "%_plugindir%"
 MD "%_plugindir%"
 COPY %~dp0*.py "%_plugindir%"
 COPY %~dp0*.praat "%_plugindir%"
-FOR /D %%i IN (%~dp0par.*) DO (
-	SET test=%%i
-	SET test=!test:~-7%!
-	MD "%_plugindir%\!test!\"
-	COPY "%%i\*" "%_plugindir%\!test!\"
-)
+MD "%_plugindir%\par.spanish"
+COPY par.spanish\* "%_plugindir%\par.spanish"
+MD "%_plugindir%\par.english"
+COPY par.english\* "%_plugindir%\par.english"
+MD "%_plugindir%\par.dutch"
+COPY par.dutch\* "%_plugindir%\par.dutch"
+MD "%_plugindir%\par.sampa"
+COPY par.sampa\* "%_plugindir%\par.sampa"
 echo Installing completed, please press enter to close this window...
 pause > nul
