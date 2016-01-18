@@ -100,10 +100,15 @@ editor: textgrid_object$
     Close
 endeditor
 
-# Read the results
-@insertTableTextGrid: tmpfile$, textgrid_object$, phonetier_name$,
+returnstatus$ = readFile$: statusfile$
+if returnstatus$ == ""
+	@insertTableTextGrid: tmpfile$, textgrid_object$, phonetier_name$,
 ... wordtier_name$, cantier_name$, llhtier_name$, phonetier_number,
 ... wordtier_number, cantier_number, llhtier_number
+else
+	pauseScript: "Error! check the info window for details..."
+	appendInfoLine: returnstatus$
+endif
 
 # Reselect the TextGrid and re-open editor
 selectObject: textgrid_object$
