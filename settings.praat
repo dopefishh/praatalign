@@ -19,7 +19,7 @@ if fileReadable("settings")
 	wrd$ = extractLine$(settingsData$, "WRD: ")
 	can$ = extractLine$(settingsData$, "CAN: ")
 	llh$ = extractLine$(settingsData$, "LLH: ")
-	phon$ = extractLine$(settingsData$, "PHO: ")
+	phonetizer$ = extractLine$(settingsData$, "PHO: ")
 	lan$ = extractLine$(settingsData$, "LAN: ")
 	if lan$ = "spanish"
 		lan = 1
@@ -59,7 +59,7 @@ else
 	can$ = ""
 	llh$ = ""
 	lan = 1
-	phon$ = ""
+	phonetizer$ = ""
 	model = 1
 	if windows
 		log$ = "nul"
@@ -114,6 +114,13 @@ beginPause: "Basic options"
 		sentence: "ruleset", ruleset$
 	endif
 
+	if phonetizer$ <> ""
+		comment: "Select a phonetizer file when pressing apply"
+		comment: "This always happens if you use the universal phonetizer"
+		boolean: "pho", 0
+		sentence: "phonetizer", phonetizer$
+	endif
+
 	comment: "Set the length of the added length to the annotations"
 	real: "thr", thr
 endPause: "Apply", 1
@@ -147,20 +154,20 @@ beginPause: "Advanced options"
 	endif
 endPause: "Apply", 1
 
-if lan$ == "universal"
+if (phonetizer$ == "" and lan$ == "universal") or pho
 	beginPause: "Instructions"
 		comment: "Please point me to the universal phonetizer file."
 		comment: "The format for such file can be found in the manual"
 	clicked = endPause: "Cancel", "Continue", 2, 1
 	if clicked = 2
-		phon$ = chooseReadFile$("Point me to the phonetizer file")
+		phonetizer$ = chooseReadFile$("Point me to the phonetizer file")
 	endif
-	if phon$ = ""
+	if phonetizer$ = ""
 		pause The plugin will probably malfunction since you didn't select a file.
 	endif
 endif
-if phon$ = ""
-	phon$ = "None"
+if phonetizer$ = ""
+	phonetizer$ = "None"
 endif
 
 # Ask for the dictionary
@@ -219,7 +226,7 @@ writeFileLine("settings",
 ..."HVB: ", hviteex$, newline$,
 ..."LAN: ", lan$, newline$,
 ..."MOD: ", model$, newline$,
-..."PHO: ", phon$, newline$,
+..."PHO: ", phonetizer$, newline$,
 ..."LOG: ", log$, newline$,
 ..."LLH: ", llh$, newline$,
 ..."NEW: ", new$, newline$,

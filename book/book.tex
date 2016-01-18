@@ -116,7 +116,7 @@ $ make -j4 htktools
 \section{Installation}
 \label{sec:installation}
 The installation of the plug-in is very easy but the method differs for
-different systems. \footnote{The plugin is tested on Windows 7, Windows Server
+different systems.\footnote{The plugin is tested on Windows 7, Windows Server
 2008 via Windows Terminal Services, Windows 10, Linux and Mac. Other versions
 or other operating systems might also work but are untested.}
 
@@ -319,8 +319,8 @@ script.
 		\begin{itemize}
 			\item \textbf{Windows}\\
 				If you have installed sox using the MSI you can find \texttt{sox.exe}
-				in \texttt{
-				C:\textbackslash Program Files (x86)\textbackslash sox-14-4-1} or
+				in \texttt{C:\textbackslash 
+				Program Files (x86)\textbackslash sox-14-4-1} or
 				\texttt{C:\textbackslash Program Files\textbackslash sox-14-4-1}.
 				If you just downloaded the zip file you can just point to the location
 				you extracted the archive and select \texttt{sox.exe}.
@@ -593,31 +593,15 @@ endeditor
 		throwing exceptions. When words are not phonetized it means that it is not
 		in the dictionary nor phonetizable. To fix this you can edit the phonetizer
 		or add the word to the dictionary.
-	\item Pop-up stating: \textbf{SoX, HCopy or HVite not found}\\
-		When this message pops up it means that the aligner does not have access to
-		a \texttt{sox}, \texttt{HCopy} or \texttt{HVite} executable. Note that by
-		default the aligner only looks in the current \texttt{PATH} and that it
-		does not source any bashrc or profile file. To fix this you can add the
-		exact path of the executables in the settings menu.
-	\item Pop-up stating: \textbf{Error parsing dictionary or ruleset. Is the
-		encoding UTF-8?}\\
-		Make sure the dictionary and ruleset are in UTF-8 and use unix style
-		newlines(\texttt{\textbackslash n}).
-	\item Pop-up stating: \textbf{Dictionary file not accessible, does it still
-		exist?}\\
-		IO error when opening the dictionary. Check the file, permissions or
-		existence.
-	\item Pop-up stating: \textbf{Ruleset file not accessible, does it still
-		exist?}\\
-		IO error when opening the ruleset. Check the file, permissions or
-		existence.
+	\item Pop-up stating: \textbf{Error! check the text window for details...}\\
+		This means something went wrong in the python script. Check the info
+		window. Usually it is a missing binary, ruleset etc. It could also be
+		that you used a phone that does not exist in the model
 	\item Pop-up stating: \textbf{Unknown IO error}\\
 		Some IO error occurred of an unknown type. Please check the logfile.
 	\item Log stating: \texttt{sox FAIL trim: Position 1 is behind the
 		following position.}
 		You are aligning an annotation that lies outside the wave file.
-	\item Praat stating that temp.status can not be found.\\
-		Check if all the binaries are specified in the second option screen.
 	\item \textbf{Other errors}\\
 		When the plugin crashes without any reason you should enable logging in the
 		settings menu to see where it crashes. If the problem is not solvable
