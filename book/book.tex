@@ -676,12 +676,12 @@ the menus and work out of the box.
 \chapter{Appendices}
 \section{How to cite}
 \begin{lstlisting}[caption={Bibtex snippet}]
-@misc{praatalign1.8,
+@misc{praatalign1.9,
 	author={Lubbers, Mart and Torreira, Francisco},
 	title={Praatalign: an interactive Praat plug-in for performing phonetic forced alignment},
 	howpublished={\url{https://github.com/dopefishh/praatalign}},
 	year={2013-2015},
-	note={Version 1.8}
+	note={Version 1.9}
 }
 \end{lstlisting}
 
@@ -1299,6 +1299,11 @@ cmu2praatalign.py [inputfile [outputfile]]}.
 \newpage
 \section{Version history}
 \begin{longtable}{|p{0.22\linewidth}p{0.8\linewidth}|}
+	\hline
+	1.9 (2016-00-00) & \tabitem Better errors in textwindow.\\
+		& \tabitem Phonetizer file selector in settings.\\
+		& \tabitem Temp files are cleaned up before alignment, therefore no
+			ghost annotations when the alignment has failed.\\
 	\hline
 	1.8 (2015-11-19) & \tabitem Added support for \texttt{Sound}.\\
 		& \tabitem Changed email address of author.\\
