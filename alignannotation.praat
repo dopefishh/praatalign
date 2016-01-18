@@ -124,24 +124,13 @@ writeFileLine("isettings",
 system 'pythonex$' align.py annotation
 
 returnstatus$ = readFile$: statusfile$
-if returnstatus$ == "done"
+if returnstatus$ == ""
 	@insertTableTextGrid: tmpfile$, textgrid_object$, phonetier_name$,
 ... wordtier_name$, cantier_name$, llhtier_name$, phonetier_number,
 ... wordtier_number, cantier_number, llhtier_number
-elif returnstatus$ == "missox"
-	pause SoX couldn't be found, please set it manually in the settings window
-elif returnstatus$ == "mishcopy"
-	pause HCopy couldn't be found, please set it manually in the settings window
-elif returnstatus$ == "mishvite"
-	pause HVite couldn't be found, please set it manually in the settings window
-elif returnstatus$ == "unicode"
-	pause Error parsing dictionary or ruleset. Is the encoding UTF-8?
-elif returnstatus$ == "dictnotfound"
-	pause Dictionary file not accessible, does it still exist?
-elif returnstatus$ == "rulnotfound"
-	pause Ruleset file not accessible, does it still exist?
-elif returnstatus$ == "generalio"
-	pause Unknown IO error
+else
+	pauseScript: "Error! check the info window for details..."
+	appendInfoLine: returnstatus$
 endif
 
 # Reset pitch, intensity and spectrum if they were unset before

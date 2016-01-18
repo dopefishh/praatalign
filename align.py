@@ -3,11 +3,12 @@
 
 import codecs
 import itertools
+import logging
 import os
 import phonetizer as ph
+import re
 import subprocess
 import sys
-import logging
 
 
 def force(phonetizer, utterance, starttime, endtime, wavefile,
@@ -28,7 +29,7 @@ def force(phonetizer, utterance, starttime, endtime, wavefile,
         basename, hdr, code)
     with open('{}.status'.format(basename), 'w') as f:
         f.write(status)
-    return status == 'done'
+    return not status
 
 
 def _force(phonetizer, utterance, starttime, duration, wavefile,
@@ -38,6 +39,12 @@ def _force(phonetizer, utterance, starttime, duration, wavefile,
     Force aligns the given utterance, all parameters are passed by kwarg
     """
     logging.info('Starting to align: {}'.format(code))
+    logging.info('Removing old files')
+    for suffix in ['dot', 'htk', 'nis', 'rec', 'slf', 'status']:
+        try:
+            os.remove('{}.{}'.format(basename, suffix))
+        except:
+            pass
 
     # Open the preconfig and extract the sourcerate
     sourcerate = str(1e7/625)
@@ -73,7 +80,8 @@ def _force(phonetizer, utterance, starttime, duration, wavefile,
                             stderr=subprocess.PIPE, stdout=subprocess.PIPE)
     out, err = proc.communicate()
     if proc.returncode == 127:
-        return 'missox'
+        return 'Sox binary couldn\'t be found...\n'\
+            'It is searched for in {}'.format(hcopybinary)
     logging.info('Sox ran({}):\n\tout: {}\n\terr: {}'.format(
         proc.returncode, out, err))
 
@@ -89,7 +97,8 @@ def _force(phonetizer, utterance, starttime, duration, wavefile,
                             stderr=subprocess.PIPE, stdout=subprocess.PIPE)
     out, err = proc.communicate()
     if proc.returncode == 127:
-        return 'mishcopy'
+        return 'HCopy binary couldn\'t be found...\n'\
+            'It is searched for in {}'.format(hcopybinary)
     logging.info('HCopy ran({}):\n\tout: {}\n\terr: {}'.format(
         proc.returncode, out, err))
 
@@ -109,9 +118,12 @@ def _force(phonetizer, utterance, starttime, duration, wavefile,
                             stderr=subprocess.PIPE, stdout=subprocess.PIPE)
     out, err = proc.communicate()
     if proc.returncode == 127:
-        return 'mishvite'
+        return 'HVite binary couldn\'t be found...\n'\
+            'It is searched for in {}'.format(hvitebinary)
     logging.info('HVite ran({}):\n\tout: {}\n\terr: {}'.format(
         proc.returncode, out, err))
+    if proc.returncode != 0:
+        return 'HVite failed with the following error: {}'.format(err)
 
     # Open the output file
     out = 'praat_temp_out'
@@ -149,7 +161,7 @@ def _force(phonetizer, utterance, starttime, duration, wavefile,
                         start, end, float(d[3])))
             logging.info('Datafile written')
     logging.info('Finished')
-    return 'done'
+    return ''
 
 
 def parsesettings(filepath):
@@ -171,18 +183,21 @@ if __name__ == '__main__':
         phone = ph.getphonetizer(
             sett['LAN'], sett['PHO'], sett['DCT'], sett['RUL'])
     except UnicodeError:
-        logging.info('Unicode error')
         with open('temp.status', 'w') as f:
-            f.write('unicode')
+            f.write('Unicode error. Check if the files are utf-8')
         exit()
     except IOError as e:
         if e.filename == sett['DCT']:
-            error = 'dictnotfound'
+            error = 'Dictionary file couldn\'t be found\n'\
+                'It is searched for in {}'.format(e.filename)
         elif e.filename == sett['RUL']:
-            error = 'rulnotfound'
+            error = 'Ruleset file couldn\'t be found\n'\
+                'It is searched for in {}'.format(e.filename)
+        elif e.filename == sett['PHO']:
+            error = 'Universal phonetizer file couldn\'t be found\n'\
+                'It is searched for in {}'.format(e.filename)
         else:
-            raise e
-            error = 'generalio'
+            error = 'Some io error: ' + str(e)
         with open('temp.status', 'w') as f:
             f.write(error)
         exit()
