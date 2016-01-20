@@ -20,6 +20,7 @@ if fileReadable("settings")
 	can$ = extractLine$(settingsData$, "CAN: ")
 	llh$ = extractLine$(settingsData$, "LLH: ")
 	phonetizer$ = extractLine$(settingsData$, "PHO: ")
+	pho = 0
 	lan$ = extractLine$(settingsData$, "LAN: ")
 	if lan$ = "spanish"
 		lan = 1
@@ -44,6 +45,7 @@ if fileReadable("settings")
 	else
 		model = 1
 	endif
+	pho = 0
 	log$ = extractLine$(settingsData$, "LOG: ")
 	soxex$ = extractLine$(settingsData$, "SOX: ")
 	hviteex$ = extractLine$(settingsData$, "HVB: ")
@@ -60,6 +62,7 @@ else
 	llh$ = ""
 	lan = 1
 	phonetizer$ = ""
+	pho = 0
 	model = 1
 	if windows
 		log$ = "nul"
