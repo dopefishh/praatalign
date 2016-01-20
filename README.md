@@ -1,6 +1,6 @@
 #Praatalign: an interactive Praat plug-in for performing phonetic forced alignment
 
-###Version 1.9
+###Version 1.9a
 
 Praatalign is a plug-in for Praat that can be used to do forced phonetic
 alignment on speech signals and in particular free speech. Praatalign combines
@@ -11,11 +11,11 @@ MAUS\[1,2\].
 
 ###Releases
 
-[Latest manual](https://github.com/dopefishh/praatalign/releases/download/v1.9/book_1.9.pdf)
+[Latest manual](https://github.com/dopefishh/praatalign/releases/download/v1.9a/book_1.9.pdf)
 
 Latest plugin:
-[.tar.xz](https://github.com/dopefishh/praatalign/releases/download/v1.9/praatalign_1.9.tar.xz)
-[.zip](https://github.com/dopefishh/praatalign/releases/download/v1.9/praatalign_1.9.zip)
+[.tar.xz](https://github.com/dopefishh/praatalign/releases/download/v1.9a/praatalign_1.9a.tar.xz)
+[.zip](https://github.com/dopefishh/praatalign/releases/download/v1.9a/praatalign_1.9a.zip)
 
 [Older releases](https://github.com/dopefishh/praatalign/releases)
 
