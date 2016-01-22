@@ -20,6 +20,9 @@ if fileReadable("settings")
 	can$ = extractLine$(settingsData$, "CAN: ")
 	llh$ = extractLine$(settingsData$, "LLH: ")
 	phonetizer$ = extractLine$(settingsData$, "PHO: ")
+	if phonetizer$ = "None"
+		phonetizer$ = ""
+	endif
 	pho = 0
 	lan$ = extractLine$(settingsData$, "LAN: ")
 	if lan$ = "spanish"
