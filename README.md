@@ -32,7 +32,7 @@ Latest plugin:
 ```
 
 - IEEE: `M. Lubbers and F. Torreira, Praatalign: an interactive Praat plug-in for performing phonetic forced alignment. 2016.`
-- APA: `Lubbers, M., & Torreira, F. (2016). Praatalign: an interactive Praat plug-in for performing phonetic forced alignment. Retrieved from https://github.com/dopefishh/praatalign
+- APA: `Lubbers, M., & Torreira, F. (2016). Praatalign: an interactive Praat plug-in for performing phonetic forced alignment. Retrieved from https://github.com/dopefishh/praatalign`
 
 ###Authors
 
