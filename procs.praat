@@ -7,6 +7,7 @@ procedure loadSettings:
 	wordtier_name$ = extractLine$(settings$, "WRD: ")
 	cantier_name$ = extractLine$(settings$, "CAN: ")
 	llhtier_name$ = extractLine$(settings$, "LLH: ")
+	orttier_name$ = extractLine$(settings$, "ORT: ")
 	tmpfile$ = extractLine$(settings$, "OUT: ")
 	pythonex$ = extractLine$(settings$, "PY2: ")
 	boundary_margin = extractNumber(settings$, "THR: ")
@@ -132,8 +133,8 @@ procedure getBinary: message$, path$, default$, .toask
 	endif
 endproc
 
-procedure insertTableTextGrid: .tablefile$, .obj$, .phon$, .wrd$, .can$, .llh$,
-... .phonn, .wrdn, .cann, .llhn
+procedure insertTableTextGrid: .tablefile$, .obj$, .phon$, .ort$, .wrd$, .can$, .llh$,
+... .phonn, .ortn, .wrdn, .cann, .llhn
 	nocheck Read Table from comma-separated file: .tablefile$
 	if extractWord$(selected$(), "") == "Table"
 		.number_rows = Get number of rows
@@ -159,6 +160,11 @@ procedure insertTableTextGrid: .tablefile$, .obj$, .phon$, .wrd$, .can$, .llh$,
 				nocheck Insert boundary: .wrdn, .current_end
 				.intnum = Get interval at time: .wrdn, .current_start+0.0001
 				nocheck Set interval text: .wrdn, .intnum, .current_value$
+			elif .current_type$ = "o" and .wrd$ <> ""
+				nocheck Insert boundary: .ortn, .current_start
+				nocheck Insert boundary: .ortn, .current_end
+				.intnum = Get interval at time: .ortn, .current_start+0.0001
+				nocheck Set interval text: .ortn, .intnum, .current_value$
 			elif .current_type$ = "c" and .can$ <> ""
 				nocheck Insert boundary: .cann, .current_start
 				nocheck Insert boundary: .cann, .current_end

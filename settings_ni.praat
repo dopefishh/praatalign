@@ -1,6 +1,7 @@
 # The form for non interactive setup
 form Set the variables
 	sentence new align
+	sentence ort align_o
 	sentence wrd align_w
 	sentence can align_c
 	sentence llh align_l
@@ -29,6 +30,7 @@ writeFileLine("settings",
 ..."LLH: ", llh$, newline$,
 ..."NEW: ", new$, newline$,
 ..."CAN: ", can$, newline$,
+..."ORT: ", ort$, newline$,
 ..."OUT: ", "praat_temp_out", newline$,
 ..."RUL: ", rul$, newline$,
 ..."SOX: ", sox$, newline$,

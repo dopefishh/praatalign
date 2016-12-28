@@ -1,6 +1,6 @@
 include procs.praat
 	# Settings loads: phonetier_name$, wordtier_name$, cantier_name$, tmpfile$,
-	# pythonex$, boundary_margin
+	# orttier_name$, pythonex$, boundary_margin
 	@loadSettings:
 
 	# Load editor and longsound info: sound_file$, sound_object$,
@@ -32,7 +32,7 @@ number_of_tiers = Get number of tiers
 tiernumber = 1
 while tiernumber < number_of_tiers
     nametier$ = Get tier name: tiernumber
-    if nametier$ = phonetier_name$ or nametier$ = wordtier_name$ or nametier$ = cantier_name$ or nametier$ = llhtier_name$
+    if nametier$ = phonetier_name$ or nametier$ = wordtier_name$ or nametier$ = cantier_name$ or nametier$ = llhtier_name$ or nametier$ = orttier_name$
         Remove tier: tiernumber
     else
         tiernumber = tiernumber + 1
@@ -47,10 +47,21 @@ phonetier_number = -1
 llhtier_number = -1
 wordtier_number = -1
 cantier_number = -1
+orttier_number = -1
 
 if phonetier_name$ <> ""
 @indexOfTier: phonetier_name$
 	phonetier_number = indexOfTier.number
+endif
+
+if orttier_name$ <> ""
+@indexOfTier: orttier_name$
+	orttier_number = indexOfTier.number
+	if indexOfTier.inserted == 1
+		if phonetier_name$ <> ""
+			phonetier_number = phonetier_number + 1
+		endif
+	endif
 endif
 
 if llhtier_name$ <> ""
@@ -59,6 +70,9 @@ if llhtier_name$ <> ""
 	if indexOfTier.inserted == 1
 		if phonetier_name$ <> ""
 			phonetier_number = phonetier_number + 1
+		endif
+		if orttier_name$ <> ""
+			orttier_number = orttier_number + 1
 		endif
 	endif
 endif
@@ -69,6 +83,9 @@ if wordtier_name$ <> ""
 	if indexOfTier.inserted == 1
 		if phonetier_name$ <> ""
 			phonetier_number = phonetier_number + 1
+		endif
+		if orttier_name$ <> ""
+			orttier_number = orttier_number + 1
 		endif
 		if llhtier_name$ <> ""
 			llhtier_number = llhtier_number + 1
@@ -82,6 +99,9 @@ if cantier_name$ <> ""
 	if indexOfTier.inserted == 1
 		if phonetier_name$ <> ""
 			phonetier_number = phonetier_number + 1
+		endif
+		if orttier_name$ <> ""
+			orttier_number = orttier_number + 1
 		endif
 		if llhtier_name$ <> ""
 			llhtier_number = llhtier_number + 1
@@ -101,8 +121,9 @@ editor: textgrid_object$
 endeditor
 
 @insertTableTextGrid: tmpfile$, textgrid_object$, phonetier_name$,
-... wordtier_name$, cantier_name$, llhtier_name$, phonetier_number,
-... wordtier_number, cantier_number, llhtier_number
+... orttier_name$, wordtier_name$, cantier_name$, llhtier_name$,
+... phonetier_number, orttier_number, wordtier_number, cantier_number,
+... llhtier_number
 
 # Reselect the TextGrid and re-open editor
 selectObject: textgrid_object$

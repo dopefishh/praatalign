@@ -16,6 +16,7 @@ if fileReadable("settings")
 		ruleset$ = ""
 	endif
 	new$ = extractLine$(settingsData$, "NEW: ")
+	ort$ = extractLine$(settingsData$, "ORT: ")
 	wrd$ = extractLine$(settingsData$, "WRD: ")
 	can$ = extractLine$(settingsData$, "CAN: ")
 	llh$ = extractLine$(settingsData$, "LLH: ")
@@ -60,6 +61,7 @@ else
 	dictionary$ = ""
 	ruleset$ = ""
 	new$ = "phon"
+	ort$ = ""
 	wrd$ = ""
 	can$ = ""
 	llh$ = ""
@@ -84,6 +86,9 @@ beginPause: "Basic options"
 	comment: "Praatalign version 1.9b"
 	comment: "Name for the output tier(may already exist)"
 	sentence: "new", new$
+
+	comment: "Name for the output tier used for orthographic word level alignment"
+	sentence: "ort", ort$
 	
 	comment: "Name for the output tier used for word level alignment"
 	sentence: "wrd", wrd$
@@ -237,6 +242,7 @@ writeFileLine("settings",
 ..."LLH: ", llh$, newline$,
 ..."NEW: ", new$, newline$,
 ..."CAN: ", can$, newline$,
+..."ORT: ", ort$, newline$,
 ..."OUT: ", "praat_temp_out", newline$,
 ..."RUL: ", ruleset$, newline$,
 ..."SOX: ", soxex$, newline$,

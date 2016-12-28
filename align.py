@@ -6,7 +6,6 @@ import itertools
 import logging
 import os
 import phonetizer as ph
-import re
 import subprocess
 import sys
 
@@ -38,6 +37,7 @@ def _force(phonetizer, utterance, starttime, duration, wavefile,
     """
     Force aligns the given utterance, all parameters are passed by kwarg
     """
+    print(utterance)
     logging.info('Starting to align: {}'.format(code))
     logging.info('Removing old files')
     for suffix in ['dot', 'htk', 'nis', 'rec', 'slf', 'status']:
@@ -62,9 +62,6 @@ def _force(phonetizer, utterance, starttime, duration, wavefile,
     with open('{}.dot'.format(basename), 'w') as f:
         f.write(phonetizer.todot(*dawg))
     logging.info('SLF file created')
-
-    # Extract the current directory to eliminate some PATH problems
-    cwd = os.getcwd()
 
     # Run the sound processing
     soxcommand = [
@@ -127,6 +124,7 @@ def _force(phonetizer, utterance, starttime, duration, wavefile,
 
     # Open the output file
     out = 'praat_temp_out'
+    ortwords = utterance.split(' ')
     with open(out, code) as fileio:
         logging.info('Output file selected')
         with open('{}.rec'.format(basename), 'r') as f:
@@ -149,6 +147,8 @@ def _force(phonetizer, utterance, starttime, duration, wavefile,
                         word[0], start, word[1]))
                     fileio.write('{:f},{:f},{},c\n'.format(
                         word[0], start, canonical.pop(0)))
+                    fileio.write('{:f},{:f},{},o\n'.format(
+                        word[0], start, ortwords.pop(0)))
                     word = (end, '')
                 # Else add the current phone to the current word
                 else:
@@ -168,6 +168,7 @@ def parsesettings(filepath):
     with open(filepath, 'r') as f:
         settings = {k: v.strip() for k, v in (x.split(': ') for x in f)}
     return settings
+
 
 if __name__ == '__main__':
     # Load the sett

@@ -54,16 +54,30 @@ phonetier_number = -1
 llhtier_number = -1
 wordtier_number = -1
 cantier_number = -1
+orttier_number = -1
 
 if phonetier_name$ <> ""
 @indexOfTier: phonetier_name$
 	phonetier_number = indexOfTier.number
 endif
 
+if orttier_name$ <> ""
+@indexOfTier: orttier_name$
+	orttier_number = indexOfTier.number
+	if indexOfTier.inserted == 1
+		if phonetier_name$ <> ""
+			phonetier_number = phonetier_number + 1
+		endif
+	endif
+endif
+
 if llhtier_name$ <> ""
 @indexOfTier: llhtier_name$
 	llhtier_number = indexOfTier.number
 	if indexOfTier.inserted == 1
+		if orttier_name$ <> ""
+			orttier_number = orttier_number + 1
+		endif
 		if phonetier_name$ <> ""
 			phonetier_number = phonetier_number + 1
 		endif
@@ -74,6 +88,9 @@ if wordtier_name$ <> ""
 @indexOfTier: wordtier_name$
 	wordtier_number = indexOfTier.number
 	if indexOfTier.inserted == 1
+		if orttier_name$ <> ""
+			orttier_number = orttier_number + 1
+		endif
 		if phonetier_name$ <> ""
 			phonetier_number = phonetier_number + 1
 		endif
@@ -87,6 +104,9 @@ if cantier_name$ <> ""
 @indexOfTier: cantier_name$
 	cantier_number = indexOfTier.number
 	if indexOfTier.inserted == 1
+		if orttier_name$ <> ""
+			orttier_number = orttier_number + 1
+		endif
 		if phonetier_name$ <> ""
 			phonetier_number = phonetier_number + 1
 		endif
@@ -100,6 +120,9 @@ if cantier_name$ <> ""
 endif
 
 # Clean up the phone tier
+if orttier_name$ <> ""
+	@cleanAnnotation: textgrid_object$, orttier_number, selection_start, selection_end
+endif
 if phonetier_name$ <> ""
 	@cleanAnnotation: textgrid_object$, phonetier_number, selection_start, selection_end
 endif
@@ -126,8 +149,9 @@ system 'pythonex$' align.py annotation
 returnstatus$ = readFile$: statusfile$
 if returnstatus$ == ""
 	@insertTableTextGrid: tmpfile$, textgrid_object$, phonetier_name$,
-... wordtier_name$, cantier_name$, llhtier_name$, phonetier_number,
-... wordtier_number, cantier_number, llhtier_number
+... orttier_name$, wordtier_name$, cantier_name$, llhtier_name$,
+... phonetier_number, orttier_number, wordtier_number, cantier_number,
+... llhtier_number
 else
 	pauseScript: "Error! check the info window for details..."
 	appendInfoLine: returnstatus$
