@@ -1,6 +1,6 @@
 %&book
 \begin{document}
-\cleardoublepage
+\cleardoublepage%
 \maketitle
 \setcounter{page}{1}
 \tableofcontents
@@ -113,8 +113,7 @@ $ make -j4 htktools
 		\end{itemize}
 \end{itemize}
 
-\section{Installation}
-\label{sec:installation}
+\section{Installation}\label{sec:installation}
 The installation of the plug-in is very easy but the method differs for
 different systems.\footnote{The plugin is tested on Windows 7, Windows Server
 2008 via Windows Terminal Services, Windows 10, Linux and Mac. Other versions
@@ -137,13 +136,13 @@ Run the installation script for your system.
 \end{itemize}
 
 \subsection{Manual installation}
-Copy the contents of the root directory to(you have to create the directory if
+Copy the contents of the root directory to (you have to create the directory if
 it does not already exist):
 \begin{itemize}
 	\item \textbf{Linux and *NIX}\\
 		\texttt{\$\{HOME\}/.praat-dir/plugin\_pralign/}.
 	\item \textbf{Windows}\\
-		\texttt{\%USERPROFILE\%\textbackslash Praat\textbackslash plugin\_pralign/}
+		\texttt{\%USERPROFILE\%\textbackslash{} Praat\textbackslash{} plugin\_pralign/}
 	\item \textbf{Mac}\\
 		\texttt{\$\{HOME\}/Library/Preferences/Praat Prefs/plugin\_pralign/}
 \end{itemize}
@@ -199,8 +198,8 @@ function runs by default before any alignment.}
 \subsection{\texttt{Align current interval}}
 This function aligns the current selected interval on the current selected
 tier. When selecting a small interval it should not take much time at all. When
-you select an interval from an output tier(phone, word, canonical or log) the
-function will prompt you to make sure this is what you want to do. This
+you select an interval from an output tier (phone, ort, word, canonical or log)
+the function will prompt you to make sure this is what you want to do. This
 functions first clears out the annotations on the output tiers.
 
 \subsection{\texttt{Align current tier}}
@@ -226,6 +225,14 @@ entered. All settings are analogous to the names of the settings in the
 		tier. If the tier does not exist it will be created upon doing the first
 		alignment. When you leave this field empty no phone level tier will be
 		created.
+	\item \texttt{ort}: %
+		Name of the output tier storing the word level orthographic alignment
+
+		In this option you specify the name of the tier where the word level
+		orthographic alignment is stored, this can be either an existing tier
+		or a non existing tier. If the tier does not exist it will be created
+		upon doing the first alignment. When you leave this field empty no
+		word level orthographic level tier will be created.
 	\item \texttt{wrd}: %
 		Name of the output tier storing the word level alignment
 
@@ -246,7 +253,7 @@ entered. All settings are analogous to the names of the settings in the
 		Name of the output tier storing the log likelihood
 
 		In this option you specify the name of the tier where the log likelihood of
-		every phone is stored , this can be either an existing tier or a non
+		every phone is stored, this can be either an existing tier or a non
 		existing tier. If the tier does not exist it will be created upon doing the
 		first alignment. When you leave this field empty no log likelihood tier
 		will be created.
@@ -328,9 +335,10 @@ script.
 		\begin{itemize}
 			\item \textbf{Windows}\\
 				If you have installed sox using the MSI you can find \texttt{sox.exe}
-				in \texttt{C:\textbackslash 
-				Program Files (x86)\textbackslash sox-14-4-1} or
-				\texttt{C:\textbackslash Program Files\textbackslash sox-14-4-1}.
+				in \texttt{C:\textbackslash%
+				Program Files (x86)\textbackslash{} sox{-}14{-}4{-}1} or
+				\texttt{C:\textbackslash{} Program Files\textbackslash{}
+				sox{-}14{-}4{-}1}.
 				If you just downloaded the zip file you can just point to the location
 				you extracted the archive and select \texttt{sox.exe}.
 			\item \textbf{Mac}\\
@@ -395,7 +403,7 @@ script.
 
 		\begin{itemize}
 			\item \textbf{Windows}\\
-				Python can usually be found in \texttt{C:\textbackslash Python27}.
+				Python can usually be found in \texttt{C:\textbackslash{} Python27}.
 				From there you can select \texttt{python.exe}
 			\item \textbf{Mac, Linux, and other *NIX}\\
 				If you have installed sox using a package manager it probably
@@ -433,7 +441,7 @@ empataran<TAB>e m p a t a r a n
 \section{Ruleset}
 Besides generating pronunciation by using the dictionary and phonetization you
 can also use rulesets to define pronunciation variants. Ruleset make you able
-to define general rules applied over all words(phonetized words and dictionary
+to define general rules applied over all words (phonetized words and dictionary
 words). In this way you can easily define for example deletion rules.
 A ruleset file is a \texttt{UTF-8} encoded file containing non-empty lines
 separated by a newline character. Lines starting with a \texttt{\#} will be
@@ -449,16 +457,15 @@ for a ruleset.
 		expressive but also more complicated to write. Regular rules start with a
 		single tab character to denote that they are in fact regular expressions.
 		For example a deletion rule that deletes a \texttt{d} between two vowels
-		and potentially also across word boundaries can be written like \texttt{%
-		<TAB>([aouie] \#?) d ([aouie])<TAB>\textbackslash 1 \textbackslash 2}.
+		and potentially also across word boundaries can be written like
+		\verb|<TAB>([aouie] #?) d ([aouie])<TAB>\1\2|
 		Internally we use the \texttt{re.sub} function from the Python \texttt{re}
 		library\footnote{\url{https://docs.python.org/2/library/re.html}}. Besides
 		that there are some extra shortcuts and options:
 		\begin{itemize}
-			\item \texttt{\textbackslash v} for vowels(\texttt{[aoeiu]})
-			\item \texttt{\textbackslash c} for consonants(%
-				\texttt{[\textasciicircum aoeiu]})
-			\item \texttt{\#} for a inter word silence
+			\item \verb|\v| for vowels (\verb|[aoeiu]|)
+			\item \verb|\c| for consonants (\verb|[~aoeiu]|)
+			\item \verb|#| for a inter word silence
 		\end{itemize}
 \end{itemize}
 
@@ -602,7 +609,7 @@ endeditor
 		throwing exceptions. When words are not phonetized it means that it is not
 		in the dictionary nor phonetizable. To fix this you can edit the phonetizer
 		or add the word to the dictionary.
-	\item Pop-up stating: \textbf{Error! check the text window for details...}\\
+	\item Pop-up stating: \textbf{Error! check the text window for details\ldots}\\
 		This means something went wrong in the python script. Check the info
 		window. Usually it is a missing binary, ruleset etc. It could also be
 		that you used a phone that does not exist in the model
@@ -622,7 +629,7 @@ endeditor
 \chapter{Extending Praatalign}
 \section{Introduction}
 Extending the aligner with new languages should be very easy for languages that
-can be mapped on the current SAMPA model or on any other existing model(maus
+can be mapped on the current SAMPA model or on any other existing model (maus
 model).
 Adding a language with a new model could be possible but no support will be
 given, however you can always try, you can even try getting help. Adding a
@@ -689,15 +696,15 @@ the menus and work out of the box.
 \lstinputlisting{../LICENCE}
 
 \section{Acoustic model phone specifications}\label{sec:models}
-\subsection{Spanish}
-\label{sec:phspanish}
+\subsection{Spanish}\label{sec:phspanish}
 The Spanish mapping is an exact mapping with the spanish SAMPA
 phoneset\footnote{\url{http://www.phon.ucl.ac.uk/home/sampa/spanish.htm}}.
 
 {\small
 \begin{longtable}{l|l|l|l}
+	\toprule
 	& Symbol & Word & Transcription\\
-	\hline
+	\midrule
 	\multirow{6}{*}{Plosives} &
 	p & padre & p a D r e\\
   & b & vino & b i n o\\
@@ -705,11 +712,11 @@ phoneset\footnote{\url{http://www.phon.ucl.ac.uk/home/sampa/spanish.htm}}.
   & d & donde & d o n d e\\
   & k & casa & k a s a\\
   & g & gata & g a t a\\
-	\hline
+	\midrule
 	\multirow{2}{*}{Affricatives} &
 	tS & mucho & m u tS o\\
 	& jj & hielo & jj e l o\\
-	\hline
+	\midrule
 	\multirow{7}{*}{Fricatives} &
 	f & fácil & f a T i l\\
 	& B & cabra & k a B r a\\
@@ -718,37 +725,37 @@ phoneset\footnote{\url{http://www.phon.ucl.ac.uk/home/sampa/spanish.htm}}.
 	& s & sala & s a l a \\
 	& x & mujer & m u x e r\\
 	& G & luego & l w e G o\\
-	\hline
+	\midrule
 	\multirow{3}{*}{Nasals} &
 	m & mismo & m i s m o\\
 	& n & nunca & n u n k a\\
 	& J & año & a J o\\
-	\hline
+	\midrule
 	\multirow{4}{*}{Liquids} & 
 	l & lejos & l e x o s\\
 	& L & caballo & k a b a L o\\
 	& r & puro & p u r o\\
 	& rr & torre & t o rr e\\
-	\hline
+	\midrule
 	\multirow{4}{*}{Semivowels} &
 	j & rei & rr e j\\
 	&  & pie & p j e\\
 	& w & deuda & d e w D a\\
 	&  & muy & m w i\\
-	\hline
+	\midrule
 	\multirow{5}{*}{Vowels} &
 	i & pico & p i k o\\
 	& e & pero & p e r o\\
 	& a & valle & b a L e\\
 	& o & toro & t o r o\\
 	& u & duro & d u r o\\
-	\hline
+	\midrule
 	\multirow{4}{*}{Special} &
-	\textless  & word initial silence & \\
-	& \textgreater  & word final silence & \\
+	\textless{} & word initial silence & \\
+	& \textgreater{} & word final silence & \\
 	& \# & inter word silence & \\
-	& \textless nib\textgreater  & non speech sound & \\
-	\hline
+	& \textless{}nib\textgreater{} & non speech sound & \\
+	\bottomrule
 	\caption{Spanish phone specification}
 \end{longtable}
 }
@@ -761,7 +768,7 @@ http://www.phon.ucl.ac.uk/home/sampa/dutch.htm}}
 {\small
 \begin{longtable}{l|l|l|l}
 	& Praatalign & Word & Transcription\\
-	\hline
+	\toprule
 	\multirow{6}{*}{Plosives} &
 	p & pak & p A k\\
 	& b & bak & b A k\\
@@ -769,7 +776,7 @@ http://www.phon.ucl.ac.uk/home/sampa/dutch.htm}}
 	& d & dak & d A k\\
 	& k & kap & k A p\\
 	& g & goal & g o: l\\
-	\hline
+	\midrule
 	\multirow{9}{*}{Fricatives} &
 	f & fel & f E l\\
 	& v & vel & v E l\\
@@ -780,7 +787,7 @@ http://www.phon.ucl.ac.uk/home/sampa/dutch.htm}}
 	& h & hand & h A n t\\
 	& Z & bagage & b A g a: Z @\\
 	& S & show & S o: u\\
-	\hline
+	\midrule
 	\multirow{7}{*}{Sonorants} &
 	m & met & m E t\\
 	& n & net & n E t\\
@@ -789,7 +796,7 @@ http://www.phon.ucl.ac.uk/home/sampa/dutch.htm}}
 	& r & rand & r A n t\\
 	& w & wit & w I t\\
 	& j & ja & j a:\\
-	\hline
+	\midrule
 	\multirow{6}{*}{Checked vowels} &
 	I & pit & p I t\\
 	& E & pet & p E t\\
@@ -797,7 +804,7 @@ http://www.phon.ucl.ac.uk/home/sampa/dutch.htm}}
 	& O & pot & p O t\\
 	& Y & put & p Y t\\
 	& @ & gemakkelijk & G @ m A k @ l @ k\\
-	\hline
+	\midrule
 	\multirow{10}{*}{Free vowels} &
 	i & vier & v i r\\
 	& y & vuur & v y r\\
@@ -809,7 +816,7 @@ http://www.phon.ucl.ac.uk/home/sampa/dutch.htm}}
 	& EI & fijn & f EI n\\
 	& \textbf{P9y} &huis & h P9y s\\
 	& Au & goud & x Au t\\
-	\hline
+	\midrule
 	\multirow{6}{*}{Dipthongs} &
 	a:i & draai & d r a: i\\
 	& o:i &mooi & m o: i\\
@@ -817,18 +824,18 @@ http://www.phon.ucl.ac.uk/home/sampa/dutch.htm}}
 	& iu & nieuw & n iu\\
 	& yu & duw & d yu\\
 	& e:u & sneeuw & s n e: u\\
-	\hline
+	\midrule
 	\multirow{3}{*}{Marginal vowels} &
-	E: & cr\'eme & k r E: m\\
+	E:\ & cr\'eme & k r E:\ m\\
 	& \textbf{P9:} & freule & f r P9: l @\\
-	& O: & roze & r O: z @\\
-	\hline
+	& O:\ & roze & r O:\ z @\\
+	\midrule
 	\multirow{4}{*}{Special} &
-	\textless & word initial silence & \\
-	& \textgreater & word final silence & \\
+	\textless{} & word initial silence & \\
+	& \textgreater{} & word final silence & \\
 	& \# & inter word silence & \\
-	& \textless nib\textgreater & non speech sound & \\
-	\hline
+	& \textless{} nib\textgreater{} & non speech sound & \\
+	\bottomrule
 	\caption{Dutch phone specification}
 \end{longtable}
 }
@@ -849,7 +856,7 @@ cmu2praatalign.py [inputfile [outputfile]]}.
 {\small
 \begin{longtable}{l|l|p{.3\linewidth}|l}
 	& Symbol & Word & Transcription\\
-	\hline
+	\toprule
 	\multirow{6}{*}{Plosives} &
 	  p & pen &\\
 	& b & but &\\
@@ -857,11 +864,11 @@ cmu2praatalign.py [inputfile [outputfile]]}.
 	& d & do &\\
 	& k & skill &\\
 	& g & go &\\
-	\hline
+	\midrule
 	\multirow{2}{*}{Affricatives} &
 	tS & chair &\\
 	& dZ & gin &\\
-	\hline
+	\midrule
 	\multirow{9}{*}{Fricatives} &
 		f & fool &\\
 	& v & voice &\\
@@ -872,20 +879,20 @@ cmu2praatalign.py [inputfile [outputfile]]}.
 	& S & she &\\
 	& Z & pleasure &\\
 	& h & ham &\\
-	\hline
+	\midrule
 	\multirow{3}{*}{Nasals} &
 	m & man &\\
 	& n & no &\\
 	& N & ring &\\
-	\hline
+	\midrule
 	\multirow{2}{*}{Liquids} &
 	r & perro &\\
 	& l & left &\\
-	\hline
+	\midrule
 	\multirow{2}{*}{Sonorant glides} &
 	w & we &\\
 	& j & yes &\\
-	\hline
+	\midrule
 	\multirow{6}{*}{Checked vowels} &
 	I & English city &\\
 	& e & bear &\\
@@ -893,10 +900,10 @@ cmu2praatalign.py [inputfile [outputfile]]}.
 	& Q & cough &\\
 	& V & run &\\
 	& U & put &\\
-	\hline
+	\midrule
 	\multirow{1}{*}{Short vowels} &
 	@ & about &\\
-	\hline
+	\midrule
 	\multirow{13}{*}{Free vowels} &
 	i: & ease &\\
 	& eI & raise &\\
@@ -906,47 +913,47 @@ cmu2praatalign.py [inputfile [outputfile]]}.
 	& @U & nose &\\
 	& aU & rouse &\\
 	& 3: & furs &\\
-	& A: & stars &\\
-	& O: & cause &\\
+	& A:\ & stars &\\
+	& O:\ & cause &\\
 	& I@ & dears &\\
 	& e@ & stairs &\\
 	& U@ & cures &\\
-	\hline
+	\midrule
 	\multirow{3}{*}{Special} &
-	\textless & word initial silence & \\
-	& \textgreater & word final silence & \\
+	\textless{} & word initial silence & \\
+	& \textgreater{} & word final silence & \\
 	& \# & inter word silence & \\
-	& \textless nib\textgreater & non speech sound & \\
-	\hline\hline
+	& \textless{} nib\textgreater{} & non speech sound & \\
+	\midrule\midrule
 	\multirow{22}{*}{Borrowed phones} & Symbol & description &
-		example(language)\\
-	\hline
-	& a\textasciitilde & 
-		nasalized central open vowel & vent(fra)\\
-	& E\textasciitilde & 
+		example (language)\\
+	\midrule
+	& a\textasciitilde{} & 
+		nasalized central open vowel & vent (fra)\\
+	& E\textasciitilde{} & 
 		nasalized lengthened front half open unrounded vowel & (deu)\\
-	& o\textasciitilde & 
-		nasalized back half closed rounded vowel & bon(fra)\\
-	& 6: & lengthened central neutral unrounded vowel & (aus)\\
-	& \}: & lengthened central closed rounded vowel & pool(aus)\\
-	& e: & lengthened front half closed unrounded vowel & mehr(deu)\\
-	& o: & lengthened back half closed rounded vowel & Sohle(deu)\\
+	& o\textasciitilde{} & 
+		nasalized back half closed rounded vowel & bon (fra)\\
+	& 6:\ & lengthened central neutral unrounded vowel & (aus)\\
+	& \}:\ & lengthened central closed rounded vowel & pool (aus)\\
+	& e:\ & lengthened front half closed unrounded vowel & mehr (deu)\\
+	& o:\ & lengthened back half closed rounded vowel & Sohle (deu)\\
 	& @\} & diphthong &\\
 	& Ae & diphthong & (aus)\\
 	& \{I & diphthong & (aus)\\
 	& \{O & diphthong & (aus)\\
 	& oI & diphthong & (aus)\\
-	& O & back half open rounded vowel & law(brit)\\
+	& O & back half open rounded vowel & law (brit)\\
 	& i & front closed unrounded vowel & see\\
 	& u & back closed rounded vowel & soon\\
-	& o & back half closed rounded vowel & sore(us)\\
+	& o & back half closed rounded vowel & sore (us)\\
 	& E & front half open unrounded vowel & bed\\
-	& 6 & central neutral unrounded vowel & besser(deu)\\
-	& ? & glottal stop & Verein(ger)\\
-	& x & voiceless velar fricative & loch(scot)\\
-	& C & voiceless palatal fricative & Ich(ger)\\
+	& 6 & central neutral unrounded vowel & besser (deu)\\
+	&? & glottal stop & Verein (ger)\\
+	& x & voiceless velar fricative & loch (scot)\\
+	& C & voiceless palatal fricative & Ich (ger)\\
 	& W & voiceless labial-velar fricative &\\
-	\hline
+	\bottomrule
 	\caption{English phone specification}
 \end{longtable}
 }
@@ -955,7 +962,7 @@ cmu2praatalign.py [inputfile [outputfile]]}.
 {\small
 \begin{longtable}{l|p{.3\linewidth}|p{.15\linewidth}|l|p{.15\linewidth}|l}
 	Sym & description & examples & lang & type & location\\
-	\hline
+	\toprule
 	i	& front closed unrounded vowel	& English see, Spanish sí, French vite, German mi.e.ten, Italian visto	& xxx	& vowel	& front	\\
 	I	& front closed unrounded vowel, but somewhat more centralised and relaxed, in Polish: mid closed unrounded	& English city, German mit	& xxx	& vowel	& front	\\
 	1	& close central unrounded vowel	& Russian mys	& xxx	& vowel	& central	\\
@@ -988,14 +995,14 @@ cmu2praatalign.py [inputfile [outputfile]]}.
 	d	& voiced alveolar plosive	& English do, Italian cade	& xxx	& plosive	& alveolar	\\
 	ts	& voiceless alveolar affricate	& Italian calza, German zeit	& xxx	& affricate	& alveolar	\\
 	dz	& voiced alveolar affricate	& Italian zona	& xxx	& affricate	& alveolar	\\
-	tS	& voiceless postalveolar affricate	& English chair, , Spanish mucho	& xxx	& affricate	& post-alveolar	\\
+	tS	& voiceless postalveolar affricate	& English chair, Spanish mucho	& xxx	& affricate	& post-alveolar	\\
 	dZ	& voiced postalveolar affricate	& English gin, Italian giorno	& xxx	& affricate	& post-alveolar	\\
 	pf	& voiceless labial affricate	& German Pferd	& xxx	& affricate	& bilabial	\\
-	c	& voiceless palatal plosive	& Hungarian tyúk 'hen'	& xxx	& plosive	& palatal	\\
+	c	& voiceless palatal plosive	& Hungarian tyúk `hen'	& xxx	& plosive	& palatal	\\
 	k	& voiceless velar plosive	& English skill	& xxx	& plosive	& velar	\\
 	g	& voiced velar plosive	& English go	& xxx	& plosive	& velar	\\
 	q	& voiceless uvular plosive	& Arabic qof	& xxx	& plosive	& uvular	\\
-	B	& voiced bilabial fricative	& Catalan roba 'clothes'	& xxx	& fricative	& bilabial	\\
+	B	& voiced bilabial fricative	& Catalan roba `clothes'	& xxx	& fricative	& bilabial	\\
 	f	& voiceless labiodental fricative	& English fool, Spanish and Italian falso	& xxx	& fricative	& labio-dental	\\
 	v	& voiced labiodental fricative	& English voice, German Welt	& xxx	& fricative	& labio-dental	\\
 	T	& voiceless dental fricative	& English thing, Castilian Spanish caza	& xxx	& fricative	& dental	\\
@@ -1023,29 +1030,29 @@ cmu2praatalign.py [inputfile [outputfile]]}.
 	w	& labial-velar approximant	& English we, French oui	& xxx	& approximant	& labio-velar	\\
 	H	& labial-palatal approximant	& French huit	& xxx	& approximant	& labio-palatal	\\
 	j	& palatal approximant	& English yes, French yeux	& xxx	& approximant	& palatal	\\
-	?	& glottal stop	& German Verein, Danish stød	& xxx	& plosive	& glottal	\\
+?	& glottal stop	& German Verein, Danish st\o{}d	& xxx	& plosive	& glottal	\\
 	W	& voiceless labial-velar fricative	& 	& xxx	& fricative	& labio-velar	\\
-	D:	& lengthened voiced dental fricative	& 	& fin	& fricative	& dental	\\
-	T:	& lengthened voiceless dental fricative	& 	& fin	& fricative	& dental	\\
-	i:	& lengthened front closed unrounded vowel	& mieten	& deu	& vowel	& front	\\
+	D:\	& lengthened voiced dental fricative	& 	& fin	& fricative	& dental	\\
+	T:\	& lengthened voiceless dental fricative	& 	& fin	& fricative	& dental	\\
+	i:\	& lengthened front closed unrounded vowel	& mieten	& deu	& vowel	& front	\\
 	ii	& lengthened front closed unrounded vowel in quantity II	& riisu	& ekk	& vowel	& front	\\
 	ii:	& lengthened front closed unrounded vowel in quantity III	& 	& ekk	& vowel	& front	\\
 	e:	& lengthened front half closed unrounded vowel	& mehr	& deu	& vowel	& front	\\
 	ee	& lengthened front half closed unrounded vowel in quantity II	& keere	& ekk	& vowel	& front	\\
 	ee:	& lengthened front half closed unrounded vowel in quantity III	& 	& ekk	& vowel	& front	\\
-	E:	& lengthened front half open unrounded vowel	& Mär	& deu	& vowel	& front	\\
+	E:\	& lengthened front half open unrounded vowel	& M\"ar	& deu	& vowel	& front	\\
 	y:	& lengthened front closed rounded vowel	& Tür	& deu	& vowel	& front	\\
-	Y:	& lengthened lax [y]	& (Swiss German)	& deu	& vowel	& front	\\
+	Y:\	& lengthened lax [y]	& (Swiss German)	& deu	& vowel	& front	\\
 	2:	& lengthened front half closed rounded vowel	& Höhle	& deu	& vowel	& front	\\
 	a:	& lengthened central open vowel	& Haar	& deu	& vowel	& central	\\
 	u:	& lengthened back closed rounded vowel	& Hut	& deu	& vowel	& back	\\
 	o:	& lengthened back half closed rounded vowel	& Sohle	& deu	& vowel	& back	\\
 	3:	& lengthened front half open unrounded vowel	& furs	& aus	& vowel	& front	\\
-	A:	& lengthened back open unrounded vowel	& stars	& aus	& vowel	& back	\\
-	O:	& lengthened back half open rounded vowel	& cause	& aus	& vowel	& back	\\
+	A:\	& lengthened back open unrounded vowel	& stars	& aus	& vowel	& back	\\
+	O:\	& lengthened back half open rounded vowel	& cause	& aus	& vowel	& back	\\
 	P6:	& lengthened central neutral unrounded vowel	& 	& aus	& vowel	& central	\\
 	\}:	& lengthened central closed rounded vowel	& pool	& aus	& vowel	& central	\\
-	Q:	& lengthened open back rounded	& (Swiss German)	& aus	& vowel	& back	\\
+	Q:\	& lengthened open back rounded	& (Swiss German)	& aus	& vowel	& back	\\
 	9:	& lengthened front half open rounded vowel	& 	& nld	& vowel	& front	\\
 	\{\{	& lengthened front open unrounded vowel in quantity II	& kääru	& ekk	& vowel	& front	\\
 	\{:	& lengthened front open unrounded vowel in quantity II	& kääru	& ekk	& vowel	& front	\\
@@ -1062,83 +1069,83 @@ cmu2praatalign.py [inputfile [outputfile]]}.
 	7:	& back half closed unrounded vowel in quantity II	& sõõre	& ekk	& vowel	& back	\\
 	77:	& back half closed unrounded vowel in quantity III	& 	& ekk	& vowel	& back	\\
 	AA	& lengthened back open unrounded vowel in quantity II	& vaaru	& ekk	& vowel	& back	\\
-	AA:	& lengthened back open unrounded vowel in quantity III	& 	& ekk	& vowel	& back	\\
-	aU	& diphthong	& Haus	& deu	& diphthong	& front\textgreater back	\\
+	AA:\ & lengthened back open unrounded vowel in quantity III	& 	& ekk	& vowel	& back	\\
+	aU	& diphthong	& Haus	& deu	& diphthong	& front\textgreater{} back	\\
 	aI	& diphthong	& Bein	& deu	& diphthong	& front	\\
 	ai	& diphthong	& 	& ita	& diphthong	& front	\\
 	a:i	& diphthong	& 	& nld	& diphthong	& front	\\
-	Ae	& diphthong	& 	& aus	& diphthong	& back\textgreater front	\\
+	Ae	& diphthong	& 	& aus	& diphthong	& back\textgreater{} front	\\
 	Au	& diphthong	& 	& nld	& diphthong	& back	\\
-	OY	& diphthong	& heulen	& deu	& diphthong	& back\textgreater front	\\
+	OY	& diphthong	& heulen	& deu	& diphthong	& back\textgreater{} front	\\
 	eI	& diphthong	& raise	& aus	& diphthong	& front	\\
-	e@	& diphthong	& stairs	& aus	& diphthong	& front\textgreater central	\\
+	e@	& diphthong	& stairs	& aus	& diphthong	& front\textgreater{} central	\\
 	ei	& diphthong	& 	& ita	& diphthong	& front	\\
 	e:i	& diphthong	& 	& nld	& diphthong	& front	\\
-	eU	& diphthong	& 	& por	& diphthong	& front\textgreater back	\\
+	eU	& diphthong	& 	& por	& diphthong	& front\textgreater{} back	\\
 	EI	& diphthong	& raise	& eng	& diphthong	& front	\\
 	Ei	& diphthong	& 	& ita	& diphthong	& front	\\
 	\{I	& diphthong	& 	& aus	& diphthong	& front	\\
-	\{O	& diphthong	& 	& aus	& diphthong	& front\textgreater back	\\
-	I@	& diphthong	& dears	& aus	& diphthong	& front\textgreater central	\\
+	\{O	& diphthong	& 	& aus	& diphthong	& front\textgreater{} back	\\
+	I@	& diphthong	& dears	& aus	& diphthong	& front\textgreater{} central	\\
 	Ii:	& diphthong	& accede	& aus	& diphthong	& front	\\
-	I:	& lengthened front closed unrounded vowel	& (Swiss German)	& deu	& vowel	& front	\\
-	i:@	& diphthong	& memorial	& nze	& diphthong	& central\textgreater front	\\
-	io	& diphthong	& 	& ita	& diphthong	& front\textgreater back	\\
-	iu	& diphthong	& 	& nld	& diphthong	& front\textgreater back	\\
+	I:\	& lengthened front closed unrounded vowel	& (Swiss German)	& deu	& vowel	& front	\\
+	i:@	& diphthong	& memorial	& nze	& diphthong	& central\textgreater{} front	\\
+	io	& diphthong	& 	& ita	& diphthong	& front\textgreater{} back	\\
+	iu	& diphthong	& 	& nld	& diphthong	& front\textgreater{} back	\\
 	ja	& diphthong	& 	& ita	& diphthong	& front	\\
-	jo	& diphthong	& 	& ita	& diphthong	& front\textgreater back	\\
-	ju	& diphthong	& 	& ita	& diphthong	& front\textgreater back	\\
-	oI	& diphthong	& 	& aus	& diphthong	& back\textgreater front	\\
-	oi	& diphthong	& 	& ita	& diphthong	& back\textgreater front	\\
-	o:i	& diphthong	& 	& nld	& diphthong	& back\textgreater front	\\
+	jo	& diphthong	& 	& ita	& diphthong	& front\textgreater{} back	\\
+	ju	& diphthong	& 	& ita	& diphthong	& front\textgreater{} back	\\
+	oI	& diphthong	& 	& aus	& diphthong	& back\textgreater{} front	\\
+	oi	& diphthong	& 	& ita	& diphthong	& back\textgreater{} front	\\
+	o:i	& diphthong	& 	& nld	& diphthong	& back\textgreater{} front	\\
 	oU	& diphthong	& 	& por	& diphthong	& back	\\
-	oE	& diphthong	& 	& ita	& diphthong	& back\textgreater front	\\
-	OI	& diphthong	& noise	& aus	& diphthong	& back\textgreater front	\\
-	Oi	& diphthong	& 	& ita	& diphthong	& back\textgreater front	\\
-	ue	& diphthong	& 	& ita	& diphthong	& back\textgreater front	\\
-	ui	& diphthong	& 	& nld	& diphthong	& back\textgreater front	\\
-	U@	& diphthong	& cures	& aus	& diphthong	& back\textgreater central	\\
-	U:	& lenthened back closed rounded vowel somewhat more centralised and relaxed	& (Swiss German)	& deu	& vowel	& back	\\
+	oE	& diphthong	& 	& ita	& diphthong	& back\textgreater{} front	\\
+	OI	& diphthong	& noise	& aus	& diphthong	& back\textgreater{} front	\\
+	Oi	& diphthong	& 	& ita	& diphthong	& back\textgreater{} front	\\
+	ue	& diphthong	& 	& ita	& diphthong	& back\textgreater{} front	\\
+	ui	& diphthong	& 	& nld	& diphthong	& back\textgreater{} front	\\
+	U@	& diphthong	& cures	& aus	& diphthong	& back\textgreater{} central	\\
+	U:\	& lenthened back closed rounded vowel somewhat more centralised and relaxed	& (Swiss German)	& deu	& vowel	& back	\\
 	wa	& diphthong	& 	& ita	& diphthong	& front	\\
 	we	& diphthong	& 	& ita	& diphthong	& front	\\
 	wi	& diphthong	& 	& ita	& diphthong	& front	\\
 	wO	& diphthong	& 	& ita	& diphthong	& back	\\
-	yu	& diphthong	& 	& nld	& diphthong	& front\textgreater back	\\
-	@U	& diphthong	& nose	& aus	& diphthong	& central\textgreater back	\\
+	yu	& diphthong	& 	& nld	& diphthong	& front\textgreater{} back	\\
+	@U	& diphthong	& nose	& aus	& diphthong	& central\textgreater{} back	\\
 	@\}	& diphthong	& 	& aus	& diphthong	& central	\\
 	@@	& geminate of schwa in quantity II	& 	& ekk	& vowel	& central	\\
 	@:	& geminate of schwa in quantity II	& 	& ekk	& vowel	& central	\\
 	@@:	& geminate of schwa in quantity III	& 	& ekk	& vowel	& central	\\
-	9y	& diphthong	& 	& nld	& diphthong	& back\textgreater front	\\
-	QI	& diphthong	& abide	& aus	& diphthong	& central\textgreater front	\\
-	U\}	& diphthong	& abuse	& aus	& diphthong	& central\textgreater back	\\
-	VU	& diphtong	& acetone	& aus	& diphthong	& central\textgreater back	\\
-	Vi	& diphthong	& abased	& aus	& diphthong	& central\textgreater front	\\
-	\{o	& diphthong	& accounts	& aus	& diphthong	& front\textgreater back	\\
-	2i	& diphthong	& 	& ekk	& diphthong	& back\textgreater front	\\
-	2i:	& diphthong	& 	& ekk	& diphthong	& back\textgreater front	\\
+	9y	& diphthong	& 	& nld	& diphthong	& back\textgreater{} front	\\
+	QI	& diphthong	& abide	& aus	& diphthong	& central\textgreater{} front	\\
+	U\}	& diphthong	& abuse	& aus	& diphthong	& central\textgreater{} back	\\
+	VU	& diphtong	& acetone	& aus	& diphthong	& central\textgreater{} back	\\
+	Vi	& diphthong	& abased	& aus	& diphthong	& central\textgreater{} front	\\
+	\{o	& diphthong	& accounts	& aus	& diphthong	& front\textgreater{} back	\\
+	2i	& diphthong	& 	& ekk	& diphthong	& back\textgreater{} front	\\
+	2i:	& diphthong	& 	& ekk	& diphthong	& back\textgreater{} front	\\
 	7o:	& diphthong	& 	& ekk	& diphthong	& back	\\
 	7u:	& diphthong	& 	& ekk	& diphthong	& back	\\
 	7u	& diphthong	& 	& ekk	& diphthong	& back	\\
-	Ai	& diphthong	& 	& ekk	& diphthong	& back\textgreater front	\\
-	Ai:	& diphthong	& 	& ekk	& diphthong	& back\textgreater front	\\
+	Ai	& diphthong	& 	& ekk	& diphthong	& back\textgreater{} front	\\
+	Ai:	& diphthong	& 	& ekk	& diphthong	& back\textgreater{} front	\\
 	Ao:	& diphthong	& 	& ekk	& diphthong	& back	\\
 	Au:	& diphthong	& 	& ekk	& diphthong	& back	\\
-	Ae:	& diphthong	& 	& ekk	& diphthong	& back\textgreater front	\\
+	Ae:	& diphthong	& 	& ekk	& diphthong	& back\textgreater{} front	\\
 	ei:	& diphthong	& 	& ekk	& diphthong	& front	\\
 	e:u	& diphthong	& 	& nld	& diphthong	& front	\\
-	i~	& nasalized front closed unrounded vowel	& 	& xxx	& vowel	& front	\\
-	e~	& nasalized front half closed unrounded vowel	& vin	& fra	& vowel	& front	\\
-	a~	& nasalized central open vowel	& vent	& fra	& vowel	& front	\\
-	o~	& nasalized back half closed rounded vowel	& bon	& fra	& vowel	& back	\\
-	9~	& nasalized front half open rounded vowel	& brun,neuv	& fra	& vowel	& front	\\
-	E~	& nasalized lengthened front half open unrounded vowel	& 	& deu	& vowel	& front	\\
-	O~	& nasalized back half open rounded vowel	& 	& deu	& vowel	& back	\\
-	u~	& nasalized back closed rounded vowel	& 	& xxx	& vowel	& back	\\
-	a:~	& nasalized lengthened central open vowel	& 	& deu	& vowel	& central	\\
-	E:~	& nasalized lengthened front half open unrounded vowel	& 	& deu	& vowel	& front	\\
-	o:~	& nasalized lengthened back half closed rounded vowel	& 	& deu	& vowel	& back	\\
-	O:~	& nasalized lengthened back half open rounded vowel	& 	& nld	& vowel	& back	\\
+	i\textasciitilde{}	& nasalized front closed unrounded vowel	& 	& xxx	& vowel	& front	\\
+	e\textasciitilde{}	& nasalized front half closed unrounded vowel	& vin	& fra	& vowel	& front	\\
+	a\textasciitilde{}	& nasalized central open vowel	& vent	& fra	& vowel	& front	\\
+	o\textasciitilde{}	& nasalized back half closed rounded vowel	& bon	& fra	& vowel	& back	\\
+	9\textasciitilde{}	& nasalized front half open rounded vowel	& brun,neuv	& fra	& vowel	& front	\\
+	E\textasciitilde{}	& nasalized lengthened front half open unrounded vowel	& 	& deu	& vowel	& front	\\
+	O\textasciitilde{}	& nasalized back half open rounded vowel	& 	& deu	& vowel	& back	\\
+	u\textasciitilde{}	& nasalized back closed rounded vowel	& 	& xxx	& vowel	& back	\\
+	a:\textasciitilde{}	& nasalized lengthened central open vowel	& 	& deu	& vowel	& central	\\
+	E:\textasciitilde{}	& nasalized lengthened front half open unrounded vowel	& 	& deu	& vowel	& front	\\
+	o:\textasciitilde{}	& nasalized lengthened back half closed rounded vowel	& 	& deu	& vowel	& back	\\
+	O:\textasciitilde{}	& nasalized lengthened back half open rounded vowel	& 	& nld	& vowel	& back	\\
 	ts\_j	& palatalized voiceless alveolar affricate	& c'ma	& pol	& affricate	& post-alveolar	\\
 	dz\_j	& palatalized voiced alveolar affricate	& dz'wig	& pol	& affricate	& alveolar	\\
 	s\_j	& palatalized voiceless alveolar fricative	& syk	& pol	& fricative	& alveolar	\\
@@ -1190,7 +1197,7 @@ cmu2praatalign.py [inputfile [outputfile]]}.
 	s:s	& geminate of s in quantity III	& 	& ekk	& fricative	& alveolar	\\
 	zz	& geminate of z	& 	& hun	& fricative	& alveolar	\\
 	SS	& geminate of S	& 	& ita	& fricative	& post-alveolar	\\
-	S:	& lengthened S	& 	& fin	& fricative	& post-alveolar	\\
+	S:\	& lengthened S	& 	& fin	& fricative	& post-alveolar	\\
 	S:S	& geminate of S in quantity III	& 	& ekk	& fricative	& post-alveolar	\\
 	ZZ	& geminate of Z	& 	& hun	& fricative	& post-alveolar	\\
 	xx	& geminate of x	& 	& hun	& fricative	& velar	\\
@@ -1202,7 +1209,7 @@ cmu2praatalign.py [inputfile [outputfile]]}.
 	n:	& lengthened n	& 	& fin	& nasal	& alveolar	\\
 	n:n	& geminate of n in quantity III	& 	& ekk	& nasal	& alveolar	\\
 	NN	& geminate of N	& (Swiss German)	& deu	& nasal	& velar	\\
-	N:	& lengthened N	& 	& fin	& nasal	& velar	\\
+	N:\	& lengthened N	& 	& fin	& nasal	& velar	\\
 	N\_j	& palatalized velar nasal	& 	& ekk	& nasal	& velar	\\
 	ww	& geminate of w	& (Swiss German)	& deu	& approximant	& labio-velar	\\
 	mm	& geminate of m	& 	& ita	& nasal	& bilabial	\\
@@ -1263,30 +1270,30 @@ cmu2praatalign.py [inputfile [outputfile]]}.
 	d\_rl	& release of d	& 	& ita	& plosive	& alveolar	\\
 	b\_cl	& closure of b	& 	& ita	& plosive	& bilabial	\\
 	b\_rl	& release of b	& 	& ita	& plosive	& bilabial	\\
-	\textless	& recording initial silence	& 	& xxx	& silence	& silence	\\
-	\textgreater	& recording trailing silence	& 	& xxx	& silence	& silence	\\
+	\textless{}	& recording initial silence	& 	& xxx	& silence	& silence	\\
+	\textgreater{}	& recording trailing silence	& 	& xxx	& silence	& silence	\\
 	\#	& inter-word silence	& 	& xxx	& silence	& silence	\\
-	\textless nib\textgreater	& noise, non-human	& 	& xxx	& noise	& noise	\\
-	\textless p:\textgreater	& silence interval	& 	& xxx	& silence	& silence	\\
-	\textless usb\textgreater	& human noise, garbage	& 	& xxx	& noise	& noise	\\
-	p\_\textgreater	& voiceless bilabial ejective	& Georgian p'erangi	& xxx	& ejective	& bilabial\\	
-	t\_\textgreater	& voiceless alveolar ejective	& Georgian zedat'ani	& xxx	& ejective	& alveolar\\
-	ts\_\textgreater	& voiceless alveolar affricate ejective	& Georgian ts'indebi	& xxx	& ejective	& alveolar	\\
-	ts`	& retroflex voiceless affricate	& cyk	& pol	& affricate	& retroflex	\\
-	dz`	& retroflex voiced affricate	& dzwon	& pol	& affricate	& retroflex	\\
+	\textless{} nib\textgreater{}	& noise, non-human	& 	& xxx	& noise	& noise	\\
+	\textless{} p:\textgreater{}	& silence interval	& 	& xxx	& silence	& silence	\\
+	\textless{} usb\textgreater{}	& human noise, garbage	& 	& xxx	& noise	& noise	\\
+	p\_\textgreater{}	& voiceless bilabial ejective	& Georgian p\'{}erangi	& xxx	& ejective	& bilabial\\	
+	t\_\textgreater{}	& voiceless alveolar ejective	& Georgian zedat\'{}ani	& xxx	& ejective	& alveolar\\
+	ts\_\textgreater{}	& voiceless alveolar affricate ejective	& Georgian ts'indebi	& xxx	& ejective	& alveolar	\\
+	ts\`	& retroflex voiceless affricate	& cyk	& pol	& affricate	& retroflex	\\
+	dz\`	& retroflex voiced affricate	& dzwon	& pol	& affricate	& retroflex	\\
 	3`	& retroflex front half open unrounded vowel	& furs	& use	& vowel	& front	\\
-	tS\_\textgreater	& voiceless postalveolar affricate ejective	& Georgian k'uch'is	& xxx	& ejective	& post-alveolar	\\
-	c\_\textgreater	& voiceless palatal ejective plosive	& Georgian ch' & xxx	& ejective	& palatal	\\
-	J-	& voiced palatal plosive	& Hungarian egy 'one'	& xxx	& plosive	& palatal	\\
-	k\_\textgreater	& voiceless velar ejective	& Georgian uk'an	& xxx	& ejective	& velar	\\
-	q\_\textgreater	& voiceless uvular ejective	& Georgian saavadmq'opo	& xxx	& ejective	& uvular\\
+	tS\_\textgreater{}	& voiceless postalveolar affricate ejective	& Georgian k'uch'is	& xxx	& ejective	& post-alveolar	\\
+	c\_\textgreater{}	& voiceless palatal ejective plosive	& Georgian ch' & xxx	& ejective	& palatal	\\
+	J-	& voiced palatal plosive	& Hungarian egy `one'	& xxx	& plosive	& palatal	\\
+	k\_\textgreater{}	& voiceless velar ejective	& Georgian uk'an	& xxx	& ejective	& velar	\\
+	q\_\textgreater{}	& voiceless uvular ejective	& Georgian saavadmq'opo	& xxx	& ejective	& uvular\\
 	p-	& voiceless bilabial fricative	& Japanese fu	& xxx	& fricative	& bilabial	\\
-	s`	& retroflex voiceless fricative	& szyk	& pol	& fricative	& retroflex	\\
-	z`	& retroflex voiced fricative	& żyto	& pol	& fricative	& retroflex	\\
+	s\`	& retroflex voiceless fricative	& szyk	& pol	& fricative	& retroflex	\\
+	z\`	& retroflex voiced fricative	& żyto	& pol	& fricative	& retroflex	\\
 	j-	& voiced palatal fricative	& Spanish ayuda	& xxx	& fricative	& palatal	\\
 	M-	& velar approximant	& Spanish algo	& xxx	& approximant	& velar	\\
-	X-	& voiceless pharyngeal fricative	& Arabic h.â	& xxx	& fricative	& pharyngeal	\\
-	?-	& voiced pharyngeal fricative	& Arabic 'ayn	& xxx	& fricative	& pharyngeal	\\
+	X-	& voiceless pharyngeal fricative	& Arabic h.\^a	& xxx	& fricative	& pharyngeal	\\
+?{-}	& voiced pharyngeal fricative	& Arabic \'ayn	& xxx	& fricative	& pharyngeal	\\
 	h-	& voiced glottal fricative	& English	& use	& fricative	& glottal	\\
 	r-	& alveolar approximant	& English run	& xxx	& approximant	& alveolar	\\
 	N=	& syllabic velar nasal	& English walking	& use	& nasal	& velar	\\
@@ -1299,129 +1306,132 @@ cmu2praatalign.py [inputfile [outputfile]]}.
 \newpage
 \section{Version history}
 \begin{longtable}{|p{0.22\linewidth}p{0.8\linewidth}|}
-	\hline
-	1.9 (2016-01-19) & \tabitem Better errors in textwindow.\\
-		& \tabitem Phonetizer file selector in settings.\\
-		& \tabitem Added the errors to align tier.\\
-		& \tabitem Temp files are cleaned up before alignment, therefore no
+	\toprule
+	2.0 (2016{-}12{-}28) & \tabitem{} Add orthographic word level alignment.\\
+		& \tabitem{} Clean up book source code and makefile.\\
+	\midrule
+	1.9 (2016{-}01{-}19) & \tabitem{} Better errors in textwindow.\\
+		& \tabitem{} Phonetizer file selector in settings.\\
+		& \tabitem{} Added the errors to align tier.\\
+		& \tabitem{} Temp files are cleaned up before alignment, therefore no
 			ghost annotations when the alignment has failed.\\
-	\hline
-	1.8 (2015-11-19) & \tabitem Added support for \texttt{Sound}.\\
-		& \tabitem Changed email address of author.\\
-		& \tabitem Elaborated the installation instructions.\\
-		& \tabitem Splitted up the model and phonetizer selection.\\
-		& \tabitem Cleaned up the phone specifications.\\
-		& \tabitem Added an universal phonetizer.\\
-		& \tabitem Big book update with structural changes.\\
-	\hline
-	1.7a (2015-10-13) & \tabitem Fixed critical tier creation bug.\\
-	& \tabitem Added version to settings window.\\
-	\hline
-	1.7 (2015-10-08) & \tabitem More robuust tier creation.\\
-		& \tabitem Some typos fixed in the manual.\\
-		& \tabitem Updated the bibtex snippet.\\
-		&	\tabitem Better tier alignment when the tier is empty.\\
-		&	\tabitem Corrected some spelling errors.\\
-		&	\tabitem Tidied the makefile for the book.\\
-	\hline
-	1.6a (2015-09-29) & \tabitem Fixed the dictionary generator for English.\\
-		& \tabitem Correctly added websites to the authors of the models.\\
-	\hline
-	1.60 (2015-09-07) & \tabitem Fixed menu name from \texttt{force} to
+	\midrule
+	1.8 (2015{-}11{-}19) & \tabitem{} Added support for \texttt{Sound}.\\
+		& \tabitem{} Changed email address of author.\\
+		& \tabitem{} Elaborated the installation instructions.\\
+		& \tabitem{} Splitted up the model and phonetizer selection.\\
+		& \tabitem{} Cleaned up the phone specifications.\\
+		& \tabitem{} Added an universal phonetizer.\\
+		& \tabitem{} Big book update with structural changes.\\
+	\midrule
+	1.7a (2015{-}10{-}13) & \tabitem{} Fixed critical tier creation bug.\\
+	& \tabitem{} Added version to settings window.\\
+	\midrule
+	1.7 (2015{-}10{-}08) & \tabitem{} More robuust tier creation.\\
+		& \tabitem{} Some typos fixed in the manual.\\
+		& \tabitem{} Updated the bibtex snippet.\\
+		&	\tabitem{} Better tier alignment when the tier is empty.\\
+		&	\tabitem{} Corrected some spelling errors.\\
+		&	\tabitem{} Tidied the makefile for the book.\\
+	\midrule
+	1.6a (2015{-}09{-}29) & \tabitem{} Fixed the dictionary generator for English.\\
+		& \tabitem{} Correctly added websites to the authors of the models.\\
+	\midrule
+	1.60 (2015{-}09{-}07) & \tabitem{} Fixed menu name from \texttt{force} to
 \texttt{forced}.\\
-		& \tabitem Fixed silence problem in experimental models.\\
-		& \tabitem Added version to setup dialog.\\
-		& \tabitem Added language for using the general sampa model without
+		& \tabitem{} Fixed silence problem in experimental models.\\
+		& \tabitem{} Added version to setup dialog.\\
+		& \tabitem{} Added language for using the general sampa model without
 			phonetizer.\\
-		& \tabitem Created a better error when loading rulesets or dictionaries in
+		& \tabitem{} Created a better error when loading rulesets or dictionaries in
 			non supported encodings or non existent files.\\
-		& \tabitem Changed the licence to MIT.\\
-	\hline
-	1.50 (2015-07-07) & \tabitem Spanish models merged in original master.\\
-		& \tabitem Procedures in different file, thus cleaner code.\\
-		& \tabitem Reinitialized repo.\\
-		& \tabitem Faster book compilation.\\
-	\hline
-	1.40 (2015-07-01) & \tabitem Added branch for own spanish models.\\
-		& \tabitem Updated book about ruleset.\\
-		& \tabitem Changed name in menu from \texttt{Setup\ldots} to 
+		& \tabitem{} Changed the licence to MIT.\\
+	\midrule
+	1.50 (2015{-}07{-}07) & \tabitem{} Spanish models merged in original master.\\
+		& \tabitem{} Procedures in different file, thus cleaner code.\\
+		& \tabitem{} Reinitialized repo.\\
+		& \tabitem{} Faster book compilation.\\
+	\midrule
+	1.40 (2015{-}07{-}01) & \tabitem{} Added branch for own spanish models.\\
+		& \tabitem{} Updated book about ruleset.\\
+		& \tabitem{} Changed name in menu from \texttt{Setup\ldots} to 
 			\texttt{Set up\dots}.\\
-	\hline
-	1.39 (2015-04-01) & \tabitem Fixed tier alignment.\\
-	\hline
-	1.3 (2015-03-25) & \tabitem Added option for custom python path.\\
-	 & \tabitem Greatly simplified rulesets.\\
-	\hline
-	1.2 (2015-02-18) & \tabitem Simplified installation scripts.\\
-		& \tabitem Fixed a unicode bug in generating dictionaries.\\
-	\hline
-	1.1 (2015-01-30) & \tabitem Implemented better error messaging.\\
-		& \tabitem Simplified the python code into one file.\\
-		& \tabitem Fixed a bug that leaded to a messed up view.\\
-		& \tabitem Fixed small phonetization errors.\\
-	\hline
-	1.0 (2015-01-09) & \tabitem Converted the readme to a pdf.\\
-		& \tabitem Speeded up the process by disabling pitch, intensity,
+	\midrule
+	1.39 (2015{-}04{-}01) & \tabitem{} Fixed tier alignment.\\
+	\midrule
+	1.3 (2015{-}03{-}25) & \tabitem{} Added option for custom python path.\\
+	 & \tabitem{} Greatly simplified rulesets.\\
+	\midrule
+	1.2 (2015{-}02{-}18) & \tabitem{} Simplified installation scripts.\\
+		& \tabitem{} Fixed a unicode bug in generating dictionaries.\\
+	\midrule
+	1.1 (2015{-}01{-}30) & \tabitem{} Implemented better error messaging.\\
+		& \tabitem{} Simplified the python code into one file.\\
+		& \tabitem{} Fixed a bug that leaded to a messed up view.\\
+		& \tabitem{} Fixed small phonetization errors.\\
+	\midrule
+	1.0 (2015{-}01{-}09) & \tabitem{} Converted the readme to a pdf.\\
+		& \tabitem{} Speeded up the process by disabling pitch, intensity,
 spectrum, pulses and formants while aligning, the settings do get restored
 afterwards.\\
-		& \tabitem Fixed a bug that leaded to a messed up view.\\
-	\hline
-	0.9a (2014-12-02) & \tabitem Small bugfix in dictionary generation fixed.\\
-	\hline
-	0.9 & \tabitem Cleaned up some parts of the readme.\\
-		& \tabitem Added language specific information.\\
-		& \tabitem Added english as language. Although there is no phonetizing
+		& \tabitem{} Fixed a bug that leaded to a messed up view.\\
+	\midrule
+	0.9a (2014{-}12{-}02) & \tabitem{} Small bugfix in dictionary generation fixed.\\
+	\midrule
+	0.9 & \tabitem{} Cleaned up some parts of the readme.\\
+		& \tabitem{} Added language specific information.\\
+		& \tabitem{} Added english as language. Although there is no phonetizing
 implemented.\\
-		& \tabitem README.html better with light background for code blocks.\\
-		& \tabitem Updated citing method with bibtex.\\
-	\hline
-	0.8 (2014-10-31) & \tabitem Removed all the binary folders.\\
-		& \tabitem Made the binary finding interactive.\\
-		& \tabitem Made all the file chooser dialogs interactive.\\
-	\hline
-	0.7 (2014-10-29) & \tabitem Added windows support.\\
-		&	\tabitem Cleaned up documentation.\\
-		& \tabitem Removed binaries due htk licence.\\
-	\hline
-	0.6 (2014-10-22) & \tabitem Refactored and cleaned up the source.\\
-	\hline
-	0.5a (2014-09-08) & \tabitem Added comments to source code(praat).\\
-		& \tabitem Cleaned up source.\\
-	\hline
-	0.5 (2014-09-04) & \tabitem Fixed acronyms in spanish.\\
-		& \tabitem Fixed cleaning with extended boundaries.\\
-		& \tabitem Added rudimentary ruleset implementation.\\
-	\hline
-	0.4 (2014-08-29) & \tabitem Added option for enlarging the boundaries
+		& \tabitem{} README.html better with light background for code blocks.\\
+		& \tabitem{} Updated citing method with bibtex.\\
+	\midrule
+	0.8 (2014{-}10{-}31) & \tabitem{} Removed all the binary folders.\\
+		& \tabitem{} Made the binary finding interactive.\\
+		& \tabitem{} Made all the file chooser dialogs interactive.\\
+	\midrule
+	0.7 (2014{-}10{-}29) & \tabitem{} Added windows support.\\
+		&	\tabitem{} Cleaned up documentation.\\
+		& \tabitem{} Removed binaries due htk licence.\\
+	\midrule
+	0.6 (2014{-}10{-}22) & \tabitem{} Refactored and cleaned up the source.\\
+	\midrule
+	0.5a (2014{-}09{-}08) & \tabitem{} Added comments to source code (praat).\\
+		& \tabitem{} Cleaned up source.\\
+	\midrule
+	0.5 (2014{-}09{-}04) & \tabitem{} Fixed acronyms in spanish.\\
+		& \tabitem{} Fixed cleaning with extended boundaries.\\
+		& \tabitem{} Added rudimentary ruleset implementation.\\
+	\midrule
+	0.4 (2014{-}08{-}29) & \tabitem{} Added option for enlarging the boundaries
 automatically.\\
-	\hline
-	0.21 (2014-08-13) & \tabitem Settings split in non interactive and
+	\midrule
+	0.21 (2014{-}08{-}13) & \tabitem{} Settings split in non interactive and
 interactive so that the interactive one reflects the current settings.\\
-	\hline
-	0.2 (2014-08-11) & \tabitem Better mac compatibility.\\
-	\hline
-	0.1a (2014-06-30) & \tabitem Tier alignment fixed.\\
-		& \tabitem Readme for dutch.\\
-	\hline
-	0.08 (2014-04-29) & \tabitem Cleaned up some stuff.\\
-		& \tabitem Added dutch.\\
-		& \tabitem Readme for spanish and sampa.\\
-	\hline
-	0.07 (2014-04-28) & \tabitem Non interactive alignment implemented.\\
-		& \tabitem Table of contents in readme.\\
-	\hline
-	0.06 (2014-04-25) & \tabitem Conversion to editor scripts.\\
-	\hline
-	0.05 (2014-04-03) & \tabitem Better readme.\\
-		& \tabitem Functional program for linux.\\
-	\hline
-	0.04 (2014-04-03) & \tabitem Pronunciation variants implemented.\\
-	\hline
-	0.03 (2014-03-31) & \tabitem Aligner works in python.\\
-	\hline
-	0.02 (2014-03-27) & \tabitem Python script around aligner started.\\
-		& \tabitem Phonetizer skeleton done.\\
-	\hline
+	\midrule
+	0.2 (2014{-}08{-}11) & \tabitem{} Better mac compatibility.\\
+	\midrule
+	0.1a (2014{-}06{-}30) & \tabitem{} Tier alignment fixed.\\
+		& \tabitem{} Readme for dutch.\\
+	\midrule
+	0.08 (2014{-}04{-}29) & \tabitem{} Cleaned up some stuff.\\
+		& \tabitem{} Added dutch.\\
+		& \tabitem{} Readme for spanish and sampa.\\
+	\midrule
+	0.07 (2014{-}04{-}28) & \tabitem{} Non interactive alignment implemented.\\
+		& \tabitem{} Table of contents in readme.\\
+	\midrule
+	0.06 (2014{-}04{-}25) & \tabitem{} Conversion to editor scripts.\\
+	\midrule
+	0.05 (2014{-}04{-}03) & \tabitem{} Better readme.\\
+		& \tabitem{} Functional program for linux.\\
+	\midrule
+	0.04 (2014{-}04{-}03) & \tabitem{} Pronunciation variants implemented.\\
+	\midrule
+	0.03 (2014{-}03{-}31) & \tabitem{} Aligner works in python.\\
+	\midrule
+	0.02 (2014{-}03{-}27) & \tabitem{} Python script around aligner started.\\
+		& \tabitem{} Phonetizer skeleton done.\\
+	\bottomrule
 	\caption{Version history}
 \end{longtable}
 

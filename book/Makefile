@@ -1,20 +1,27 @@
+DOC:=book
 LATEX:=latex
+BIBTEX:=bibtex
+LATEXFLAGS:=-file-line-error -halt-on-error -no-shell-escape
 
-.SECONDARY: book.fmt
+TEXS:=$(wildcard *.tex)
 
-all: book.pdf
+.PHONY: all
+.SECONDARY: $(DOC).fmt
+
+all: $(DOC).pdf
+
+%.fmt: preamble.tex
+	$(LATEX) $(LATEXFLAGS) -ini -jobname="$(basename $@)" "&$(LATEX) $<\dump"
 
 %.pdf: %.dvi
 	dvipdfm $<
 
-%.fmt: preamble.tex
-	$(LATEX) -ini -jobname="$(basename $@)" "&$(LATEX) $<\dump"
-
-%.dvi: %.tex %.fmt %.bib $(IMGS)
-	$(LATEX) $<
-	bibtex $(basename $<)
-	$(LATEX) $<
-	$(LATEX) $<
+%.dvi: %.tex %.fmt %.bib $(TEXS)
+	$(LATEX) $(LATEXFLAGS) $<
+	grep -q '^\\bibdata{' $(basename $<).aux && $(BIBTEX) $(basename $<) || true
+	$(LATEX) $(LATEXFLAGS) $< | tee $(basename $<).mlog
+	grep -iqF 'rerun' $(basename $<).mlog &&\
+		$(LATEX) $(LATEXFLAGS) $< || true
 
 clean:
-	$(RM) -v $(addprefix book.,fmt aux dvi log toc out pdf bbl blg)
+	$(RM) $(addprefix $(DOC).,aux log fmt toc bbl blg mlog run.xml out pdf)
