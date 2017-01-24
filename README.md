@@ -14,8 +14,8 @@ MAUS\[1,2\].
 [Latest manual](https://github.com/dopefishh/praatalign/releases/download/v2.0/book_2.0.pdf)
 
 Latest plugin:
-[.tar.xz](https://github.com/dopefishh/praatalign/releases/download/v2.0/praatalign_2.0a.tar.xz)
-[.zip](https://github.com/dopefishh/praatalign/releases/download/v2.0/praatalign_2.0a.zip)
+[.tar.xz](https://github.com/dopefishh/praatalign/releases/download/v2.0a/praatalign_2.0a.tar.xz)
+[.zip](https://github.com/dopefishh/praatalign/releases/download/v2.0a/praatalign_2.0a.zip)
 
 [Older releases](https://github.com/dopefishh/praatalign/releases)
 
