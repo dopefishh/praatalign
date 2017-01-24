@@ -37,7 +37,6 @@ def _force(phonetizer, utterance, starttime, duration, wavefile,
     """
     Force aligns the given utterance, all parameters are passed by kwarg
     """
-    print(utterance)
     logging.info('Starting to align: {}'.format(code))
     logging.info('Removing old files')
     for suffix in ['dot', 'htk', 'nis', 'rec', 'slf', 'status']:
@@ -124,7 +123,7 @@ def _force(phonetizer, utterance, starttime, duration, wavefile,
 
     # Open the output file
     out = 'praat_temp_out'
-    ortwords = utterance.split(' ')
+    ortwords = utterance.replace(",", "").split(' ')
     with open(out, code) as fileio:
         logging.info('Output file selected')
         with open('{}.rec'.format(basename), 'r') as f:
@@ -148,7 +147,7 @@ def _force(phonetizer, utterance, starttime, duration, wavefile,
                     fileio.write('{:f},{:f},{},c\n'.format(
                         word[0], start, canonical.pop(0)))
                     fileio.write('{:f},{:f},{},o\n'.format(
-                        word[0], start, ortwords.pop(0)))
+                        word[0], start, ortwords.pop(0).encode('utf-8')))
                     word = (end, '')
                 # Else add the current phone to the current word
                 else:

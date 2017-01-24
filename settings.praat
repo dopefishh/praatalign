@@ -83,7 +83,7 @@ endif
 
 # Spawn the option window for the user
 beginPause: "Basic options"
-	comment: "Praatalign version 2.0"
+	comment: "Praatalign version 2.0a"
 	comment: "Name for the output tier(may already exist)"
 	sentence: "new", new$
 
