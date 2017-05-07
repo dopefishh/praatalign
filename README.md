@@ -1,5 +1,7 @@
 #Praatalign: an interactive Praat plug-in for performing phonetic forced alignment
 
+#### Due to licencing the english and sampa models have been removed.
+
 ###Version 2.0a
 
 Praatalign is a plug-in for Praat that can be used to do forced phonetic

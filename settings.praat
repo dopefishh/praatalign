@@ -42,10 +42,6 @@ if fileReadable("settings")
 		model = 1
 	elif model$ = "dutch"
 		model = 2
-	elif model$ = "english"
-		model = 3
-	elif model$ = "sampa"
-		model = 4
 	else
 		model = 1
 	endif
@@ -103,8 +99,6 @@ beginPause: "Basic options"
 	optionMenu: "model", model
 		option: "spanish"
 		option: "dutch"
-		option: "english"
-		option: "sampa"
 
 	comment: "Select phonetizer"
 	optionMenu: "lan", lan
